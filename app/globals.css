@@ -2,4 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* .container:hover > .card {
+  transform: rotateY(180deg);
+}
 
+.back {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  backface-visibility: hidden;
+}
+
+.card {
+  transform-style: preserve-3d;
+  transition: transform 1500ms;
+} */

@@ -1,8 +1,31 @@
+"use client";
+
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
+
+const cardVariants = {
+  offscreen: {
+    y: 300,
+  },
+  onscreen: {
+    y: 50,
+    rotate: 0,
+    transition: {
+      type: "spring",
+      bounce: 0.4,
+      duration: 0.8,
+    },
+  },
+};
 
 const Facts = () => {
   return (
-    <div className="mx-20 my-14 grid grid-cols-2 gap-8">
+    <motion.div
+      initial="offscreen"
+      whileInView="onscreen"
+      viewport={{once: true}}
+      variants={cardVariants}
+      className="mx-20 my-14 grid grid-cols-1 gap-8 md:grid-cols-2">
       <div className="col-span-1">
         <h2 className="font-bold">Did you know..</h2>
         <p className="text-justify">
@@ -40,7 +63,7 @@ const Facts = () => {
           className="object-cover justify-self-center rounded-md shadow-2xl group-hover/chel:rotate-180 transition-all"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 export default Facts

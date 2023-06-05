@@ -9,7 +9,7 @@ const Hero = () => {
 
   return (
     <div
-      className="hero min-h-[800px] bg-fixed"
+      className="hero min-h-screen bg-fixed"
       style={{
         backgroundImage: `url(/images/pexels-gerardo-mendoza-16696103.jpg)`,
       }}
