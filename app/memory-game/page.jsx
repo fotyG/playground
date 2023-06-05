@@ -35,7 +35,7 @@ const MemoryGame = () => {
           recentlyFlippedCardIndexes = [];
           return newState;
         });
-      }, "1000");
+      }, 1000);
     } else if (
       moveCounter === 2 &&
       cardArray[recentlyFlippedCardIndexes[0]] ===
