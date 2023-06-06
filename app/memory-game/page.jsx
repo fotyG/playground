@@ -1,9 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import Confetti from "react-confetti";
 
 import pokemonCardArray from "./libs/pokemonCardData";
-import { createState, shuffleCards } from "./helpers/helperFunctions";
+import {
+  createState,
+  shuffleCards,
+  playMatchSound,
+  playGameWinSound,
+} from "./helpers/helperFunctions";
 import Card from "./components/Card";
 
 const initialState = createState(pokemonCardArray);
@@ -13,6 +20,9 @@ let recentlyFlippedCardIndexes = [];
 const MemoryGame = () => {
   const [cardState, setCardState] = useState(initialState);
   const [moveCounter, setMoveCounter] = useState(0);
+  const [matchCounter, setMatchCounter] = useState(0);
+  const [totalMoveCounter, setTotalMoveCounter] = useState(0);
+  const [victoryConfetti, setVictoryConfetti] = useState(false);
 
   useEffect(() => {
     if (
@@ -41,6 +51,8 @@ const MemoryGame = () => {
       cardArray[recentlyFlippedCardIndexes[0]] ===
         cardArray[recentlyFlippedCardIndexes[1]]
     ) {
+      playMatchSound();
+      setMatchCounter((prev) => prev + 1);
       setMoveCounter(0);
       setCardState((prev) => {
         const newState = [...prev];
@@ -56,10 +68,22 @@ const MemoryGame = () => {
         return newState;
       });
     }
-  }, [moveCounter]);
+
+    if (matchCounter === 14) {
+      setVictoryConfetti(true);
+      playGameWinSound();
+      toast.success("Congratz Amigo - You Won! 🎉");
+    }
+  }, [moveCounter, matchCounter]);
 
   const flipCard = (index) => {
-    if (!cardState[index].hidden || cardState[index].matched || moveCounter === 2) return;
+    if (
+      !cardState[index].hidden ||
+      cardState[index].matched ||
+      moveCounter === 2
+    )
+      return;
+    setTotalMoveCounter((prev) => prev + 1);
     recentlyFlippedCardIndexes.push(index);
     setMoveCounter((prev) => prev + 1);
     setCardState((prev) => {
@@ -72,6 +96,12 @@ const MemoryGame = () => {
   return (
     <div className="flex items-center justify-center flex-col">
       <h1 className="text-center">Welcome To The Memory Game!</h1>
+      {victoryConfetti && (
+        <Confetti
+          numberOfPieces={500}
+          recycle={false}
+        />
+      )}
       <div className="game-container grid grid-cols-7 gap-5 justify-center m-5">
         {cardArray.map((pokemon, idx) => (
           <Card
@@ -88,13 +118,26 @@ const MemoryGame = () => {
         onClick={() => {
           setCardState(createState(pokemonCardArray));
           cardArray = shuffleCards(pokemonCardArray);
-          setMoveCounter(0);
           recentlyFlippedCardIndexes = [];
+          setMoveCounter(0);
+          setTotalMoveCounter(0);
+          setMatchCounter(0);
+          setVictoryConfetti(false);
         }}
       >
         Restart
       </button>
-      <p>{moveCounter}</p>
+      <button
+        className="btn btn-primary m-2"
+        onClick={() => {
+          setMatchCounter(14);
+        }}
+      >
+        Cheat win
+      </button>
+
+      <p>Move: {moveCounter}</p>
+      <p>Total Moves: {totalMoveCounter}</p>
     </div>
   );
 };

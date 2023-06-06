@@ -4,7 +4,6 @@ export const shuffleCards = (arr) => {
     let j = Math.floor(Math.random() * (i + 1));
     [localArr[i], localArr[j]] = [localArr[j], localArr[i]];
   }
-  console.log("shuffleCards function ran");
   return localArr;
 };
 
@@ -13,6 +12,21 @@ export const createState = (arr) => {
   for (let i = 0; i < arr.length * 2; i++) {
     localArr.push({ hidden: true, matched: false });
   }
-  console.log("createState function ran");
   return localArr;
 };
+
+const matchSound = new Audio("/sounds/success.wav");
+export const playMatchSound = () => {
+  if (!matchSound) return
+  matchSound.pause();
+  matchSound.currentTime = 0;
+  matchSound.play();
+}
+
+const gameWinSound = new Audio("/sounds/gameWin.mp3");
+export const playGameWinSound = () => {
+  if (!gameWinSound) return
+  gameWinSound.pause();
+  gameWinSound.currentTime = 0;
+  gameWinSound.play();
+}
