@@ -12,6 +12,8 @@ import {
   playGameWinSound,
 } from "./helpers/helperFunctions";
 import Card from "./components/Card";
+import Modal from "./components/Modal";
+import LeaderBoardModal from "./components/LeaderBoardModal";
 
 const initialState = createState(pokemonCardArray);
 let cardArray = shuffleCards(pokemonCardArray);
@@ -23,6 +25,7 @@ const MemoryGame = () => {
   const [matchCounter, setMatchCounter] = useState(0);
   const [totalMoveCounter, setTotalMoveCounter] = useState(0);
   const [victoryConfetti, setVictoryConfetti] = useState(false);
+  const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
 
   useEffect(() => {
     if (
@@ -70,9 +73,11 @@ const MemoryGame = () => {
     }
 
     if (matchCounter === 14) {
+      window.hs_modal.showModal();
       setVictoryConfetti(true);
       playGameWinSound();
       toast.success("Congratz Amigo - You Won! 🎉");
+      setFetchDataOnOpen(prev => !prev);
     }
   }, [moveCounter, matchCounter]);
 
@@ -93,9 +98,15 @@ const MemoryGame = () => {
     });
   };
 
+  const openModal = () => {
+    setFetchDataOnOpen(prev => !prev);
+    window.lb_modal.showModal();
+  }
+
   return (
     <div className="flex items-center justify-center flex-col">
-      <h1 className="text-center">Welcome To The Memory Game!</h1>
+      <h1 className="text-center text-xl my-2">Welcome To The Memory Game!</h1>
+      <p className="text-xl font-bold">Total Moves: {totalMoveCounter}</p>
       {victoryConfetti && (
         <Confetti
           numberOfPieces={500}
@@ -113,31 +124,43 @@ const MemoryGame = () => {
           />
         ))}
       </div>
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          setCardState(createState(pokemonCardArray));
-          cardArray = shuffleCards(pokemonCardArray);
-          recentlyFlippedCardIndexes = [];
-          setMoveCounter(0);
-          setTotalMoveCounter(0);
-          setMatchCounter(0);
-          setVictoryConfetti(false);
-        }}
-      >
-        Restart
-      </button>
-      <button
+      <div className="flex justify-center gap-2">
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            setCardState(createState(pokemonCardArray));
+            cardArray = shuffleCards(pokemonCardArray);
+            recentlyFlippedCardIndexes = [];
+            setMoveCounter(0);
+            setTotalMoveCounter(0);
+            setMatchCounter(0);
+            setVictoryConfetti(false);
+          }}
+        >
+          Restart
+        </button>
+        <button
+          className="btn border-primary hover:btn-secondary"
+          onClick={openModal}
+        >
+          Show LeaderBoard
+        </button>
+      </div>
+      {/* <button
         className="btn btn-primary m-2"
         onClick={() => {
           setMatchCounter(14);
         }}
       >
         Cheat win
-      </button>
+      </button> */}
 
-      <p>Move: {moveCounter}</p>
-      <p>Total Moves: {totalMoveCounter}</p>
+      <Modal
+        totalMoveCounter={totalMoveCounter}
+        setTotalMoveCounter={setTotalMoveCounter}
+        fetchDataOnOpen={fetchDataOnOpen}
+      />
+      <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
     </div>
   );
 };
