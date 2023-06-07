@@ -63,7 +63,7 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
               Leaderboard
             </a>
           </div>
-          <h3 className="font-bold text-lg my-5 text-xl">
+          <h3 className="font-bold my-5 text-xl">
             {activeTab ? "Submit Your Score" : "Top 10"}
           </h3>
           {activeTab &&

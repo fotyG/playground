@@ -18,7 +18,7 @@ const LeaderBoardModal = ({ fetchDataOnOpen }) => {
           method="dialog"
           className="modal-box"
         >
-          <h3 className="font-bold text-lg text-center mb-5 bg-primary rounded-lg p-2">
+          <h3 className="font-bold text-lg text-center text-base-100 mb-5 bg-primary rounded-lg p-2">
             Top 10
           </h3>
           <div className="flex flex-col items-center">
