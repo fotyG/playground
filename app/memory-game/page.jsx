@@ -104,7 +104,7 @@ const MemoryGame = () => {
   }
 
   return (
-    <div className="flex items-center justify-center flex-col">
+    <div className="flex items-center justify-center flex-col gap-4 md:gap-0 my-4">
       <h1 className="text-center text-xl my-2">Welcome To The Memory Game!</h1>
       <p className="text-xl font-bold">Total Moves: {totalMoveCounter}</p>
       {victoryConfetti && (
@@ -113,7 +113,7 @@ const MemoryGame = () => {
           recycle={false}
         />
       )}
-      <div className="game-container grid grid-cols-7 gap-5 justify-center m-5">
+      <div className="game-container grid grid-cols-7 gap-2 md:gap-5 justify-center m-1 md:m-5">
         {cardArray.map((pokemon, idx) => (
           <Card
             key={idx}
@@ -124,7 +124,7 @@ const MemoryGame = () => {
           />
         ))}
       </div>
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2 mt-3">
         <button
           className="btn btn-primary"
           onClick={() => {

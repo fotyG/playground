@@ -77,7 +77,7 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="outline-none border-[2px] border-primary rounded-md p-2 text-xl"
+                    className="outline-none border-[2px] border-primary rounded-md p-2 text-sm md:text-xl"
                   />
                 </div>
                 <p className="text-xl">

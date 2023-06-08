@@ -4,24 +4,24 @@ import { toast } from "react-hot-toast";
 
 const Hero = () => {
   const agree = () => {
-    toast.success("Good choice - I like you!", {position: "bottom-center"})
+    toast.success("Good answer - I like you already!", {position: "bottom-center"})
   }
 
   return (
     <div
       className="hero min-h-screen bg-fixed"
       style={{
-        backgroundImage: `url(/images/pexels-gerardo-mendoza-16696103.jpg)`,
+        backgroundImage: `url(/images/anime-car.jpg)`,
       }}
     >
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-center text-neutral-content">
         <div className="max-w-md">
           <h1 className="mb-5 text-5xl font-bold">
-            Scroll further to witness greatness
+            Welcome to my Portfolio PlayGround
           </h1>
           <p className="mb-5">
-            While you scroll, I'll think about how to entertain you..
+            Instead of boring you with boilerplate design, let's make this more creative and interactive..
           </p>
           <button
             className="btn btn-primary"

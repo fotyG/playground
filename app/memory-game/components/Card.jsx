@@ -8,7 +8,7 @@ const Card = ({cardState, flipCard, cardUrl, index}) => {
       animate={{ rotateY: cardState[index].hidden ? 180 : 0 }}
       transition={{ duration: 0.3 }}
       draggable={false}
-      className="card w-[100px] h-[150px] relative border-[2px] border-primary hover:border-accent hover:cursor-pointer bg-slate-500 shadow-sm"
+      className="card w-[45px] md:w-[100px] h-[60px] md:h-[150px] relative border-[2px] border-primary hover:border-accent hover:cursor-pointer bg-slate-500 shadow-sm"
       onClick={() => flipCard(index)}
     >
       <div
@@ -21,7 +21,7 @@ const Card = ({cardState, flipCard, cardUrl, index}) => {
             fill
             draggable={false}
             alt="pokeball"
-            className={"object-contain p-2"}
+            className={"object-contain p-[1px] md:p-2"}
           />
         )}
       </div>
@@ -35,7 +35,7 @@ const Card = ({cardState, flipCard, cardUrl, index}) => {
             fill
             draggable={false}
             alt={cardUrl}
-            className={"object-contain p-2"}
+            className={"object-contain p-[1px] md:p-2"}
           />
         )}
       </div>
