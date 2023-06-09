@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Confetti from "react-confetti";
+import AES from "crypto-js/aes";
+import { enc } from "crypto-js";
 
 import pokemonCardArray from "./libs/pokemonCardData";
 import {
@@ -15,17 +17,80 @@ import Card from "./components/Card";
 import Modal from "./components/Modal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 
+const secret = process.env.NEXT_PUBLIC_SUPER_SECRET;
+const storedEncryptedCardState = localStorage.getItem("mg_state");
+const decryptedCardState = AES.decrypt(
+  storedEncryptedCardState,
+  secret
+).toString(enc.Utf8);
+const localCardState = JSON.parse(decryptedCardState);
+
+const storedEncryptedCardArray = localStorage.getItem("mg_card_array");
+let decryptedCardArray;
+let localCardArray;
+if (storedEncryptedCardArray) {
+  decryptedCardArray = AES.decrypt(
+  storedEncryptedCardArray,
+  secret
+).toString(enc.Utf8)
+}
+if (decryptedCardArray) {
+  localCardArray = JSON.parse(decryptedCardArray);
+}
+
+// const storedEncryptedTotalMoveCounter = localStorage.getItem(
+//   "mg_total_move_counter"
+// );
+// const decryptedTotalMoveCounter = AES.decrypt(
+//   storedEncryptedTotalMoveCounter,
+//   secret
+// ).toString(enc.Utf8);
+// const localTotalMoveCounter = parseInt(decryptedTotalMoveCounter);
+
+const localRFCIndexArray = JSON.parse(localStorage.getItem("mg_rf_array"));
+const localMatchCounter = parseInt(localStorage.getItem("mg_match_counter"));
+const localMoveCounter = parseInt(localStorage.getItem("mg_move_counter"));
+
 const initialState = createState(pokemonCardArray);
-let cardArray = shuffleCards(pokemonCardArray);
-let recentlyFlippedCardIndexes = [];
+let cardArray = localCardArray || shuffleCards(pokemonCardArray);
+let recentlyFlippedCardIndexes = localRFCIndexArray || [];
 
 const MemoryGame = () => {
-  const [cardState, setCardState] = useState(initialState);
-  const [moveCounter, setMoveCounter] = useState(0);
-  const [matchCounter, setMatchCounter] = useState(0);
-  const [totalMoveCounter, setTotalMoveCounter] = useState(0);
+  const [cardState, setCardState] = useState(localCardState || initialState);
+  const [moveCounter, setMoveCounter] = useState(localMoveCounter || 0);
+  const [matchCounter, setMatchCounter] = useState(localMatchCounter || 0);
+  const [totalMoveCounter, setTotalMoveCounter] = useState(0
+    // localTotalMoveCounter || 0
+  );
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
+
+  useEffect(() => {
+    const encryptedCardState = AES.encrypt(
+      JSON.stringify(cardState),
+      secret
+    ).toString();
+    localStorage.setItem("mg_state", encryptedCardState);
+
+    const encryptedCardArray = AES.encrypt(
+      JSON.stringify(cardArray),
+      secret
+    ).toString();
+    localStorage.setItem("mg_card_array", encryptedCardArray);
+
+    // const encryptedTotalMoveCounter = AES.encrypt(
+    //   totalMoveCounter,
+    //   secret
+    // ).toString();
+    localStorage.setItem("mg_total_move_counter", totalMoveCounter);
+
+    localStorage.setItem("mg_match_counter", matchCounter);
+    localStorage.setItem("mg_move_counter", moveCounter);
+    localStorage.setItem(
+      "mg_rf_array",
+      JSON.stringify(recentlyFlippedCardIndexes)
+    );
+  }, [moveCounter]);
 
   useEffect(() => {
     if (
@@ -68,6 +133,7 @@ const MemoryGame = () => {
           matched: !prev[recentlyFlippedCardIndexes[1]].matched,
         };
         recentlyFlippedCardIndexes = [];
+
         return newState;
       });
     }
@@ -77,7 +143,7 @@ const MemoryGame = () => {
       setVictoryConfetti(true);
       playGameWinSound();
       toast.success("Congratz Amigo - You Won! 🎉");
-      setFetchDataOnOpen(prev => !prev);
+      setFetchDataOnOpen((prev) => !prev);
     }
   }, [moveCounter, matchCounter]);
 
@@ -99,9 +165,9 @@ const MemoryGame = () => {
   };
 
   const openModal = () => {
-    setFetchDataOnOpen(prev => !prev);
+    setFetchDataOnOpen((prev) => !prev);
     window.lb_modal.showModal();
-  }
+  };
 
   return (
     <div className="flex items-center justify-center flex-col gap-4 md:gap-0 my-4">
