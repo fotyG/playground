@@ -3,7 +3,7 @@ import Link from "next/link";
 const JumpIn = () => {
   return (
     <div
-      className="hero h-96"
+      className="hero h-[40rem]"
       style={{
         backgroundImage: `url(/images/ninja.jpg)`,
       }}

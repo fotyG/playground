@@ -18,12 +18,19 @@ import Modal from "./components/Modal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 
 const secret = process.env.NEXT_PUBLIC_SUPER_SECRET;
+
 const storedEncryptedCardState = localStorage.getItem("mg_state");
-const decryptedCardState = AES.decrypt(
+let decryptedCardState = null;
+let localCardState = null;
+if (storedEncryptedCardState) {
+  decryptedCardState = AES.decrypt(
   storedEncryptedCardState,
   secret
 ).toString(enc.Utf8);
-const localCardState = JSON.parse(decryptedCardState);
+}
+if (decryptedCardState) {
+  localCardState = JSON.parse(decryptedCardState);
+}
 
 const storedEncryptedCardArray = localStorage.getItem("mg_card_array");
 let decryptedCardArray;
@@ -38,14 +45,20 @@ if (decryptedCardArray) {
   localCardArray = JSON.parse(decryptedCardArray);
 }
 
-// const storedEncryptedTotalMoveCounter = localStorage.getItem(
-//   "mg_total_move_counter"
-// );
-// const decryptedTotalMoveCounter = AES.decrypt(
-//   storedEncryptedTotalMoveCounter,
-//   secret
-// ).toString(enc.Utf8);
-// const localTotalMoveCounter = parseInt(decryptedTotalMoveCounter);
+const storedEncryptedTotalMoveCounter = localStorage.getItem(
+  "mg_total_move_counter"
+);
+let decryptedTotalMoveCounter;
+let localTotalMoveCounter;
+if (storedEncryptedTotalMoveCounter) {
+  decryptedTotalMoveCounter = AES.decrypt(
+    storedEncryptedTotalMoveCounter,
+    secret
+  ).toString(enc.Utf8);
+}
+if (decryptedTotalMoveCounter) {
+  localTotalMoveCounter = parseInt(decryptedTotalMoveCounter);
+}
 
 const localRFCIndexArray = JSON.parse(localStorage.getItem("mg_rf_array"));
 const localMatchCounter = parseInt(localStorage.getItem("mg_match_counter"));
@@ -59,8 +72,8 @@ const MemoryGame = () => {
   const [cardState, setCardState] = useState(localCardState || initialState);
   const [moveCounter, setMoveCounter] = useState(localMoveCounter || 0);
   const [matchCounter, setMatchCounter] = useState(localMatchCounter || 0);
-  const [totalMoveCounter, setTotalMoveCounter] = useState(0
-    // localTotalMoveCounter || 0
+  const [totalMoveCounter, setTotalMoveCounter] = useState(
+    localTotalMoveCounter || 0
   );
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
@@ -78,11 +91,11 @@ const MemoryGame = () => {
     ).toString();
     localStorage.setItem("mg_card_array", encryptedCardArray);
 
-    // const encryptedTotalMoveCounter = AES.encrypt(
-    //   totalMoveCounter,
-    //   secret
-    // ).toString();
-    localStorage.setItem("mg_total_move_counter", totalMoveCounter);
+    const encryptedTotalMoveCounter = AES.encrypt(
+      String(totalMoveCounter),
+      secret
+    ).toString();
+    localStorage.setItem("mg_total_move_counter", encryptedTotalMoveCounter);
 
     localStorage.setItem("mg_match_counter", matchCounter);
     localStorage.setItem("mg_move_counter", moveCounter);
@@ -90,7 +103,7 @@ const MemoryGame = () => {
       "mg_rf_array",
       JSON.stringify(recentlyFlippedCardIndexes)
     );
-  }, [moveCounter]);
+  }, [moveCounter, cardArray]);
 
   useEffect(() => {
     if (
