@@ -16,59 +16,37 @@ import {
 import Card from "./components/Card";
 import Modal from "./components/Modal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
+import useGetState from "./hooks/useGetState";
 
 const secret = process.env.NEXT_PUBLIC_SUPER_SECRET;
 
-const storedEncryptedCardState = localStorage.getItem("mg_state");
-let decryptedCardState = null;
-let localCardState = null;
-if (storedEncryptedCardState) {
-  decryptedCardState = AES.decrypt(
-  storedEncryptedCardState,
-  secret
-).toString(enc.Utf8);
-}
-if (decryptedCardState) {
-  localCardState = JSON.parse(decryptedCardState);
-}
-
-const storedEncryptedCardArray = localStorage.getItem("mg_card_array");
-let decryptedCardArray;
-let localCardArray;
-if (storedEncryptedCardArray) {
-  decryptedCardArray = AES.decrypt(
-  storedEncryptedCardArray,
-  secret
-).toString(enc.Utf8)
-}
-if (decryptedCardArray) {
-  localCardArray = JSON.parse(decryptedCardArray);
-}
-
-const storedEncryptedTotalMoveCounter = localStorage.getItem(
-  "mg_total_move_counter"
-);
-let decryptedTotalMoveCounter;
-let localTotalMoveCounter;
-if (storedEncryptedTotalMoveCounter) {
-  decryptedTotalMoveCounter = AES.decrypt(
-    storedEncryptedTotalMoveCounter,
-    secret
-  ).toString(enc.Utf8);
-}
-if (decryptedTotalMoveCounter) {
-  localTotalMoveCounter = parseInt(decryptedTotalMoveCounter);
-}
-
-const localRFCIndexArray = JSON.parse(localStorage.getItem("mg_rf_array"));
-const localMatchCounter = parseInt(localStorage.getItem("mg_match_counter"));
-const localMoveCounter = parseInt(localStorage.getItem("mg_move_counter"));
-
-const initialState = createState(pokemonCardArray);
+const localCardArray = localStorage.getItem("mg_card_array")
+  ? JSON.parse(
+      AES.decrypt(localStorage.getItem("mg_card_array"), secret).toString(
+        enc.Utf8
+      )
+    )
+  : null;
 let cardArray = localCardArray || shuffleCards(pokemonCardArray);
+
+const localRFCIndexArray = localStorage.getItem("mg_rf_array")
+  ? JSON.parse(
+      AES.decrypt(localStorage.getItem("mg_rf_array"), secret).toString(
+        enc.Utf8
+      )
+    )
+  : null;
+
 let recentlyFlippedCardIndexes = localRFCIndexArray || [];
 
 const MemoryGame = () => {
+  const [
+    localMoveCounter,
+    initialState,
+    localCardState,
+    localTotalMoveCounter,
+    localMatchCounter,
+  ] = useGetState();
   const [cardState, setCardState] = useState(localCardState || initialState);
   const [moveCounter, setMoveCounter] = useState(localMoveCounter || 0);
   const [matchCounter, setMatchCounter] = useState(localMatchCounter || 0);
@@ -97,13 +75,24 @@ const MemoryGame = () => {
     ).toString();
     localStorage.setItem("mg_total_move_counter", encryptedTotalMoveCounter);
 
-    localStorage.setItem("mg_match_counter", matchCounter);
-    localStorage.setItem("mg_move_counter", moveCounter);
-    localStorage.setItem(
-      "mg_rf_array",
-      JSON.stringify(recentlyFlippedCardIndexes)
-    );
-  }, [moveCounter, cardArray]);
+    const encryptedMatchCounter = AES.encrypt(
+      String(matchCounter),
+      secret
+    ).toString();
+    localStorage.setItem("mg_match_counter", encryptedMatchCounter);
+
+    const encryptedMoveCounter = AES.encrypt(
+      String(moveCounter),
+      secret
+    ).toString();
+    localStorage.setItem("mg_move_counter", encryptedMoveCounter);
+
+    const encryptedRFCArray = AES.encrypt(
+      JSON.stringify(recentlyFlippedCardIndexes),
+      secret
+    ).toString();
+    localStorage.setItem("mg_rf_array", encryptedRFCArray);
+  }, [totalMoveCounter, cardState]);
 
   useEffect(() => {
     if (
