@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Confetti from "react-confetti";
-import AES from "crypto-js/aes";
-import { enc } from "crypto-js";
 
 import pokemonCardArray from "./libs/pokemonCardData";
 import {
@@ -12,41 +10,29 @@ import {
   shuffleCards,
   playMatchSound,
   playGameWinSound,
+  getLocalStringItem,
+  setLocalIntItem,
+  setLocalStringItem,
 } from "./helpers/helperFunctions";
+import getState from "./helpers/getState";
+
 import Card from "./components/Card";
 import Modal from "./components/Modal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
-import useGetState from "./hooks/useGetState";
 
-const secret = process.env.NEXT_PUBLIC_SUPER_SECRET;
-
-const localCardArray = localStorage.getItem("mg_card_array")
-  ? JSON.parse(
-      AES.decrypt(localStorage.getItem("mg_card_array"), secret).toString(
-        enc.Utf8
-      )
-    )
-  : null;
+const localCardArray = getLocalStringItem("mg_card_array");
 let cardArray = localCardArray || shuffleCards(pokemonCardArray);
-
-const localRFCIndexArray = localStorage.getItem("mg_rf_array")
-  ? JSON.parse(
-      AES.decrypt(localStorage.getItem("mg_rf_array"), secret).toString(
-        enc.Utf8
-      )
-    )
-  : null;
-
+const localRFCIndexArray = getLocalStringItem("mg_rf_array");
 let recentlyFlippedCardIndexes = localRFCIndexArray || [];
 
 const MemoryGame = () => {
   const [
-    localMoveCounter,
     initialState,
     localCardState,
-    localTotalMoveCounter,
+    localMoveCounter,
     localMatchCounter,
-  ] = useGetState();
+    localTotalMoveCounter,
+  ] = getState();
   const [cardState, setCardState] = useState(localCardState || initialState);
   const [moveCounter, setMoveCounter] = useState(localMoveCounter || 0);
   const [matchCounter, setMatchCounter] = useState(localMatchCounter || 0);
@@ -57,41 +43,12 @@ const MemoryGame = () => {
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
 
   useEffect(() => {
-    const encryptedCardState = AES.encrypt(
-      JSON.stringify(cardState),
-      secret
-    ).toString();
-    localStorage.setItem("mg_state", encryptedCardState);
-
-    const encryptedCardArray = AES.encrypt(
-      JSON.stringify(cardArray),
-      secret
-    ).toString();
-    localStorage.setItem("mg_card_array", encryptedCardArray);
-
-    const encryptedTotalMoveCounter = AES.encrypt(
-      String(totalMoveCounter),
-      secret
-    ).toString();
-    localStorage.setItem("mg_total_move_counter", encryptedTotalMoveCounter);
-
-    const encryptedMatchCounter = AES.encrypt(
-      String(matchCounter),
-      secret
-    ).toString();
-    localStorage.setItem("mg_match_counter", encryptedMatchCounter);
-
-    const encryptedMoveCounter = AES.encrypt(
-      String(moveCounter),
-      secret
-    ).toString();
-    localStorage.setItem("mg_move_counter", encryptedMoveCounter);
-
-    const encryptedRFCArray = AES.encrypt(
-      JSON.stringify(recentlyFlippedCardIndexes),
-      secret
-    ).toString();
-    localStorage.setItem("mg_rf_array", encryptedRFCArray);
+    setLocalStringItem(cardState, "mg_state");
+    setLocalStringItem(cardArray, "mg_card_array");
+    setLocalIntItem(moveCounter, "mg_move_counter");
+    setLocalIntItem(matchCounter, "mg_match_counter");
+    setLocalIntItem(totalMoveCounter, "mg_total_move_counter");
+    setLocalStringItem(recentlyFlippedCardIndexes, "mg_rf_array");
   }, [totalMoveCounter, cardState]);
 
   useEffect(() => {

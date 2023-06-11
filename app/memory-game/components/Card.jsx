@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const Card = ({cardState, flipCard, cardUrl, index}) => {
+const Card = ({ cardState, flipCard, cardUrl, index }) => {
   return (
     <motion.div
       initial={{ rotateY: 0 }}

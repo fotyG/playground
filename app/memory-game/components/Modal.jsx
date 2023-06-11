@@ -45,6 +45,7 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
         className="modal"
       >
         <form
+          id="scoreForm"
           method="dialog"
           className="modal-box"
           onSubmit={handleSubmit}
@@ -72,8 +73,14 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
             ) : (
               <div className="flex flex-col gap-5">
                 <div className="flex gap-1 items-center">
-                  <label className="text-xl font-bold">Name:</label>
+                  <label
+                    htmlFor="name"
+                    className="text-xl font-bold"
+                  >
+                    Name:
+                  </label>
                   <input
+                    id="name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
