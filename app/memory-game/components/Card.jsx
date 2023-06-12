@@ -20,6 +20,7 @@ const Card = ({ cardState, flipCard, cardUrl, index }) => {
             src={"/images/pokemon/pokeball.png"}
             fill
             priority={true}
+            quality={75}
             draggable={false}
             alt="pokeball"
             className={"object-contain p-[1px] md:p-2"}
@@ -35,6 +36,7 @@ const Card = ({ cardState, flipCard, cardUrl, index }) => {
             src={"/images/pokemon/" + cardUrl}
             fill
             priority={true}
+            quality={75}
             draggable={false}
             alt={cardUrl}
             className={"object-contain p-[1px] md:p-2"}
