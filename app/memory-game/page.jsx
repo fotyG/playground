@@ -43,13 +43,19 @@ const MemoryGame = () => {
       localRFCIndexArray,
     ] = getState();
 
-    // if (!localTotalMoveCounter) return restartGame();
-    // if (!localMatchCounter) return restartGame();
-    // if (!localMoveCounter) return restartGame();
-    // if (!localCardArray) return restartGame();
-    // if (!localCardArray) return restartGame();
+    if (
+      !localCardState ||
+      !localMoveCounter ||
+      !localMatchCounter ||
+      !localTotalMoveCounter ||
+      !localCardArray ||
+      !localRFCIndexArray
+    ) {
+      restartGame();
+      return;
+    }
+
     cardArray = localCardArray;
-    // if (!localRFCIndexArray) return restartGame();
     recentlyFlippedCardIndexes = localRFCIndexArray;
 
     setCardState(localCardState);
