@@ -71,7 +71,7 @@ const MemoryGame = () => {
     setLocalIntItem(matchCounter, "mg_match_counter");
     setLocalIntItem(totalMoveCounter, "mg_total_move_counter");
     setLocalStringItem(recentlyFlippedCardIndexes, "mg_rf_array");
-  }, [totalMoveCounter, cardState]);
+  }, [totalMoveCounter, cardState, matchCounter, moveCounter]);
 
   useEffect(() => {
     if (
