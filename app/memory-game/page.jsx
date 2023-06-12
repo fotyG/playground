@@ -10,7 +10,6 @@ import {
   shuffleCards,
   playMatchSound,
   playGameWinSound,
-  getLocalStringItem,
   setLocalIntItem,
   setLocalStringItem,
 } from "./helpers/helperFunctions.jsx";
@@ -44,15 +43,14 @@ const MemoryGame = () => {
     ] = getState();
 
     if (
-      !localCardState ||
-      !localMoveCounter ||
-      !localMatchCounter ||
-      !localTotalMoveCounter ||
-      !localCardArray ||
-      !localRFCIndexArray
+      localCardState === null ||
+      localMoveCounter === null ||
+      localMatchCounter === null ||
+      localTotalMoveCounter === null ||
+      localCardArray === null ||
+      localRFCIndexArray === null
     ) {
       restartGame();
-      return;
     }
 
     cardArray = localCardArray;
