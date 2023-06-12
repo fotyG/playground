@@ -13,18 +13,20 @@ import {
   getLocalStringItem,
   setLocalIntItem,
   setLocalStringItem,
-} from "./helpers/helperFunctions";
-import getState from "./helpers/getState";
+} from "./helpers/helperFunctions.jsx";
+import getState from "./helpers/getState.jsx";
 
 import Card from "./components/Card";
 import Modal from "./components/Modal";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 
-const localCardArray = getLocalStringItem("mg_card_array");
+const localCardArray =
+  typeof window !== "undefined" ? getLocalStringItem("mg_card_array") : null;
 let cardArray = localCardArray || shuffleCards(pokemonCardArray);
 
-const localRFCIndexArray = getLocalStringItem("mg_rf_array");
+const localRFCIndexArray =
+  typeof window !== "undefined" ? getLocalStringItem("mg_rf_array") : null;
 let recentlyFlippedCardIndexes = localRFCIndexArray || [];
 
 const MemoryGame = () => {
