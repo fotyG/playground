@@ -50,7 +50,7 @@ const MemoryGame = () => {
       localCardArray === null ||
       localRFCIndexArray === null
     ) {
-      restartGame();
+      return restartGame();
     }
 
     cardArray = localCardArray;
