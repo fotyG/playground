@@ -21,50 +21,72 @@ import Modal from "./components/Modal";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 
-const localCardArray =
-  typeof window !== "undefined" ? getLocalStringItem("mg_card_array") : null;
-let cardArray = localCardArray || shuffleCards(pokemonCardArray);
-
-const localRFCIndexArray =
-  typeof window !== "undefined" ? getLocalStringItem("mg_rf_array") : null;
-let recentlyFlippedCardIndexes = localRFCIndexArray || [];
+let cardArray = shuffleCards(pokemonCardArray);
+let recentlyFlippedCardIndexes = [];
 
 const MemoryGame = () => {
   const [isCheating, setIsCheating] = useState(false);
-  const [
-    initialState,
-    localCardState,
-    localMoveCounter,
-    localMatchCounter,
-    localTotalMoveCounter,
-  ] = getState();
-  if (
-    localCardState?.cheater ||
-    localMoveCounter?.cheater ||
-    localMatchCounter?.cheater ||
-    localTotalMoveCounter?.cheater ||
-    recentlyFlippedCardIndexes?.cheater ||
-    cardArray?.cheater
-  ) {
-    setIsCheating(true);
-    localStorage.removeItem("mg_card_array");
-    localStorage.removeItem("mg_rf_array");
-    localStorage.removeItem("mg_match_counter");
-    localStorage.removeItem("mg_move_counter");
-    localStorage.removeItem("mg_total_move_counter");
-    localStorage.removeItem("mg_state");
-    cardArray = shuffleCards(pokemonCardArray);
-    recentlyFlippedCardIndexes = [];
-  }
-
-  const [cardState, setCardState] = useState(localCardState || initialState);
-  const [moveCounter, setMoveCounter] = useState(localMoveCounter || 0);
-  const [matchCounter, setMatchCounter] = useState(localMatchCounter || 0);
-  const [totalMoveCounter, setTotalMoveCounter] = useState(
-    localTotalMoveCounter || 0
-  );
+  const [cardState, setCardState] = useState(createState(pokemonCardArray));
+  const [moveCounter, setMoveCounter] = useState(0);
+  const [matchCounter, setMatchCounter] = useState(0);
+  const [totalMoveCounter, setTotalMoveCounter] = useState(0);
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
+
+  useEffect(() => {
+    const [
+      localCardState,
+      localMoveCounter,
+      localMatchCounter,
+      localTotalMoveCounter,
+      localCardArray,
+      localRFCIndexArray,
+    ] = getState();
+
+    if (!localTotalMoveCounter) return restartGame();
+    if (!localMatchCounter) return restartGame();
+    if (!localMoveCounter) return restartGame();
+    if (!localCardArray) return restartGame();
+    if (!localCardArray) return restartGame();
+    cardArray = localCardArray;
+    if (!localRFCIndexArray) return restartGame();
+    recentlyFlippedCardIndexes = localRFCIndexArray;
+
+    setCardState(localCardState);
+    setTotalMoveCounter(localTotalMoveCounter);
+    setMatchCounter(localMatchCounter);
+    setMoveCounter(localMoveCounter);
+  }, []);
+
+  useEffect(() => {
+    const [
+      localCardState,
+      localMoveCounter,
+      localMatchCounter,
+      localTotalMoveCounter,
+      localCardArray,
+      localRFCIndexArray,
+    ] = getState();
+    if (
+      localCardState?.cheater ||
+      localMoveCounter?.cheater ||
+      localMatchCounter?.cheater ||
+      localTotalMoveCounter?.cheater ||
+      localRFCIndexArray?.cheater ||
+      localCardArray?.cheater
+    ) {
+      setIsCheating(true);
+      localStorage.removeItem("mg_card_array");
+      localStorage.removeItem("mg_rf_array");
+      localStorage.removeItem("mg_match_counter");
+      localStorage.removeItem("mg_move_counter");
+      localStorage.removeItem("mg_total_move_counter");
+      localStorage.removeItem("mg_state");
+      cardArray = shuffleCards(pokemonCardArray);
+      recentlyFlippedCardIndexes = [];
+      return;
+    }
+  }, [totalMoveCounter]);
 
   useEffect(() => {
     setLocalStringItem(cardState, "mg_state");
@@ -175,7 +197,7 @@ const MemoryGame = () => {
         />
       )}
       <div className="game-container grid grid-cols-7 gap-2 md:gap-5 justify-center m-1 md:m-5">
-        {cardArray.map((pokemon, idx) => (
+        {cardArray?.map((pokemon, idx) => (
           <Card
             key={idx}
             cardState={cardState}

@@ -1,30 +1,21 @@
-import {
-  createState,
-  getLocalIntItem,
-  getLocalStringItem,
-} from "./helperFunctions.jsx";
+import { getLocalIntItem, getLocalStringItem } from "./helperFunctions.jsx";
 import pokemonCardArray from "../libs/pokemonCardData.js";
 
 const getState = () => {
-  const initialState = createState(pokemonCardArray);
-  let localCardState = null;
-  let localMoveCounter = null;
-  let localMatchCounter = null;
-  let localTotalMoveCounter = null;
-
-  if (typeof window !== "undefined") {
-    localCardState = getLocalStringItem("mg_state");
-    localMoveCounter = getLocalIntItem("mg_move_counter");
-    localMatchCounter = getLocalIntItem("mg_match_counter");
-    localTotalMoveCounter = getLocalIntItem("mg_total_move_counter");
-  }
+  const localCardState = getLocalStringItem("mg_state");
+  const localMoveCounter = getLocalIntItem("mg_move_counter");
+  const localMatchCounter = getLocalIntItem("mg_match_counter");
+  const localTotalMoveCounter = getLocalIntItem("mg_total_move_counter");
+  const localCardArray = getLocalStringItem("mg_card_array");
+  const localRFCIndexArray = getLocalStringItem("mg_rf_array");
 
   return [
-    initialState,
     localCardState,
     localMoveCounter,
     localMatchCounter,
     localTotalMoveCounter,
+    localCardArray,
+    localRFCIndexArray,
   ];
 };
 
