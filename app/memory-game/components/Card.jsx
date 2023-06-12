@@ -19,6 +19,7 @@ const Card = ({ cardState, flipCard, cardUrl, index }) => {
           <Image
             src={"/images/pokemon/pokeball.png"}
             fill
+            priority={true}
             draggable={false}
             alt="pokeball"
             className={"object-contain p-[1px] md:p-2"}
@@ -33,6 +34,7 @@ const Card = ({ cardState, flipCard, cardUrl, index }) => {
           <Image
             src={"/images/pokemon/" + cardUrl}
             fill
+            priority={true}
             draggable={false}
             alt={cardUrl}
             className={"object-contain p-[1px] md:p-2"}

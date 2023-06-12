@@ -63,9 +63,9 @@ const Navbar = ({children}:any) => {
               data-choose-theme
               className="select select-bordered select-xs w-fit"
             >
-              <option value="cupcake">🧁 Cupcake</option>
               <option value="dark">🌑 Dark</option>
               <option value="light">💡 Light</option>
+              <option value="cupcake">🧁 Cupcake</option>
               <option value="retro">📽 Retro</option>
               <option value="lofi">🎹 Lofi</option>
               <option value="luxury">💰 Luxury</option>

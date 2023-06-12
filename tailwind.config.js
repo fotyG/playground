@@ -6,7 +6,7 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   daisyui: {
-    themes: ["cupcake", "light", "dark", "retro", "lofi", "luxury", "pastel"],
+    themes: ["dark", "light", "cupcake", "retro", "lofi", "luxury", "pastel"],
   },
   plugins: [require("daisyui")],
 };
