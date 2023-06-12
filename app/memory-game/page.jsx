@@ -18,14 +18,17 @@ import getState from "./helpers/getState";
 
 import Card from "./components/Card";
 import Modal from "./components/Modal";
+import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 
 const localCardArray = getLocalStringItem("mg_card_array");
 let cardArray = localCardArray || shuffleCards(pokemonCardArray);
+
 const localRFCIndexArray = getLocalStringItem("mg_rf_array");
 let recentlyFlippedCardIndexes = localRFCIndexArray || [];
 
 const MemoryGame = () => {
+  const [isCheating, setIsCheating] = useState(false);
   const [
     initialState,
     localCardState,
@@ -33,6 +36,25 @@ const MemoryGame = () => {
     localMatchCounter,
     localTotalMoveCounter,
   ] = getState();
+  if (
+    localCardState?.cheater ||
+    localMoveCounter?.cheater ||
+    localMatchCounter?.cheater ||
+    localTotalMoveCounter?.cheater ||
+    recentlyFlippedCardIndexes?.cheater ||
+    cardArray?.cheater
+  ) {
+    setIsCheating(true);
+    localStorage.removeItem("mg_card_array");
+    localStorage.removeItem("mg_rf_array");
+    localStorage.removeItem("mg_match_counter");
+    localStorage.removeItem("mg_move_counter");
+    localStorage.removeItem("mg_total_move_counter");
+    localStorage.removeItem("mg_state");
+    cardArray = shuffleCards(pokemonCardArray);
+    recentlyFlippedCardIndexes = [];
+  }
+
   const [cardState, setCardState] = useState(localCardState || initialState);
   const [moveCounter, setMoveCounter] = useState(localMoveCounter || 0);
   const [matchCounter, setMatchCounter] = useState(localMatchCounter || 0);
@@ -110,7 +132,8 @@ const MemoryGame = () => {
     if (
       !cardState[index].hidden ||
       cardState[index].matched ||
-      moveCounter === 2
+      moveCounter === 2 ||
+      isCheating
     )
       return;
     setTotalMoveCounter((prev) => prev + 1);
@@ -126,6 +149,17 @@ const MemoryGame = () => {
   const openModal = () => {
     setFetchDataOnOpen((prev) => !prev);
     window.lb_modal.showModal();
+  };
+
+  const restartGame = () => {
+    setCardState(createState(pokemonCardArray));
+    cardArray = shuffleCards(pokemonCardArray);
+    recentlyFlippedCardIndexes = [];
+    setMoveCounter(0);
+    setTotalMoveCounter(0);
+    setMatchCounter(0);
+    setVictoryConfetti(false);
+    setIsCheating(false);
   };
 
   return (
@@ -152,15 +186,7 @@ const MemoryGame = () => {
       <div className="flex justify-center gap-2 mt-3">
         <button
           className="btn btn-primary"
-          onClick={() => {
-            setCardState(createState(pokemonCardArray));
-            cardArray = shuffleCards(pokemonCardArray);
-            recentlyFlippedCardIndexes = [];
-            setMoveCounter(0);
-            setTotalMoveCounter(0);
-            setMatchCounter(0);
-            setVictoryConfetti(false);
-          }}
+          onClick={restartGame}
         >
           Restart
         </button>
@@ -179,7 +205,7 @@ const MemoryGame = () => {
       >
         Cheat win
       </button> */}
-
+      {isCheating && <CheaterModal restartGame={restartGame} />}
       <Modal
         totalMoveCounter={totalMoveCounter}
         setTotalMoveCounter={setTotalMoveCounter}

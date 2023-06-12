@@ -52,7 +52,7 @@ export const getLocalIntItem = (key) => {
     if (storedMac === calculatedMac) {
       return parseInt(AES.decrypt(encryptedValue, secret).toString(enc.Utf8));
     } else {
-      console.log("cheater detected");
+      return { cheater: true };
     }
   }
 };
@@ -61,9 +61,14 @@ export const getLocalStringItem = (key) => {
   if (!localStorage.getItem(key)) {
     return null;
   } else {
-    return JSON.parse(
-      AES.decrypt(localStorage.getItem(key), secret).toString(enc.Utf8)
-    );
+    const storedValue = localStorage.getItem(key);
+    const [storedMac, encryptedValue] = storedValue.split(".");
+    const calculatedMac = generateMac(encryptedValue);
+    if (storedMac === calculatedMac) {
+      return JSON.parse(AES.decrypt(encryptedValue, secret).toString(enc.Utf8));
+    } else {
+      return { cheater: true };
+    }
   }
 };
 
@@ -76,5 +81,7 @@ export function setLocalIntItem(item, key) {
 
 export function setLocalStringItem(item, key) {
   const encrypted = AES.encrypt(JSON.stringify(item), secret).toString();
-  localStorage.setItem(key, encrypted);
+  const mac = generateMac(encrypted);
+  const storedValue = `${mac}.${encrypted}`;
+  localStorage.setItem(key, storedValue);
 }
