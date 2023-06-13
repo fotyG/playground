@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Confetti from "react-confetti";
+import secureLocalStorage from "react-secure-storage";
 
 import pokemonCardArray from "./libs/pokemonCardData";
 import {
@@ -42,6 +43,32 @@ const MemoryGame = () => {
       localCardArray,
       localRFCIndexArray,
     ] = getState();
+    const y = {
+      a: localCardState,
+      b: localCardArray,
+      c: localMoveCounter,
+      d: localMatchCounter,
+      e: localTotalMoveCounter,
+      f: localRFCIndexArray,
+    };
+    secureLocalStorage.setItem("y7545", y);
+    const yy = secureLocalStorage.getItem("y7545");
+    const xx = secureLocalStorage.getItem("x7545");
+
+    if (xx !== null && yy !== null) {
+      if (JSON.stringify(yy) !== JSON.stringify(xx)) {
+        setIsCheating(true);
+        localStorage.removeItem("mg_card_array");
+        localStorage.removeItem("mg_rf_array");
+        localStorage.removeItem("mg_match_counter");
+        localStorage.removeItem("mg_move_counter");
+        localStorage.removeItem("mg_total_move_counter");
+        localStorage.removeItem("mg_state");
+        cardArray = shuffleCards(pokemonCardArray);
+        recentlyFlippedCardIndexes = [];
+        return;
+      }
+    }
 
     if (
       localCardState === null ||
@@ -49,7 +76,8 @@ const MemoryGame = () => {
       localMatchCounter === null ||
       localTotalMoveCounter === null ||
       localCardArray === null ||
-      localRFCIndexArray === null
+      localRFCIndexArray === null ||
+      xx === null
     ) {
       return restartGame();
     }
@@ -72,6 +100,7 @@ const MemoryGame = () => {
       localCardArray,
       localRFCIndexArray,
     ] = getState();
+
     if (
       localCardState?.cheater ||
       localMoveCounter?.cheater ||
@@ -100,6 +129,16 @@ const MemoryGame = () => {
     setLocalIntItem(matchCounter, "mg_match_counter");
     setLocalIntItem(totalMoveCounter, "mg_total_move_counter");
     setLocalStringItem(recentlyFlippedCardIndexes, "mg_rf_array");
+
+    const x = {
+      a: cardState,
+      b: cardArray,
+      c: moveCounter,
+      d: matchCounter,
+      e: totalMoveCounter,
+      f: recentlyFlippedCardIndexes,
+    };
+    secureLocalStorage.setItem("x7545", x);
   }, [totalMoveCounter, cardState, matchCounter, moveCounter]);
 
   useEffect(() => {
