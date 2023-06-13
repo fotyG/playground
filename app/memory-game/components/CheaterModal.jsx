@@ -16,7 +16,7 @@ const CheaterModal = ({ restartGame }) => {
       defaultOpen
       onOpenChange={restartGame}
     >
-      <DialogContent className="flex flex-col items-center bg-base-100/80 border-primary">
+      <DialogContent className="flex flex-col items-center border-primary bg-base-100/80">
         <DialogHeader>
           <DialogTitle className="text-xl">
             We don't respect cheaters around here..
@@ -26,7 +26,7 @@ const CheaterModal = ({ restartGame }) => {
             the top-Gs belong on the list!
           </DialogDescription>
         </DialogHeader>
-        <div className="relative aspect-square rounded-md overflow-hidden w-52">
+        <div className="relative aspect-square w-52 overflow-hidden rounded-md">
           <Image
             src={"/images/spank.gif"}
             fill
@@ -36,7 +36,7 @@ const CheaterModal = ({ restartGame }) => {
           test
         </div>
         <button
-          className="btn btn-primary"
+          className="btn-primary btn"
           onClick={restartGame}
         >
           I'm sorry! 😔

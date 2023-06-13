@@ -4,9 +4,7 @@ import JumpIn from "@/app/components/JumpIn";
 
 export default function Home() {
   return (
-    <main
-      className="flex min-h-screen flex-col items-center justify-between"
-    >
+    <main className="flex min-h-screen flex-col items-center justify-between">
       <Hero />
       <Facts />
       <JumpIn />

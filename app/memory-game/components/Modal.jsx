@@ -52,19 +52,19 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
         >
           <div className="tabs">
             <a
-              className={"tab tab-lifted " + (activeTab ? "tab-active" : "")}
+              className={"tab-lifted tab " + (activeTab ? "tab-active" : "")}
               onClick={() => setActiveTab(true)}
             >
               Your Score
             </a>
             <a
-              className={"tab tab-lifted " + (!activeTab ? "tab-active" : "")}
+              className={"tab-lifted tab " + (!activeTab ? "tab-active" : "")}
               onClick={() => setActiveTab(false)}
             >
               Leaderboard
             </a>
           </div>
-          <h3 className="font-bold my-5 text-xl">
+          <h3 className="my-5 text-xl font-bold">
             {activeTab ? "Submit Your Score" : "Top 10"}
           </h3>
           {activeTab &&
@@ -72,7 +72,7 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
               <p>Thank you for submitting your score!</p>
             ) : (
               <div className="flex flex-col gap-5">
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <label
                     htmlFor="name"
                     className="text-xl font-bold"
@@ -84,7 +84,7 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="outline-none border-[2px] border-primary rounded-md p-2 text-sm md:text-xl"
+                    className="rounded-md border-[2px] border-primary p-2 text-sm outline-none md:text-xl"
                   />
                 </div>
                 <p className="text-xl">
@@ -92,8 +92,8 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
                 </p>
                 <button
                   className={
-                    "btn btn-primary " +
-                    (isLoading ? "hover:cursor-not-allowed disabled" : "")
+                    "btn-primary btn " +
+                    (isLoading ? "disabled hover:cursor-not-allowed" : "")
                   }
                   type="submit"
                 >
