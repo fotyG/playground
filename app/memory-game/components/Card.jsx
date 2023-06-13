@@ -5,45 +5,27 @@ const Card = ({ cardState, flipCard, cardUrl, index }) => {
   return (
     <motion.div
       initial={{ rotateY: 0 }}
-      animate={{ rotateY: cardState[index].hidden ? 180 : 0 }}
-      transition={{ duration: 0.3 }}
+      animate={{ rotateY: cardState[index].hidden ? 0 : 180 }}
+      transition={{ duration: 0.4 }}
       draggable={false}
-      className="card w-[45px] md:w-[100px] h-[60px] md:h-[150px] relative border-[2px] border-primary hover:border-accent hover:cursor-pointer bg-slate-500 shadow-sm"
+      className="card h-[60px] w-[45px] border-[2px] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent md:h-[150px] md:w-[100px]"
       onClick={() => flipCard(index)}
     >
-      <div
-        className="front"
+      <Image
+        src={
+          cardState[index].hidden
+            ? "/images/pokemon/pokeball.png"
+            : "/images/pokemon/" + cardUrl
+        }
+        fill
+        priority={true}
+        quality={25}
         draggable={false}
-      >
-        {cardState[index].hidden && (
-          <Image
-            src={"/images/pokemon/pokeball.png"}
-            fill
-            priority={true}
-            quality={50}
-            draggable={false}
-            alt="pokeball"
-            className={"object-contain p-[1px] md:p-2"}
-          />
-        )}
-      </div>
-      <div
-        className="back"
-        draggable={false}
-      >
-        {!cardState[index].hidden && (
-          <Image
-            src={"/images/pokemon/" + cardUrl}
-            fill
-            priority={true}
-            quality={50}
-            draggable={false}
-            alt={cardUrl}
-            className={"object-contain p-[1px] md:p-2"}
-          />
-        )}
-      </div>
+        alt="pokeball"
+        className={"object-contain p-[1px] md:p-2"}
+      />
     </motion.div>
   );
 };
+
 export default Card;
