@@ -6,7 +6,7 @@ const Card = ({ cardState, flipCard, cardUrl, index }) => {
     <motion.div
       initial={{ rotateY: 0 }}
       animate={{ rotateY: cardState[index].hidden ? 0 : 180 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3 }}
       draggable={false}
       className="card h-[60px] w-[45px] border-[2px] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent md:h-[150px] md:w-[100px]"
       onClick={() => flipCard(index)}

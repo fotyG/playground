@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
 
-const Navbar = ({children}:any) => {
-
+const Navbar = ({ children }: any) => {
   useEffect(() => {
     themeChange(false);
     // 👆 false parameter is required for react project

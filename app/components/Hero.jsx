@@ -4,12 +4,14 @@ import { toast } from "react-hot-toast";
 
 const Hero = () => {
   const agree = () => {
-    toast.success("Good answer - I like you already!", {position: "bottom-center"})
-  }
+    toast.success("Good answer - I like you already!", {
+      position: "bottom-center",
+    });
+  };
 
   return (
     <div
-      className="hero min-h-screen bg-fixed"
+      className="hero min-h-screen md:bg-fixed"
       style={{
         backgroundImage: `url(/images/anime-car.jpg)`,
       }}
@@ -21,10 +23,11 @@ const Hero = () => {
             Welcome to my Portfolio PlayGround
           </h1>
           <p className="mb-5">
-            Instead of boring you with boilerplate design, let's make this more creative and interactive..
+            Instead of boring you with boilerplate design, let's make this more
+            creative and interactive..
           </p>
           <button
-            className="btn btn-primary"
+            className="btn-primary btn"
             onClick={agree}
           >
             Sounds fun
@@ -33,5 +36,5 @@ const Hero = () => {
       </div>
     </div>
   );
-}
-export default Hero
+};
+export default Hero;

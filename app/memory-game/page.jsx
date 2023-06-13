@@ -19,6 +19,7 @@ import Card from "./components/Card";
 import Modal from "./components/Modal";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
+import ProgressBar from "./components/ProgressBar";
 
 let cardArray = shuffleCards(pokemonCardArray);
 let recentlyFlippedCardIndexes = [];
@@ -191,16 +192,20 @@ const MemoryGame = () => {
   };
 
   return (
-    <div className="flex items-center justify-center flex-col gap-4 md:gap-0 my-4">
-      <h1 className="text-center text-xl my-2">Welcome To The Memory Game!</h1>
+    <div className="my-4 flex flex-col items-center justify-center gap-4 md:gap-0">
+      <h1 className="my-2 text-center text-xl">Welcome To The Memory Game!</h1>
       <p className="text-xl font-bold">Total Moves: {totalMoveCounter}</p>
+      <ProgressBar
+        matchCounter={matchCounter}
+        max={14}
+      />
       {victoryConfetti && (
         <Confetti
           numberOfPieces={500}
           recycle={false}
         />
       )}
-      <div className="game-container grid grid-cols-7 gap-2 md:gap-5 justify-center m-1 md:m-5">
+      <div className="game-container m-1 grid grid-cols-7 justify-center gap-2 md:m-5 md:gap-5">
         {cardArray?.map((pokemon, idx) => (
           <Card
             key={idx}
@@ -211,9 +216,9 @@ const MemoryGame = () => {
           />
         ))}
       </div>
-      <div className="flex justify-center gap-2 mt-3">
+      <div className="mt-3 flex justify-center gap-2">
         <button
-          className="btn btn-primary"
+          className="btn-primary btn"
           onClick={restartGame}
         >
           Restart
