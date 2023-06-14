@@ -23,8 +23,9 @@ import ProgressBar from "./components/ProgressBar";
 
 let cardArray = shuffleCards(pokemonCardArray);
 let recentlyFlippedCardIndexes = [];
-const matchSound = new Audio("/sounds/success.wav");
-const gameWinSound = new Audio("/sounds/gameWin.mp3");
+
+let matchSound;
+let gameWinSound;
 
 const MemoryGame = () => {
   const [isCheating, setIsCheating] = useState(false);
@@ -87,6 +88,9 @@ const MemoryGame = () => {
 
     cardArray = localCardArray;
     recentlyFlippedCardIndexes = localRFCIndexArray;
+
+    matchSound = new Audio("/sounds/success.wav");
+    gameWinSound = new Audio("/sounds/gameWin.mp3");
 
     setCardState(localCardState);
     setTotalMoveCounter(localTotalMoveCounter);
