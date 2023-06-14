@@ -19,7 +19,7 @@ const Card = ({ cardState, flipCard, cardUrl, index }) => {
         }
         fill
         priority={true}
-        quality={25}
+        quality={100}
         draggable={false}
         alt="pokeball"
         className={"object-contain p-[1px] md:p-2"}
