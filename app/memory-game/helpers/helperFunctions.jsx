@@ -22,20 +22,11 @@ export const createState = (arr) => {
   return localArr;
 };
 
-export const playMatchSound = () => {
-  const matchSound = new Audio("/sounds/success.wav");
-  if (!matchSound) return;
-  matchSound.pause();
-  matchSound.currentTime = 0;
-  matchSound.play();
-};
-
-export const playGameWinSound = () => {
-  const gameWinSound = new Audio("/sounds/gameWin.mp3");
-  if (!gameWinSound) return;
-  gameWinSound.pause();
-  gameWinSound.currentTime = 0;
-  gameWinSound.play();
+export const playSound = (sound) => {
+  if (!sound) return;
+  sound.pause();
+  sound.currentTime = 0;
+  sound.play();
 };
 
 const generateMac = (value) => {

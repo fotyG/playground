@@ -9,8 +9,7 @@ import pokemonCardArray from "./libs/pokemonCardData";
 import {
   createState,
   shuffleCards,
-  playMatchSound,
-  playGameWinSound,
+  playSound,
   setLocalIntItem,
   setLocalStringItem,
 } from "./helpers/helperFunctions.jsx";
@@ -24,6 +23,8 @@ import ProgressBar from "./components/ProgressBar";
 
 let cardArray = shuffleCards(pokemonCardArray);
 let recentlyFlippedCardIndexes = [];
+const matchSound = new Audio("/sounds/success.wav");
+const gameWinSound = new Audio("/sounds/gameWin.mp3");
 
 const MemoryGame = () => {
   const [isCheating, setIsCheating] = useState(false);
@@ -170,7 +171,7 @@ const MemoryGame = () => {
       cardArray[recentlyFlippedCardIndexes[0]] ===
         cardArray[recentlyFlippedCardIndexes[1]]
     ) {
-      playMatchSound();
+      playSound(matchSound);
       setMatchCounter((prev) => prev + 1);
       setMoveCounter(0);
       setCardState((prev) => {
@@ -192,7 +193,7 @@ const MemoryGame = () => {
     if (matchCounter === 14) {
       setGameComplete(true);
       setVictoryConfetti(true);
-      playGameWinSound();
+      playSound(gameWinSound);
       toast.success("Congratz Amigo - You Won! 🎉");
       setFetchDataOnOpen((prev) => !prev);
     }
@@ -273,14 +274,6 @@ const MemoryGame = () => {
           Show LeaderBoard
         </button>
       </div>
-      {/* <button
-        className="btn btn-primary m-2"
-        onClick={() => {
-          setMatchCounter(14);
-        }}
-      >
-        Cheat win
-      </button> */}
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
         <Modal
