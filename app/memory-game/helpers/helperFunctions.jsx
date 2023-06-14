@@ -1,5 +1,3 @@
-"use client";
-
 import AES from "crypto-js/aes";
 import { enc, HmacSHA256 } from "crypto-js";
 
