@@ -1,6 +1,6 @@
-import Hero from "@/app/components/Hero";
-import Facts from "@/app/components/Facts";
-import JumpIn from "@/app/components/JumpIn";
+import Hero from "@/app/(main)/components/Hero";
+import Facts from "@/app/(main)/components/Facts";
+import JumpIn from "@/app/(main)/components/JumpIn";
 
 export default function Home() {
   return (

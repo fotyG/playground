@@ -33,6 +33,7 @@ const MemoryGame = () => {
   const [totalMoveCounter, setTotalMoveCounter] = useState(0);
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
+  const [gameComplete, setGameComplete] = useState(false);
 
   useEffect(() => {
     const [
@@ -77,7 +78,8 @@ const MemoryGame = () => {
       localTotalMoveCounter === null ||
       localCardArray === null ||
       localRFCIndexArray === null ||
-      xx === null
+      xx === null ||
+      localMatchCounter === 14
     ) {
       return restartGame();
     }
@@ -188,7 +190,7 @@ const MemoryGame = () => {
     }
 
     if (matchCounter === 14) {
-      window.hs_modal.showModal();
+      setGameComplete(true);
       setVictoryConfetti(true);
       playGameWinSound();
       toast.success("Congratz Amigo - You Won! 🎉");
@@ -201,7 +203,8 @@ const MemoryGame = () => {
       !cardState[index].hidden ||
       cardState[index].matched ||
       moveCounter === 2 ||
-      isCheating
+      isCheating ||
+      gameComplete
     )
       return;
     setTotalMoveCounter((prev) => prev + 1);
@@ -228,6 +231,7 @@ const MemoryGame = () => {
     setMatchCounter(0);
     setVictoryConfetti(false);
     setIsCheating(false);
+    setGameComplete(false);
   };
 
   return (
@@ -278,11 +282,14 @@ const MemoryGame = () => {
         Cheat win
       </button> */}
       {isCheating && <CheaterModal restartGame={restartGame} />}
-      <Modal
-        totalMoveCounter={totalMoveCounter}
-        setTotalMoveCounter={setTotalMoveCounter}
-        fetchDataOnOpen={fetchDataOnOpen}
-      />
+      {gameComplete && (
+        <Modal
+          totalMoveCounter={totalMoveCounter}
+          matchCounter={matchCounter}
+          setTotalMoveCounter={setTotalMoveCounter}
+          fetchDataOnOpen={fetchDataOnOpen}
+        />
+      )}
       <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
     </div>
   );

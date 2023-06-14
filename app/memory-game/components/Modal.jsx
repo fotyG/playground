@@ -3,7 +3,12 @@ import { fetchScores, registerScore } from "../libs/getHighScores";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-hot-toast";
 
-const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
+const Modal = ({
+  totalMoveCounter,
+  setTotalMoveCounter,
+  fetchDataOnOpen,
+  matchCounter,
+}) => {
   const [scores, setScores] = useState([]);
   const [name, setName] = useState("");
   const [activeTab, setActiveTab] = useState(true);
@@ -12,7 +17,7 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name === "") return;
-    if (totalMoveCounter < 28) return;
+    if (totalMoveCounter < 28 || matchCounter < 14) return;
     setIsLoading(true);
     try {
       await registerScore({ name, score: totalMoveCounter });
@@ -33,16 +38,17 @@ const Modal = ({ totalMoveCounter, setTotalMoveCounter, fetchDataOnOpen }) => {
 
   return (
     <>
-      {/* <button
-        className="btn btn-primary"
+      <button
+        className="btn btn-primary m-2 transition-all"
         onClick={() => window.hs_modal.showModal()}
       >
-        open modal
-      </button> */}
+        Submit your score
+      </button>
 
       <dialog
         id="hs_modal"
         className="modal"
+        open
       >
         <form
           id="scoreForm"

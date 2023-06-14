@@ -1,5 +1,4 @@
-import Image from "next/image";
-import facts from "./facts-data/data";
+import facts from "../facts-data/data";
 
 import FactBlock from "./FactBlock";
 
