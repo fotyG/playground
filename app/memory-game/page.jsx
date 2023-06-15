@@ -231,6 +231,8 @@ const MemoryGame = () => {
     setCardState(createState(pokemonCardArray));
     cardArray = shuffleCards(pokemonCardArray);
     recentlyFlippedCardIndexes = [];
+    matchSound = new Audio("/sounds/success.wav");
+    gameWinSound = new Audio("/sounds/gameWin.mp3");
     setMoveCounter(0);
     setTotalMoveCounter(0);
     setMatchCounter(0);
