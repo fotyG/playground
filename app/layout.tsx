@@ -2,10 +2,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-import { Inter } from "next/font/google";
+import { Inter, Glory } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
+const glory = Glory({ subsets: ["latin"] });
 
 export const metadata = {
   title: "PlayGround",
@@ -22,7 +23,7 @@ export default function RootLayout({
       lang="en"
       data-theme=""
     >
-      <body className={inter.className + " flex min-h-screen flex-col"}>
+      <body className={glory.className + " flex min-h-screen flex-col"}>
         <Toaster />
         <Navbar />
         {children}

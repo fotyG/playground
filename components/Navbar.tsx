@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
 
-const Navbar = ({ children }: any) => {
+const Navbar = () => {
   useEffect(() => {
     themeChange(false);
     // 👆 false parameter is required for react project
@@ -72,9 +72,8 @@ const Navbar = ({ children }: any) => {
             </select>
           </div>
         </div>
-        {children}
       </div>
-      <div className="drawer-side">
+      <div className="drawer-side z-50">
         <label
           htmlFor="my-drawer-3"
           className="drawer-overlay"
