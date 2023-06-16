@@ -79,7 +79,7 @@ const Navbar = () => {
           className="drawer-overlay"
         ></label>
 
-        <ul className="menu p-4 w-2/3 h-full bg-base-200">
+        <ul className="menu p-4 w-[55%] sm:w-80 h-full bg-base-200">
           {/* Sidebar content here */}
           <select
             data-choose-theme

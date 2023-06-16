@@ -2,19 +2,27 @@ import { useEffect, useState } from "react";
 import { fetchScores, registerScore } from "../libs/getHighScores";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-hot-toast";
+import { Player } from "@/types";
 
-const Modal = ({
+interface ModalProps {
+  totalMoveCounter: number;
+  setTotalMoveCounter: (arg: number) => void;
+  fetchDataOnOpen: boolean;
+  matchCounter: number;
+}
+
+const Modal: React.FC<ModalProps> = ({
   totalMoveCounter,
   setTotalMoveCounter,
   fetchDataOnOpen,
   matchCounter,
 }) => {
-  const [scores, setScores] = useState([]);
+  const [scores, setScores] = useState<Player[]>([]);
   const [name, setName] = useState("");
   const [activeTab, setActiveTab] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (name === "") return;
     if (totalMoveCounter < 28 || matchCounter < 14) return;
@@ -26,14 +34,14 @@ const Modal = ({
       setTotalMoveCounter(0);
       setActiveTab(false);
     } catch (error) {
-      toast.error(error);
+      toast.error(error as any);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchScores().then((data) => setScores(data));
+    fetchScores().then((data) => setScores(data as Player[]));
   }, [isLoading, fetchDataOnOpen]);
 
   return (

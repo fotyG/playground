@@ -12,8 +12,8 @@ import {
   playSound,
   setLocalIntItem,
   setLocalStringItem,
-} from "./helpers/helperFunctions.jsx";
-import getState from "./helpers/getState.jsx";
+} from "./helpers/helperFunctions";
+import getState from "./helpers/getState";
 
 import Card from "./components/Card";
 import Modal from "./components/Modal";
@@ -22,10 +22,10 @@ import LeaderBoardModal from "./components/LeaderBoardModal";
 import ProgressBar from "./components/ProgressBar";
 
 let cardArray = shuffleCards(pokemonCardArray);
-let recentlyFlippedCardIndexes = [];
+let recentlyFlippedCardIndexes: number[] = [];
 
-let matchSound;
-let gameWinSound;
+let matchSound: HTMLAudioElement;
+let gameWinSound: HTMLAudioElement;
 
 const MemoryGame = () => {
   const [isCheating, setIsCheating] = useState(false);
@@ -198,12 +198,12 @@ const MemoryGame = () => {
       setGameComplete(true);
       setVictoryConfetti(true);
       playSound(gameWinSound);
-      toast.success("Congratz Amigo - You Won! 🎉");
+      toast.success("Well Done Amigo - You Won! 🎉");
       setFetchDataOnOpen((prev) => !prev);
     }
   }, [moveCounter, matchCounter]);
 
-  const flipCard = (index) => {
+  const flipCard = (index: number) => {
     if (
       !cardState[index].hidden ||
       cardState[index].matched ||
@@ -242,8 +242,8 @@ const MemoryGame = () => {
   };
 
   return (
-    <div className="my-4 flex flex-col items-center justify-center gap-4 md:gap-0">
-      <h1 className="my-2 text-center text-xl">Welcome To The Memory Game!</h1>
+    <div className="container px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">
+      <h1 className="text-center text-xl">Welcome To The Memory Game!</h1>
       <p className="text-xl font-bold">Total Moves: {totalMoveCounter}</p>
       <ProgressBar
         matchCounter={matchCounter}
@@ -255,7 +255,7 @@ const MemoryGame = () => {
           recycle={false}
         />
       )}
-      <div className="game-container m-1 grid grid-cols-7 justify-center gap-2 md:m-5 md:gap-5">
+      <div className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5">
         {cardArray?.map((pokemon, idx) => (
           <Card
             key={idx}

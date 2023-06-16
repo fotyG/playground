@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import { fetchScores } from "../libs/getHighScores";
 
-const LeaderBoardModal = ({ fetchDataOnOpen }) => {
-  const [data, setData] = useState([]);
+import { fetchScores } from "../libs/getHighScores";
+import { Player } from "@/types";
+
+interface LeaderBoardModalProps {
+  fetchDataOnOpen: boolean;
+}
+
+const LeaderBoardModal: React.FC<LeaderBoardModalProps> = ({
+  fetchDataOnOpen,
+}) => {
+  const [data, setData] = useState<Player[]>([]);
 
   useEffect(() => {
-    fetchScores().then((data) => setData(data));
+    fetchScores().then((data) => setData(data as Player[]));
   }, [fetchDataOnOpen]);
 
   return (

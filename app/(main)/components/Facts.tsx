@@ -4,7 +4,7 @@ import FactBlock from "./FactBlock";
 
 const Facts = () => {
   return (
-    <div className="mx-10 sm:mx-20 md:mx-32 lg:mx-44 2xl:mx-96 my-14">
+    <div className="container">
       {facts.map((fact, idx) => (
         <FactBlock
           key={idx}

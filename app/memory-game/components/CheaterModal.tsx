@@ -4,13 +4,14 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
-const CheaterModal = ({ restartGame }) => {
-  const router = useRouter();
+interface CheaterModalProps {
+  restartGame: () => void;
+}
+
+const CheaterModal: React.FC<CheaterModalProps> = ({ restartGame }) => {
   return (
     <Dialog
       defaultOpen

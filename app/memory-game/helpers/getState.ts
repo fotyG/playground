@@ -1,4 +1,4 @@
-import { getLocalIntItem, getLocalStringItem } from "./helperFunctions.jsx";
+import { getLocalIntItem, getLocalStringItem } from "./helperFunctions";
 
 const getState = () => {
   const localCardState = getLocalStringItem("mg_state");
@@ -7,7 +7,7 @@ const getState = () => {
   const localTotalMoveCounter = getLocalIntItem("mg_total_move_counter");
   const localCardArray = getLocalStringItem("mg_card_array");
   const localRFCIndexArray = getLocalStringItem("mg_rf_array");
-  
+
   return [
     localCardState,
     localMoveCounter,
