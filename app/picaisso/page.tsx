@@ -24,7 +24,7 @@ const Picaisso = () => {
         ref={canvas}
         width="600"
         height="600"
-        className="border-2 border-neutral/50 hover:cursor-crosshair bg-white rounded-md"
+        className="border-2 border-neutral/50 hover:cursor-crosshair bg-white rounded-md shadow-md shadow-base"
       ></canvas>
       <button
         className="btn btn-primary"
