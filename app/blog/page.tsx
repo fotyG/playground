@@ -1,15 +1,21 @@
-"use client";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
-import BlogPosts from "./components/BlogPosts";
+import Image from "next/image";
+import BlogCard from "./components/BlogCard";
 
 const BlogPage = () => {
-  const [queryClient] = useState(() => new QueryClient());
   return (
-    <QueryClientProvider client={queryClient}>
-      <BlogPosts />
-    </QueryClientProvider>
+    <div className="container mx-auto">
+      <div className="grid grid-cols-2 justify-center flex-wrap gap-5">
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+      </div>
+    </div>
   );
 };
 export default BlogPage;
