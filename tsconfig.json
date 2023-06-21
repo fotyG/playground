@@ -29,7 +29,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/memory-game/page.tsx",
-    "hooks/useStore.js"
+    "hooks/useStore.js",
+    "convex/sketches.js"
   ],
   "exclude": ["node_modules"]
 }
