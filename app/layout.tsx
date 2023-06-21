@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { Inter, Glory } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import ThemeLoader from "@/providers/ThemeLoader";
 
 const inter = Inter({ subsets: ["latin"] });
 const glory = Glory({ subsets: ["latin"] });
@@ -23,11 +24,13 @@ export default function RootLayout({
       lang="en"
       data-theme=""
     >
-      <body className={glory.className + " flex min-h-screen flex-col"}>
-        <Toaster />
-        <Navbar />
-        {children}
-        <Footer />
+      <body className={glory.className}>
+        <ThemeLoader>
+          <Toaster />
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeLoader>
       </body>
     </html>
   );
