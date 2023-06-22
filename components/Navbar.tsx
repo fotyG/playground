@@ -57,6 +57,9 @@ const Navbar = () => {
               <li>
                 <Link href={"/memory-game"}>Memory Game</Link>
               </li>
+              <li>
+                <Link href={"/sketch"}>AI Picasso</Link>
+              </li>
             </ul>
             <select
               data-choose-theme
@@ -95,6 +98,7 @@ const Navbar = () => {
           </select>
           <li className="my-4">
             <Link href={"/memory-game"}>Memory Game</Link>
+            <Link href={"/sketch"}>AI Picasso</Link>
           </li>
         </ul>
       </div>

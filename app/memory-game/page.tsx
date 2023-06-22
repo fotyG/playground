@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Confetti from "react-confetti";
 import secureLocalStorage from "react-secure-storage";
+import { motion } from "framer-motion";
 
 import pokemonCardArray from "./libs/pokemonCardData";
 import {
@@ -242,7 +243,12 @@ const MemoryGame = () => {
   };
 
   return (
-    <div className="container px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 100 }}
+      transition={{ duration: 0.7 }}
+      className="container px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4"
+    >
       <h1 className="text-center text-xl">Welcome To The Memory Game!</h1>
       <p className="text-xl font-bold">Total Moves: {totalMoveCounter}</p>
       <ProgressBar
@@ -290,7 +296,7 @@ const MemoryGame = () => {
         />
       )}
       <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
-    </div>
+    </motion.div>
   );
 };
 export default MemoryGame;
