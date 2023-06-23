@@ -243,12 +243,7 @@ const MemoryGame = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 100 }}
-      transition={{ duration: 0.7 }}
-      className="container px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4"
-    >
+    <div className="container px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">
       <h1 className="text-center text-xl">Welcome To The Memory Game!</h1>
       <p className="text-xl font-bold">Total Moves: {totalMoveCounter}</p>
       <ProgressBar
@@ -261,7 +256,12 @@ const MemoryGame = () => {
           recycle={false}
         />
       )}
-      <div className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5"
+      >
         {cardArray?.map((pokemon, idx) => (
           <Card
             key={idx}
@@ -271,20 +271,26 @@ const MemoryGame = () => {
             index={idx}
           />
         ))}
-      </div>
+      </motion.div>
       <div className="mt-3 flex justify-center gap-2">
-        <button
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
           className="btn-primary btn"
           onClick={restartGame}
         >
           Restart
-        </button>
-        <button
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
           className="btn border-primary hover:btn-secondary"
           onClick={openModal}
         >
           Show LeaderBoard
-        </button>
+        </motion.button>
       </div>
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
@@ -296,7 +302,7 @@ const MemoryGame = () => {
         />
       )}
       <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
-    </motion.div>
+    </div>
   );
 };
 export default MemoryGame;
