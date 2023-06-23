@@ -122,6 +122,7 @@ const SketchPage = () => {
               Clear
             </button>
             <button
+              type="button"
               className={`btn btn-xs border-primary transition-all ${
                 eraser ? "bg-accent rounded-none hover:bg-accent" : ""
               }`}
