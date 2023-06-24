@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import Confetti from "react-confetti";
 import secureLocalStorage from "react-secure-storage";
 import { motion } from "framer-motion";
@@ -13,6 +12,7 @@ import {
   playSound,
   setLocalIntItem,
   setLocalStringItem,
+  encodeNumber,
 } from "./helpers/helperFunctions";
 import getState from "./helpers/getState";
 
@@ -22,7 +22,7 @@ import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import ProgressBar from "./components/ProgressBar";
 
-let cardArray = shuffleCards(pokemonCardArray);
+let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
 
 let matchSound: HTMLAudioElement;
@@ -31,7 +31,6 @@ let gameWinSound: HTMLAudioElement;
 const MemoryGame = () => {
   const [isCheating, setIsCheating] = useState(false);
   const [cardState, setCardState] = useState(createState(pokemonCardArray));
-  const [cardUrl, setCardUrl] = useState("");
   const [moveCounter, setMoveCounter] = useState(0);
   const [matchCounter, setMatchCounter] = useState(0);
   const [totalMoveCounter, setTotalMoveCounter] = useState(0);
@@ -39,7 +38,7 @@ const MemoryGame = () => {
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
   const [clickNotAllowed, setClickNotAllowed] = useState(false);
-  const [flipComplete, setFlipComplete] = useState(false);
+  const [flipComplete, setFlipComplete] = useState(true);
 
   // Initiation UseEffect
   useEffect(() => {
@@ -159,8 +158,8 @@ const MemoryGame = () => {
   useEffect(() => {
     if (
       moveCounter === 2 &&
-      cardArray[recentlyFlippedCardIndexes[0]] !==
-        cardArray[recentlyFlippedCardIndexes[1]] &&
+      cardArray[recentlyFlippedCardIndexes[0]]?.id !==
+        cardArray[recentlyFlippedCardIndexes[1]]?.id &&
       flipComplete
     ) {
       setClickNotAllowed(true);
@@ -186,8 +185,8 @@ const MemoryGame = () => {
       }, 1000);
     } else if (
       moveCounter === 2 &&
-      cardArray[recentlyFlippedCardIndexes[0]] ===
-        cardArray[recentlyFlippedCardIndexes[1]]
+      cardArray[recentlyFlippedCardIndexes[0]]?.id ===
+        cardArray[recentlyFlippedCardIndexes[1]]?.id
     ) {
       playSound(matchSound);
       setMatchCounter((prev) => prev + 1);
@@ -214,7 +213,7 @@ const MemoryGame = () => {
       playSound(gameWinSound);
       setFetchDataOnOpen((prev) => !prev);
     }
-  }, [moveCounter, matchCounter, flipComplete]);
+  }, [moveCounter, matchCounter, totalMoveCounter, flipComplete]);
 
   const openModal = () => {
     setFetchDataOnOpen((prev) => !prev);
@@ -255,25 +254,26 @@ const MemoryGame = () => {
         transition={{ duration: 0.8 }}
         className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5"
       >
-        {cardArray?.map((pokemon, idx) => (
-          <Card
-            key={idx}
-            cardState={cardState}
-            clickNotAllowed={clickNotAllowed}
-            flipComplete={flipComplete}
-            setFlipComplete={setFlipComplete}
-            cardUrl={pokemon.id}
-            index={idx}
-            moveCounter={moveCounter}
-            isCheating={isCheating}
-            gameComplete={gameComplete}
-            setCardUrl={setCardUrl}
-            setTotalMoveCounter={setTotalMoveCounter}
-            recentlyFlippedCardIndexes={recentlyFlippedCardIndexes}
-            setMoveCounter={setMoveCounter}
-            setCardState={setCardState}
-          />
-        ))}
+        {cardArray?.map((pokemon: { id: number }, idx: number) => {
+          const encodedId = encodeNumber(pokemon.id);
+          return (
+            <Card
+              key={idx}
+              index={idx}
+              cardUrl={encodedId}
+              cardState={cardState}
+              moveCounter={moveCounter}
+              isCheating={isCheating}
+              gameComplete={gameComplete}
+              clickNotAllowed={clickNotAllowed}
+              setCardState={setCardState}
+              setFlipComplete={setFlipComplete}
+              setMoveCounter={setMoveCounter}
+              setTotalMoveCounter={setTotalMoveCounter}
+              recentlyFlippedCardIndexes={recentlyFlippedCardIndexes}
+            />
+          );
+        })}
       </motion.div>
       <div className="mt-3 flex justify-center gap-2">
         <motion.button

@@ -1,33 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { decodeNumber } from "@/app/memory-game/helpers/helperFunctions";
 
-const cardMap = {
-  1: "api/cards/belsprout",
-  2: "api/cards/bulbasaur",
-  3: "api/cards/caterpy",
-  4: "api/cards/charmander",
-  5: "api/cards/dratini",
-  6: "api/cards/eevee",
-  7: "api/cards/golbat",
-  8: "api/cards/jigglypuff",
-  9: "api/cards/meowth",
-  10: "api/cards/pikachu",
-  11: "api/cards/psyduck",
-  12: "api/cards/snorlax",
-  13: "api/cards/squirtle",
-  14: "api/cards/venonat",
+const cardMap: any = {
+  "1": "belsprout",
+  "2": "bulbasaur",
+  "3": "caterpy",
+  "4": "charmander",
+  "5": "dratini",
+  "6": "eevee",
+  "7": "golbat",
+  "8": "jigglypuff",
+  "9": "meowth",
+  "10": "pikachu",
+  "11": "psyduck",
+  "12": "snorlax",
+  "13": "squirtle",
+  "14": "venonat",
 };
 
 const cardsDirectory = path.join(process.cwd(), "public", "images", "pokemon");
-// const cardsDirectory = path.join("public", "images", "pokemon");
 
 export async function GET(request: NextRequest, { params }: { params: any }) {
-  const id = params.id;
-  const imagePath = path.join(cardsDirectory, `${id}.png`);
-  // const corrected = "/" + imagePath.replaceAll("\\", "/");
-
   try {
+    const id = decodeNumber(params.id);
+    const imagePath = path.join(cardsDirectory, `${cardMap[id!]}.png`);
     const data = await fs.promises.readFile(imagePath);
 
     return new NextResponse(data, {

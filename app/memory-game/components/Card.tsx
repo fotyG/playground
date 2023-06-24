@@ -1,59 +1,62 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
 import { CardState } from "@/types";
-import { useState, useEffect } from "react";
+
 import axios from "axios";
+import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 
+import Image from "next/image";
+import { useState, useEffect, SetStateAction, Dispatch } from "react";
+
 interface CardProps {
-  cardState: CardState[];
-  flipCard: (index: number) => void;
-  cardUrl: number;
   index: number;
+  cardUrl: string;
+  cardState: CardState[];
+  isCheating: boolean;
+  moveCounter: number;
+  gameComplete: boolean;
+  clickNotAllowed: boolean;
+  recentlyFlippedCardIndexes: number[];
+  setCardState: Dispatch<SetStateAction<CardState[]>>;
+  setFlipComplete: Dispatch<SetStateAction<boolean>>;
+  setMoveCounter: Dispatch<SetStateAction<number>>;
+  setTotalMoveCounter: Dispatch<SetStateAction<number>>;
 }
 
 const Card: React.FC<CardProps> = ({
-  cardState,
-  cardUrl,
   index,
-  moveCounter,
+  cardUrl,
+  cardState,
   isCheating,
+  moveCounter,
   gameComplete,
-  setTotalMoveCounter,
-  recentlyFlippedCardIndexes,
-  setMoveCounter,
-  setCardState,
   clickNotAllowed,
+  recentlyFlippedCardIndexes,
+  setCardState,
   setFlipComplete,
+  setMoveCounter,
+  setTotalMoveCounter,
 }) => {
-  const [cardImage, setCardImage] = useState<string>(null);
-  const [alreadyClicked, setAlreadyClicked] = useState(false);
-
+  const [cardImage, setCardImage] = useState("/images/1.webp");
   useEffect(() => {
     const fetchData = async () => {
-      const cardMap = await axios.get("/api/cards");
-      const cardApiUrl = cardMap.data[cardUrl];
-      const picture = await axios.get(cardApiUrl, {
-        responseType: "arraybuffer",
-      });
-
-      const base64Image = Buffer.from(picture.data, "binary").toString(
-        "base64"
-      );
-      const imageDataUrl = `data:image/png;base64,${base64Image}`;
-      setCardImage(imageDataUrl);
+      try {
+        const picture = await axios.get(`/api/cards/${cardUrl}`, {
+          responseType: "arraybuffer",
+        });
+        const base64Image = Buffer.from(picture.data, "binary").toString(
+          "base64"
+        );
+        const imageDataUrl = `data:image/png;base64,${base64Image}`;
+        setCardImage(imageDataUrl);
+      } catch (error) {
+        toast.error("Something went wrong!");
+      }
     };
 
-    if (cardState[index].matched || !cardState[index].hidden) {
-      fetchData();
-    }
-
-    if (recentlyFlippedCardIndexes.length === 0 && !cardState[index].matched) {
-      setCardImage("");
-    }
-  }, [recentlyFlippedCardIndexes]);
+    fetchData();
+  }, []);
 
   const flipCard = async (index: number) => {
     if (
@@ -63,37 +66,28 @@ const Card: React.FC<CardProps> = ({
       recentlyFlippedCardIndexes.length === 2 ||
       isCheating ||
       gameComplete ||
-      alreadyClicked ||
       clickNotAllowed
     )
       return;
 
-    setAlreadyClicked(true);
     recentlyFlippedCardIndexes.push(index);
     setMoveCounter((prev) => prev + 1);
 
     try {
-      const cardMap = await axios.get("/api/cards");
-      const cardApiUrl = cardMap.data[cardUrl];
-      const picture = await axios.get(cardApiUrl, {
+      const picture = await axios.get(`/api/cards/${cardUrl}`, {
         responseType: "arraybuffer",
       });
-
       const base64Image = Buffer.from(picture.data, "binary").toString(
         "base64"
       );
       const imageDataUrl = `data:image/png;base64,${base64Image}`;
       setCardImage(imageDataUrl);
       setTotalMoveCounter((prev) => prev + 1);
-      // recentlyFlippedCardIndexes.push(index);
-      // setMoveCounter((prev) => prev + 1);
+
       setCardState((prev) => {
         const newState = [...prev];
         newState[index] = { ...prev[index], hidden: !prev[index].hidden };
 
-        setAlreadyClicked(false);
-        // recentlyFlippedCardIndexes.push(index);
-        // setMoveCounter((prev) => prev + 1);
         if (recentlyFlippedCardIndexes.length === 2 && moveCounter === 1) {
           setFlipComplete(true);
         }
