@@ -4,7 +4,7 @@ import { CardState } from "@/types";
 
 const secret: string = process.env.NEXT_PUBLIC_SUPER_SECRET || "";
 
-export const shuffleCards = (arr: string[]) => {
+export const shuffleCards = (arr: { id: number }[]) => {
   const localArr = [...arr, ...arr];
   for (let i = localArr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -13,7 +13,7 @@ export const shuffleCards = (arr: string[]) => {
   return localArr;
 };
 
-export const createState = (arr: string[]) => {
+export const createState = (arr: { id: number }[]) => {
   let localArr = [];
   for (let i = 0; i < arr.length * 2; i++) {
     localArr.push({ hidden: true, matched: false });
@@ -72,7 +72,7 @@ export function setLocalIntItem(item: number, key: string) {
 }
 
 export function setLocalStringItem(
-  item: CardState[] | string[] | number[],
+  item: CardState[] | string[] | number[] | { id: number }[],
   key: string
 ) {
   const encrypted = AES.encrypt(JSON.stringify(item), secret).toString();

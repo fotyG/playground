@@ -31,13 +31,17 @@ let gameWinSound: HTMLAudioElement;
 const MemoryGame = () => {
   const [isCheating, setIsCheating] = useState(false);
   const [cardState, setCardState] = useState(createState(pokemonCardArray));
+  const [cardUrl, setCardUrl] = useState("");
   const [moveCounter, setMoveCounter] = useState(0);
   const [matchCounter, setMatchCounter] = useState(0);
   const [totalMoveCounter, setTotalMoveCounter] = useState(0);
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
+  const [clickNotAllowed, setClickNotAllowed] = useState(false);
+  const [flipComplete, setFlipComplete] = useState(false);
 
+  // Initiation UseEffect
   useEffect(() => {
     const [
       localCardState,
@@ -99,6 +103,7 @@ const MemoryGame = () => {
     setMoveCounter(localMoveCounter);
   }, []);
 
+  // Cheater Check UseEffect
   useEffect(() => {
     const [
       localCardState,
@@ -130,6 +135,7 @@ const MemoryGame = () => {
     }
   }, [totalMoveCounter]);
 
+  // Every move update to LocalStorage
   useEffect(() => {
     setLocalStringItem(cardState, "mg_state");
     setLocalStringItem(cardArray, "mg_card_array");
@@ -149,14 +155,17 @@ const MemoryGame = () => {
     secureLocalStorage.setItem("x7545", x);
   }, [totalMoveCounter, cardState, matchCounter, moveCounter]);
 
+  // Game progress UseEffect
   useEffect(() => {
     if (
       moveCounter === 2 &&
       cardArray[recentlyFlippedCardIndexes[0]] !==
-        cardArray[recentlyFlippedCardIndexes[1]]
+        cardArray[recentlyFlippedCardIndexes[1]] &&
+      flipComplete
     ) {
+      setClickNotAllowed(true);
+
       setTimeout(() => {
-        setMoveCounter(0);
         setCardState((prev) => {
           const newState = [...prev];
           newState[recentlyFlippedCardIndexes[0]] = {
@@ -168,6 +177,10 @@ const MemoryGame = () => {
             hidden: !prev[recentlyFlippedCardIndexes[1]]?.hidden,
           };
           recentlyFlippedCardIndexes = [];
+          setMoveCounter(0);
+          setFlipComplete(false);
+          setClickNotAllowed(false);
+
           return newState;
         });
       }, 1000);
@@ -199,29 +212,9 @@ const MemoryGame = () => {
       setGameComplete(true);
       setVictoryConfetti(true);
       playSound(gameWinSound);
-      toast.success("Well Done Amigo - You Won! 🎉");
       setFetchDataOnOpen((prev) => !prev);
     }
-  }, [moveCounter, matchCounter]);
-
-  const flipCard = (index: number) => {
-    if (
-      !cardState[index].hidden ||
-      cardState[index].matched ||
-      moveCounter === 2 ||
-      isCheating ||
-      gameComplete
-    )
-      return;
-    setTotalMoveCounter((prev) => prev + 1);
-    recentlyFlippedCardIndexes.push(index);
-    setMoveCounter((prev) => prev + 1);
-    setCardState((prev) => {
-      const newState = [...prev];
-      newState[index] = { ...prev[index], hidden: !prev[index].hidden };
-      return newState;
-    });
-  };
+  }, [moveCounter, matchCounter, flipComplete]);
 
   const openModal = () => {
     setFetchDataOnOpen((prev) => !prev);
@@ -266,9 +259,19 @@ const MemoryGame = () => {
           <Card
             key={idx}
             cardState={cardState}
-            flipCard={flipCard}
-            cardUrl={pokemon}
+            clickNotAllowed={clickNotAllowed}
+            flipComplete={flipComplete}
+            setFlipComplete={setFlipComplete}
+            cardUrl={pokemon.id}
             index={idx}
+            moveCounter={moveCounter}
+            isCheating={isCheating}
+            gameComplete={gameComplete}
+            setCardUrl={setCardUrl}
+            setTotalMoveCounter={setTotalMoveCounter}
+            recentlyFlippedCardIndexes={recentlyFlippedCardIndexes}
+            setMoveCounter={setMoveCounter}
+            setCardState={setCardState}
           />
         ))}
       </motion.div>
