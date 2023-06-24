@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import Confetti from "react-confetti";
 import secureLocalStorage from "react-secure-storage";
 import { motion } from "framer-motion";
@@ -13,6 +12,7 @@ import {
   playSound,
   setLocalIntItem,
   setLocalStringItem,
+  encodeNumber,
 } from "./helpers/helperFunctions";
 import getState from "./helpers/getState";
 
@@ -22,7 +22,7 @@ import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import ProgressBar from "./components/ProgressBar";
 
-let cardArray = shuffleCards(pokemonCardArray);
+let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
 
 let matchSound: HTMLAudioElement;
@@ -37,7 +37,10 @@ const MemoryGame = () => {
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
+  const [clickNotAllowed, setClickNotAllowed] = useState(false);
+  const [flipComplete, setFlipComplete] = useState(true);
 
+  // Initiation UseEffect
   useEffect(() => {
     const [
       localCardState,
@@ -99,6 +102,7 @@ const MemoryGame = () => {
     setMoveCounter(localMoveCounter);
   }, []);
 
+  // Cheater Check UseEffect
   useEffect(() => {
     const [
       localCardState,
@@ -130,6 +134,7 @@ const MemoryGame = () => {
     }
   }, [totalMoveCounter]);
 
+  // Every move update to LocalStorage
   useEffect(() => {
     setLocalStringItem(cardState, "mg_state");
     setLocalStringItem(cardArray, "mg_card_array");
@@ -149,14 +154,17 @@ const MemoryGame = () => {
     secureLocalStorage.setItem("x7545", x);
   }, [totalMoveCounter, cardState, matchCounter, moveCounter]);
 
+  // Game progress UseEffect
   useEffect(() => {
     if (
       moveCounter === 2 &&
-      cardArray[recentlyFlippedCardIndexes[0]] !==
-        cardArray[recentlyFlippedCardIndexes[1]]
+      cardArray[recentlyFlippedCardIndexes[0]]?.id !==
+        cardArray[recentlyFlippedCardIndexes[1]]?.id &&
+      flipComplete
     ) {
+      setClickNotAllowed(true);
+
       setTimeout(() => {
-        setMoveCounter(0);
         setCardState((prev) => {
           const newState = [...prev];
           newState[recentlyFlippedCardIndexes[0]] = {
@@ -168,13 +176,17 @@ const MemoryGame = () => {
             hidden: !prev[recentlyFlippedCardIndexes[1]]?.hidden,
           };
           recentlyFlippedCardIndexes = [];
+          setMoveCounter(0);
+          setFlipComplete(false);
+          setClickNotAllowed(false);
+
           return newState;
         });
       }, 1000);
     } else if (
       moveCounter === 2 &&
-      cardArray[recentlyFlippedCardIndexes[0]] ===
-        cardArray[recentlyFlippedCardIndexes[1]]
+      cardArray[recentlyFlippedCardIndexes[0]]?.id ===
+        cardArray[recentlyFlippedCardIndexes[1]]?.id
     ) {
       playSound(matchSound);
       setMatchCounter((prev) => prev + 1);
@@ -199,29 +211,9 @@ const MemoryGame = () => {
       setGameComplete(true);
       setVictoryConfetti(true);
       playSound(gameWinSound);
-      toast.success("Well Done Amigo - You Won! 🎉");
       setFetchDataOnOpen((prev) => !prev);
     }
-  }, [moveCounter, matchCounter]);
-
-  const flipCard = (index: number) => {
-    if (
-      !cardState[index].hidden ||
-      cardState[index].matched ||
-      moveCounter === 2 ||
-      isCheating ||
-      gameComplete
-    )
-      return;
-    setTotalMoveCounter((prev) => prev + 1);
-    recentlyFlippedCardIndexes.push(index);
-    setMoveCounter((prev) => prev + 1);
-    setCardState((prev) => {
-      const newState = [...prev];
-      newState[index] = { ...prev[index], hidden: !prev[index].hidden };
-      return newState;
-    });
-  };
+  }, [moveCounter, matchCounter, totalMoveCounter, flipComplete]);
 
   const openModal = () => {
     setFetchDataOnOpen((prev) => !prev);
@@ -262,15 +254,26 @@ const MemoryGame = () => {
         transition={{ duration: 0.8 }}
         className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5"
       >
-        {cardArray?.map((pokemon, idx) => (
-          <Card
-            key={idx}
-            cardState={cardState}
-            flipCard={flipCard}
-            cardUrl={pokemon}
-            index={idx}
-          />
-        ))}
+        {cardArray?.map((pokemon: { id: number }, idx: number) => {
+          const encodedId = encodeNumber(pokemon.id);
+          return (
+            <Card
+              key={idx}
+              index={idx}
+              cardUrl={encodedId}
+              cardState={cardState}
+              moveCounter={moveCounter}
+              isCheating={isCheating}
+              gameComplete={gameComplete}
+              clickNotAllowed={clickNotAllowed}
+              setCardState={setCardState}
+              setFlipComplete={setFlipComplete}
+              setMoveCounter={setMoveCounter}
+              setTotalMoveCounter={setTotalMoveCounter}
+              recentlyFlippedCardIndexes={recentlyFlippedCardIndexes}
+            />
+          );
+        })}
       </motion.div>
       <div className="mt-3 flex justify-center gap-2">
         <motion.button

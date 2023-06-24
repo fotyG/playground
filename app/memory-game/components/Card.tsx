@@ -1,15 +1,104 @@
-import Image from "next/image";
-import { motion } from "framer-motion";
+"use client";
+
 import { CardState } from "@/types";
 
+import axios from "axios";
+import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
+
+import Image from "next/image";
+import { useState, useEffect, SetStateAction, Dispatch } from "react";
+
 interface CardProps {
-  cardState: CardState[];
-  flipCard: (index: number) => void;
-  cardUrl: string;
   index: number;
+  cardUrl: string;
+  cardState: CardState[];
+  isCheating: boolean;
+  moveCounter: number;
+  gameComplete: boolean;
+  clickNotAllowed: boolean;
+  recentlyFlippedCardIndexes: number[];
+  setCardState: Dispatch<SetStateAction<CardState[]>>;
+  setFlipComplete: Dispatch<SetStateAction<boolean>>;
+  setMoveCounter: Dispatch<SetStateAction<number>>;
+  setTotalMoveCounter: Dispatch<SetStateAction<number>>;
 }
 
-const Card: React.FC<CardProps> = ({ cardState, flipCard, cardUrl, index }) => {
+const Card: React.FC<CardProps> = ({
+  index,
+  cardUrl,
+  cardState,
+  isCheating,
+  moveCounter,
+  gameComplete,
+  clickNotAllowed,
+  recentlyFlippedCardIndexes,
+  setCardState,
+  setFlipComplete,
+  setMoveCounter,
+  setTotalMoveCounter,
+}) => {
+  const [cardImage, setCardImage] = useState("/images/1.webp");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const picture = await axios.get(`/api/cards/${cardUrl}`, {
+          responseType: "arraybuffer",
+        });
+        const base64Image = Buffer.from(picture.data, "binary").toString(
+          "base64"
+        );
+        const imageDataUrl = `data:image/png;base64,${base64Image}`;
+        setCardImage(imageDataUrl);
+      } catch (error) {
+        toast.error("Something went wrong!");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const flipCard = async (index: number) => {
+    if (
+      !cardState[index].hidden ||
+      cardState[index].matched ||
+      moveCounter === 2 ||
+      recentlyFlippedCardIndexes.length === 2 ||
+      isCheating ||
+      gameComplete ||
+      clickNotAllowed
+    )
+      return;
+
+    recentlyFlippedCardIndexes.push(index);
+    setMoveCounter((prev) => prev + 1);
+
+    try {
+      const picture = await axios.get(`/api/cards/${cardUrl}`, {
+        responseType: "arraybuffer",
+      });
+      const base64Image = Buffer.from(picture.data, "binary").toString(
+        "base64"
+      );
+      const imageDataUrl = `data:image/png;base64,${base64Image}`;
+      setCardImage(imageDataUrl);
+      setTotalMoveCounter((prev) => prev + 1);
+
+      setCardState((prev) => {
+        const newState = [...prev];
+        newState[index] = { ...prev[index], hidden: !prev[index].hidden };
+
+        if (recentlyFlippedCardIndexes.length === 2 && moveCounter === 1) {
+          setFlipComplete(true);
+        }
+
+        return newState;
+      });
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
+  };
+
   return (
     <motion.div
       initial={{ rotateY: 0 }}
@@ -21,9 +110,7 @@ const Card: React.FC<CardProps> = ({ cardState, flipCard, cardUrl, index }) => {
     >
       <Image
         src={
-          cardState[index].hidden
-            ? "/images/pokemon/pokeball.png"
-            : "/images/pokemon/" + cardUrl
+          cardState[index].hidden ? "/images/pokemon/pokeball.png" : cardImage
         }
         fill
         priority={true}
