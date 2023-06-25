@@ -39,6 +39,7 @@ const Card: React.FC<CardProps> = ({
   setTotalMoveCounter,
 }) => {
   const [cardImage, setCardImage] = useState("/images/1.webp");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,9 +55,12 @@ const Card: React.FC<CardProps> = ({
         toast.error("Something went wrong!");
       }
     };
-
-    fetchData();
-  }, []);
+    if (cardState[index].matched || !cardState[index].hidden) {
+      if (cardImage === "/images/1.webp") {
+        fetchData();
+      }
+    }
+  }, [cardState]);
 
   const flipCard = async (index: number) => {
     if (
