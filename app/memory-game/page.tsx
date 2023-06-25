@@ -262,13 +262,13 @@ const MemoryGame = () => {
               index={idx}
               cardUrl={encodedId}
               cardState={cardState}
-              moveCounter={moveCounter}
               isCheating={isCheating}
+              moveCounter={moveCounter}
               gameComplete={gameComplete}
               clickNotAllowed={clickNotAllowed}
               setCardState={setCardState}
-              setFlipComplete={setFlipComplete}
               setMoveCounter={setMoveCounter}
+              setFlipComplete={setFlipComplete}
               setTotalMoveCounter={setTotalMoveCounter}
               recentlyFlippedCardIndexes={recentlyFlippedCardIndexes}
             />
@@ -276,24 +276,18 @@ const MemoryGame = () => {
         })}
       </motion.div>
       <div className="mt-3 flex justify-center gap-2">
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+        <button
           className="btn-primary btn"
           onClick={restartGame}
         >
           Restart
-        </motion.button>
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+        </button>
+        <button
           className="btn border-primary hover:btn-secondary"
           onClick={openModal}
         >
           Show LeaderBoard
-        </motion.button>
+        </button>
       </div>
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
