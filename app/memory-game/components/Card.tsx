@@ -16,7 +16,6 @@ interface CardProps {
   isCheating: boolean;
   moveCounter: number;
   gameComplete: boolean;
-  clickNotAllowed: boolean;
   recentlyFlippedCardIndexes: number[];
   setCardState: Dispatch<SetStateAction<CardState[]>>;
   setFlipComplete: Dispatch<SetStateAction<boolean>>;
@@ -31,7 +30,6 @@ const Card: React.FC<CardProps> = ({
   isCheating,
   moveCounter,
   gameComplete,
-  clickNotAllowed,
   recentlyFlippedCardIndexes,
   setCardState,
   setFlipComplete,
@@ -69,11 +67,11 @@ const Card: React.FC<CardProps> = ({
       moveCounter === 2 ||
       recentlyFlippedCardIndexes.length === 2 ||
       isCheating ||
-      gameComplete ||
-      clickNotAllowed
+      gameComplete
     )
       return;
 
+    if (recentlyFlippedCardIndexes.includes(index)) return;
     recentlyFlippedCardIndexes.push(index);
     setMoveCounter((prev) => prev + 1);
 

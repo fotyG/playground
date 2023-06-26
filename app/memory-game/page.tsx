@@ -21,6 +21,7 @@ import Modal from "./components/Modal";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import ProgressBar from "./components/ProgressBar";
+import NewLeaderBoardModal from "./components/NewLeaderBoardModal";
 
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
@@ -37,7 +38,6 @@ const MemoryGame = () => {
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
-  const [clickNotAllowed, setClickNotAllowed] = useState(false);
   const [flipComplete, setFlipComplete] = useState(true);
 
   // Initiation UseEffect
@@ -162,8 +162,6 @@ const MemoryGame = () => {
         cardArray[recentlyFlippedCardIndexes[1]]?.id &&
       flipComplete
     ) {
-      setClickNotAllowed(true);
-
       setTimeout(() => {
         setCardState((prev) => {
           const newState = [...prev];
@@ -178,7 +176,6 @@ const MemoryGame = () => {
           recentlyFlippedCardIndexes = [];
           setMoveCounter(0);
           setFlipComplete(false);
-          setClickNotAllowed(false);
 
           return newState;
         });
@@ -265,7 +262,6 @@ const MemoryGame = () => {
               isCheating={isCheating}
               moveCounter={moveCounter}
               gameComplete={gameComplete}
-              clickNotAllowed={clickNotAllowed}
               setCardState={setCardState}
               setMoveCounter={setMoveCounter}
               setFlipComplete={setFlipComplete}
@@ -282,6 +278,7 @@ const MemoryGame = () => {
         >
           Restart
         </button>
+        <NewLeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
         <button
           className="btn border-primary hover:btn-secondary"
           onClick={openModal}

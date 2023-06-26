@@ -12,8 +12,6 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   if (isLoading) return <Loading />;
 
-  return (
-    <div className="transition-all min-h-screen flex flex-col">{children}</div>
-  );
+  return <div className="min-h-screen flex flex-col">{children}</div>;
 };
 export default ThemeProvider;
