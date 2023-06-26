@@ -54,29 +54,33 @@ const NewModal: React.FC<ModalProps> = ({
         <form
           id="scoreForm"
           method="dialog"
-          className=""
+          className="text-lg"
           onSubmit={handleSubmit}
         >
           <div className="tabs">
             <a
-              className={"tab-lifted tab " + (activeTab ? "tab-active" : "")}
+              className={
+                "tab-lifted tab text-lg " + (activeTab ? "tab-active" : "")
+              }
               onClick={() => setActiveTab(true)}
             >
               Your Score
             </a>
             <a
-              className={"tab-lifted tab " + (!activeTab ? "tab-active" : "")}
+              className={
+                "tab-lifted tab text-lg " + (!activeTab ? "tab-active" : "")
+              }
               onClick={() => setActiveTab(false)}
             >
               Leaderboard
             </a>
           </div>
-          <h3 className="my-5 text-xl font-bold">
+          <h3 className="my-5 text-2xl font-bold">
             {activeTab ? "Submit Your Score" : "Top 10"}
           </h3>
           {activeTab &&
             (totalMoveCounter === 0 ? (
-              <p>Thank you for submitting your score!</p>
+              <p className="text-xl">Thank you for submitting your score!</p>
             ) : (
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-1">

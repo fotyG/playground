@@ -17,7 +17,7 @@ const CheaterModal: React.FC<CheaterModalProps> = ({ restartGame }) => {
       defaultOpen
       onOpenChange={restartGame}
     >
-      <DialogContent className="flex flex-col items-center border-primary bg-base-100/80">
+      <DialogContent className="modal-box flex flex-col items-center">
         <DialogHeader>
           <DialogTitle className="text-xl">
             We don't respect cheaters around here..
@@ -34,10 +34,9 @@ const CheaterModal: React.FC<CheaterModalProps> = ({ restartGame }) => {
             className="object-cover"
             alt="spank"
           />
-          test
         </div>
         <button
-          className="btn-primary btn"
+          className="btn-primary btn text-lg"
           onClick={restartGame}
         >
           I'm sorry! 😔

@@ -11,7 +11,7 @@ import { useState, useEffect, SetStateAction, Dispatch } from "react";
 
 interface CardProps {
   index: number;
-  cardUrl: string;
+  randomId: string;
   cardState: CardState[];
   isCheating: boolean;
   moveCounter: number;
@@ -25,7 +25,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({
   index,
-  cardUrl,
+  randomId,
   cardState,
   isCheating,
   moveCounter,
@@ -41,7 +41,7 @@ const Card: React.FC<CardProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const picture = await axios.get(`/api/cards/${cardUrl}`, {
+        const picture = await axios.get(`/api/cards/${randomId}`, {
           responseType: "arraybuffer",
         });
         const base64Image = Buffer.from(picture.data, "binary").toString(
@@ -76,7 +76,7 @@ const Card: React.FC<CardProps> = ({
     setMoveCounter((prev) => prev + 1);
 
     try {
-      const picture = await axios.get(`/api/cards/${cardUrl}`, {
+      const picture = await axios.get(`/api/cards/${randomId}`, {
         responseType: "arraybuffer",
       });
       const base64Image = Buffer.from(picture.data, "binary").toString(

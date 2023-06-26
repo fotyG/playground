@@ -21,7 +21,6 @@ import Modal from "./components/Modal";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import ProgressBar from "./components/ProgressBar";
-import NewLeaderBoardModal from "./components/NewLeaderBoardModal";
 
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
@@ -212,11 +211,6 @@ const MemoryGame = () => {
     }
   }, [moveCounter, matchCounter, totalMoveCounter, flipComplete]);
 
-  const openModal = () => {
-    setFetchDataOnOpen((prev) => !prev);
-    window.lb_modal.showModal();
-  };
-
   const restartGame = () => {
     setCardState(createState(pokemonCardArray));
     cardArray = shuffleCards(pokemonCardArray);
@@ -257,7 +251,7 @@ const MemoryGame = () => {
             <Card
               key={idx}
               index={idx}
-              cardUrl={encodedId}
+              randomId={encodedId}
               cardState={cardState}
               isCheating={isCheating}
               moveCounter={moveCounter}
@@ -278,13 +272,7 @@ const MemoryGame = () => {
         >
           Restart
         </button>
-        <NewLeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
-        <button
-          className="btn border-primary hover:btn-secondary"
-          onClick={openModal}
-        >
-          Show LeaderBoard
-        </button>
+        <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
       </div>
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
@@ -295,7 +283,6 @@ const MemoryGame = () => {
           fetchDataOnOpen={fetchDataOnOpen}
         />
       )}
-      <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
     </div>
   );
 };
