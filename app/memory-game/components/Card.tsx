@@ -92,8 +92,9 @@ const Card: React.FC<CardProps> = ({
         const newState = [...prev];
         newState[index] = { ...prev[index], hidden: !prev[index].hidden };
 
-        if (recentlyFlippedCardIndexes.length === 2 && moveCounter === 1) {
+        if (recentlyFlippedCardIndexes.length === 2 && moveCounter >= 1) {
           setFlipComplete(true);
+          return newState;
         }
 
         return newState;
@@ -118,6 +119,7 @@ const Card: React.FC<CardProps> = ({
         }
         fill
         priority={true}
+        sizes="100%"
         quality={100}
         draggable={false}
         alt="pokeball"
