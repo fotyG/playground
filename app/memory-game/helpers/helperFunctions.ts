@@ -24,7 +24,6 @@ export const createState = (arr: { id: number }[]) => {
 
 export const playSound = (sound: HTMLAudioElement) => {
   if (!sound) return;
-  sound.pause();
   sound.currentTime = 0;
   sound.play();
 };

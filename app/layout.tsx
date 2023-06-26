@@ -23,6 +23,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme=""
+      className="duration-[500ms] transition-colors"
     >
       <body className={glory.className}>
         <ThemeLoader>

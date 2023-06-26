@@ -1,3 +1,5 @@
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
 import { useEffect, useState } from "react";
 import { fetchScores, registerScore } from "../libs/getHighScores";
 import { PacmanLoader } from "react-spinners";
@@ -11,7 +13,7 @@ interface ModalProps {
   matchCounter: number;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const NewModal: React.FC<ModalProps> = ({
   totalMoveCounter,
   setTotalMoveCounter,
   fetchDataOnOpen,
@@ -43,47 +45,42 @@ const Modal: React.FC<ModalProps> = ({
   useEffect(() => {
     fetchScores().then((data) => setScores(data as Player[]));
   }, [isLoading, fetchDataOnOpen]);
-
   return (
-    <>
-      <button
-        className="btn btn-primary m-2 transition-all"
-        onClick={() => window.hs_modal.showModal()}
-      >
-        Submit your score
-      </button>
-
-      <dialog
-        id="hs_modal"
-        className="modal"
-        open
-      >
+    <Dialog defaultOpen>
+      <DialogTrigger className="btn btn-primary m-2 transition-all">
+        Submit your Score
+      </DialogTrigger>
+      <DialogContent className="modal-box">
         <form
           id="scoreForm"
           method="dialog"
-          className="modal-box"
+          className="text-lg"
           onSubmit={handleSubmit}
         >
           <div className="tabs">
             <a
-              className={"tab-lifted tab " + (activeTab ? "tab-active" : "")}
+              className={
+                "tab-lifted tab text-lg " + (activeTab ? "tab-active" : "")
+              }
               onClick={() => setActiveTab(true)}
             >
               Your Score
             </a>
             <a
-              className={"tab-lifted tab " + (!activeTab ? "tab-active" : "")}
+              className={
+                "tab-lifted tab text-lg " + (!activeTab ? "tab-active" : "")
+              }
               onClick={() => setActiveTab(false)}
             >
               Leaderboard
             </a>
           </div>
-          <h3 className="my-5 text-xl font-bold">
+          <h3 className="my-5 text-2xl font-bold">
             {activeTab ? "Submit Your Score" : "Top 10"}
           </h3>
           {activeTab &&
             (totalMoveCounter === 0 ? (
-              <p>Thank you for submitting your score!</p>
+              <p className="text-xl">Thank you for submitting your score!</p>
             ) : (
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-1">
@@ -142,15 +139,9 @@ const Modal: React.FC<ModalProps> = ({
             </div>
           )}
         </form>
-        <form
-          method="dialog"
-          className="modal-backdrop"
-        >
-          <button onClick={() => setActiveTab(true)}>close</button>
-        </form>
-      </dialog>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default Modal;
+export default NewModal;

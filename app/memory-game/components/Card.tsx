@@ -11,12 +11,11 @@ import { useState, useEffect, SetStateAction, Dispatch } from "react";
 
 interface CardProps {
   index: number;
-  cardUrl: string;
+  randomId: string;
   cardState: CardState[];
   isCheating: boolean;
   moveCounter: number;
   gameComplete: boolean;
-  clickNotAllowed: boolean;
   recentlyFlippedCardIndexes: number[];
   setCardState: Dispatch<SetStateAction<CardState[]>>;
   setFlipComplete: Dispatch<SetStateAction<boolean>>;
@@ -26,12 +25,11 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({
   index,
-  cardUrl,
+  randomId,
   cardState,
   isCheating,
   moveCounter,
   gameComplete,
-  clickNotAllowed,
   recentlyFlippedCardIndexes,
   setCardState,
   setFlipComplete,
@@ -43,7 +41,7 @@ const Card: React.FC<CardProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const picture = await axios.get(`/api/cards/${cardUrl}`, {
+        const picture = await axios.get(`/api/cards/${randomId}`, {
           responseType: "arraybuffer",
         });
         const base64Image = Buffer.from(picture.data, "binary").toString(
@@ -69,16 +67,16 @@ const Card: React.FC<CardProps> = ({
       moveCounter === 2 ||
       recentlyFlippedCardIndexes.length === 2 ||
       isCheating ||
-      gameComplete ||
-      clickNotAllowed
+      gameComplete
     )
       return;
 
+    if (recentlyFlippedCardIndexes.includes(index)) return;
     recentlyFlippedCardIndexes.push(index);
     setMoveCounter((prev) => prev + 1);
 
     try {
-      const picture = await axios.get(`/api/cards/${cardUrl}`, {
+      const picture = await axios.get(`/api/cards/${randomId}`, {
         responseType: "arraybuffer",
       });
       const base64Image = Buffer.from(picture.data, "binary").toString(
@@ -92,8 +90,9 @@ const Card: React.FC<CardProps> = ({
         const newState = [...prev];
         newState[index] = { ...prev[index], hidden: !prev[index].hidden };
 
-        if (recentlyFlippedCardIndexes.length === 2 && moveCounter === 1) {
+        if (recentlyFlippedCardIndexes.length === 2 && moveCounter >= 1) {
           setFlipComplete(true);
+          return newState;
         }
 
         return newState;
@@ -118,6 +117,7 @@ const Card: React.FC<CardProps> = ({
         }
         fill
         priority={true}
+        sizes="100%"
         quality={100}
         draggable={false}
         alt="pokeball"

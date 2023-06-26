@@ -37,7 +37,6 @@ const MemoryGame = () => {
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
-  const [clickNotAllowed, setClickNotAllowed] = useState(false);
   const [flipComplete, setFlipComplete] = useState(true);
 
   // Initiation UseEffect
@@ -162,8 +161,6 @@ const MemoryGame = () => {
         cardArray[recentlyFlippedCardIndexes[1]]?.id &&
       flipComplete
     ) {
-      setClickNotAllowed(true);
-
       setTimeout(() => {
         setCardState((prev) => {
           const newState = [...prev];
@@ -178,7 +175,6 @@ const MemoryGame = () => {
           recentlyFlippedCardIndexes = [];
           setMoveCounter(0);
           setFlipComplete(false);
-          setClickNotAllowed(false);
 
           return newState;
         });
@@ -214,11 +210,6 @@ const MemoryGame = () => {
       setFetchDataOnOpen((prev) => !prev);
     }
   }, [moveCounter, matchCounter, totalMoveCounter, flipComplete]);
-
-  const openModal = () => {
-    setFetchDataOnOpen((prev) => !prev);
-    window.lb_modal.showModal();
-  };
 
   const restartGame = () => {
     setCardState(createState(pokemonCardArray));
@@ -260,15 +251,14 @@ const MemoryGame = () => {
             <Card
               key={idx}
               index={idx}
-              cardUrl={encodedId}
+              randomId={encodedId}
               cardState={cardState}
-              moveCounter={moveCounter}
               isCheating={isCheating}
+              moveCounter={moveCounter}
               gameComplete={gameComplete}
-              clickNotAllowed={clickNotAllowed}
               setCardState={setCardState}
-              setFlipComplete={setFlipComplete}
               setMoveCounter={setMoveCounter}
+              setFlipComplete={setFlipComplete}
               setTotalMoveCounter={setTotalMoveCounter}
               recentlyFlippedCardIndexes={recentlyFlippedCardIndexes}
             />
@@ -276,24 +266,13 @@ const MemoryGame = () => {
         })}
       </motion.div>
       <div className="mt-3 flex justify-center gap-2">
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+        <button
           className="btn-primary btn"
           onClick={restartGame}
         >
           Restart
-        </motion.button>
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="btn border-primary hover:btn-secondary"
-          onClick={openModal}
-        >
-          Show LeaderBoard
-        </motion.button>
+        </button>
+        <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
       </div>
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
@@ -304,7 +283,6 @@ const MemoryGame = () => {
           fetchDataOnOpen={fetchDataOnOpen}
         />
       )}
-      <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
     </div>
   );
 };
