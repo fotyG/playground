@@ -3,13 +3,20 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
+import { useRouter } from "next/navigation";
+import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 const Navbar = () => {
+  const router = useRouter();
+
   useEffect(() => {
     themeChange(false);
     // 👆 false parameter is required for react project
   }, []);
 
+  const mg = useUnlockStore((state) => state.mg);
+  const newUnlock = useUnlockStore((state) => state.newUnlock);
+  const resetNewUnlock = useUnlockStore((state) => state.resetNewUnlock);
   return (
     <div className="drawer">
       <input
@@ -19,7 +26,7 @@ const Navbar = () => {
       />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <div className="w-full navbar bg-base-300">
+        <div className="w-full navbar">
           <div className="flex-none lg:hidden">
             <label
               htmlFor="my-drawer-3"
@@ -52,21 +59,36 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex-none hidden lg:block">
-            <ul className="menu menu-horizontal">
+            <ul className={"menu menu-horizontal [&>li]:mx-1"}>
               {/* Navbar menu content here */}
+              <li>
+                <button
+                  onClick={() => {
+                    resetNewUnlock();
+                    router.push("/blog");
+                  }}
+                  disabled={!mg}
+                  className="relative disabled:cursor-not-allowed"
+                >
+                  {newUnlock && (
+                    <span className="absolute flex h-3 w-3 -right-1 -top-1">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                    </span>
+                  )}
+                  {!mg && <span>🔒</span>}Secrets
+                </button>
+              </li>
               <li>
                 <Link href={"/memory-game"}>Memory Game</Link>
               </li>
-              {/* <li>
-                <Link href={"/sketch"}>AI Picasso</Link>
-              </li> */}
             </ul>
             <select
               data-choose-theme
               className="select select-bordered select-xs w-fit"
             >
-              <option value="dark">🌑 Dark</option>
-              <option value="light">💡 Light</option>
+              <option value="night">🌑 Dark</option>
+              <option value="emerald">💡 Light</option>
               <option value="cupcake">🧁 Cupcake</option>
               <option value="retro">📽 Retro</option>
               <option value="lofi">🎹 Lofi</option>
@@ -88,9 +110,9 @@ const Navbar = () => {
             data-choose-theme
             className="select select-bordered select-xs w-fit mx-4"
           >
+            <option value="night">🌑 Dark</option>
+            <option value="emerald">💡 Light</option>
             <option value="cupcake">🧁 Cupcake</option>
-            <option value="dark">🌑 Dark</option>
-            <option value="light">💡 Light</option>
             <option value="retro">📽 Retro</option>
             <option value="lofi">🎹 Lofi</option>
             <option value="luxury">💰 Luxury</option>

@@ -31,7 +31,15 @@ module.exports = {
     },
   },
   daisyui: {
-    themes: ["dark", "light", "cupcake", "retro", "lofi", "luxury", "pastel"],
+    themes: [
+      "night",
+      "emerald",
+      "cupcake",
+      "retro",
+      "lofi",
+      "luxury",
+      "pastel",
+    ],
   },
   plugins: [require("tailwindcss-animate"), require("daisyui")],
 };
