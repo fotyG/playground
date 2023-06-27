@@ -21,6 +21,7 @@ import Modal from "./components/Modal";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import ProgressBar from "./components/ProgressBar";
+import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
@@ -38,6 +39,7 @@ const MemoryGame = () => {
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
   const [flipComplete, setFlipComplete] = useState(true);
+  const unlock = useUnlockStore((state) => state.unlockMg);
 
   // Initiation UseEffect
   useEffect(() => {
@@ -208,6 +210,7 @@ const MemoryGame = () => {
       setVictoryConfetti(true);
       playSound(gameWinSound);
       setFetchDataOnOpen((prev) => !prev);
+      unlock();
     }
   }, [moveCounter, matchCounter, totalMoveCounter, flipComplete]);
 
