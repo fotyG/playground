@@ -27,7 +27,13 @@ const Navbar = () => {
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
         <div className="w-full navbar">
-          <div className="flex-none lg:hidden">
+          <div className="flex-none lg:hidden relative">
+            {newUnlock && (
+              <span className="absolute flex h-3 w-3 top-1 right-1">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+              </span>
+            )}
             <label
               htmlFor="my-drawer-3"
               className="btn btn-square btn-ghost"
@@ -120,6 +126,24 @@ const Navbar = () => {
           </select>
           <li className="my-4">
             <Link href={"/memory-game"}>Memory Game</Link>
+          </li>
+          <li>
+            <button
+              onClick={() => {
+                resetNewUnlock();
+                router.push("/blog");
+              }}
+              disabled={!mg}
+              className="relative disabled:cursor-not-allowed"
+            >
+              {newUnlock && (
+                <span className="absolute flex h-3 w-3 -left-1 top-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                </span>
+              )}
+              Secrets{!mg && <span>🔒</span>}
+            </button>
           </li>
           {/* <li>
             <Link href={"/sketch"}>AI Picasso</Link>

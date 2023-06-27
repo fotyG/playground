@@ -18,8 +18,7 @@ const BlogCard = () => {
           bg-base-100 
           shadow-sm 
           shadow-neutral
-          transition-all
-          lg:transition-none
+          transition-shadow
           hover:z-50 
           hover:shadow-xl 
           hover:shadow-neutral
