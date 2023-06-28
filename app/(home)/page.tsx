@@ -1,8 +1,8 @@
 "use client";
 
-import Hero from "@/app/(main)/components/Hero";
-import Facts from "@/app/(main)/components/Facts";
-import JumpIn from "@/app/(main)/components/JumpIn";
+import Hero from "@/app/(home)/components/Hero";
+import Facts from "@/app/(home)/components/Facts";
+import JumpIn from "@/app/(home)/components/JumpIn";
 import { motion } from "framer-motion";
 
 export default function Home() {

@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const pathname = usePathname();
+
   return (
-    <footer className="footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300">
+    <footer className="flex-column justify-center md:flex md:justify-between md:items-center footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300">
       <div className="items-center grid-flow-col">
         <svg
           width="24"
@@ -19,6 +24,17 @@ const Footer = () => {
           Fastest growing developer since October 2022
         </p>
       </div>
+
+      {(pathname === "/memory-game" || pathname === "/blog") && (
+        <a
+          href="https://www.flaticon.com/free-icons/pokemon"
+          title="pokemon icons"
+          target="_blank"
+        >
+          Pokemon icons created by Roundicons Freebies - Flaticon
+        </a>
+      )}
+
       <div className="md:place-self-center justify-self-center md:justify-self-end mb-2">
         <div className="grid grid-flow-col gap-4">
           <Link
