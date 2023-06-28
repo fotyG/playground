@@ -230,8 +230,22 @@ const MemoryGame = () => {
 
   return (
     <div className="container px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">
-      <h1 className="text-center text-xl">Welcome To The Memory Game!</h1>
-      <p className="text-xl font-bold">Total Moves: {totalMoveCounter}</p>
+      <motion.h1
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center text-xl"
+      >
+        Welcome To The Memory Game!
+      </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-xl font-bold"
+      >
+        Total Moves: {totalMoveCounter}
+      </motion.p>
       <ProgressBar
         matchCounter={matchCounter}
         max={14}
@@ -240,12 +254,14 @@ const MemoryGame = () => {
         <Confetti
           numberOfPieces={500}
           recycle={false}
+          onConfettiComplete={() => setVictoryConfetti(false)}
+          style={{ zIndex: 1000 }}
         />
       )}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
         className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5"
       >
         {cardArray?.map((pokemon: { id: number }, idx: number) => {
@@ -268,15 +284,20 @@ const MemoryGame = () => {
           );
         })}
       </motion.div>
-      <div className="mt-3 flex justify-center gap-2">
-        <button
-          className="btn-primary btn"
-          onClick={restartGame}
-        >
-          Restart
-        </button>
-        <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
-      </div>
+      {!cardArray ? (
+        ""
+      ) : (
+        <div className="mt-3 flex justify-center gap-2">
+          <button
+            className="btn-primary btn"
+            onClick={restartGame}
+          >
+            Restart
+          </button>
+          <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
+        </div>
+      )}
+
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
         <Modal
