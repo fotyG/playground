@@ -65,7 +65,7 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex-none hidden lg:block">
-            <ul className={"menu menu-horizontal [&>li]:mx-1"}>
+            <ul className="menu menu-horizontal [&>li]:mx-1">
               {/* Navbar menu content here */}
               <li>
                 <button
@@ -137,7 +137,7 @@ const Navbar = () => {
               className="relative disabled:cursor-not-allowed"
             >
               {newUnlock && (
-                <span className="absolute flex h-3 w-3 -left-1 top-3">
+                <span className="absolute flex h-3 w-3 left-0 top-1/2 -translate-y-1/2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                 </span>
