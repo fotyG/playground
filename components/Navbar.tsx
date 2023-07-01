@@ -1,18 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { themeChange } from "theme-change";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 const Navbar = () => {
+  const [active, setActive] = useState("");
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     themeChange(false);
     // 👆 false parameter is required for react project
   }, []);
+
+  useEffect(() => {
+    setActive(pathname);
+  }, [pathname]);
 
   const mg = useUnlockStore((state) => state.mg);
   const newUnlock = useUnlockStore((state) => state.newUnlock);
@@ -67,14 +73,17 @@ const Navbar = () => {
           <div className="flex-none hidden lg:block">
             <ul className="menu menu-horizontal [&>li]:mx-1">
               {/* Navbar menu content here */}
-              <li>
+              <li className="focus">
                 <button
                   onClick={() => {
                     resetNewUnlock();
                     router.push("/blog");
                   }}
                   disabled={!mg}
-                  className="relative disabled:cursor-not-allowed"
+                  className={
+                    "relative disabled:cursor-not-allowed " +
+                    (active === "/blog" ? "active" : "")
+                  }
                 >
                   {newUnlock && (
                     <span className="absolute flex h-3 w-3 -right-1 -top-1">
@@ -85,8 +94,13 @@ const Navbar = () => {
                   {!mg && <span>🔒</span>}Secrets
                 </button>
               </li>
-              <li>
-                <Link href={"/memory-game"}>Memory Game</Link>
+              <li className="focus">
+                <Link
+                  className={active === "/memory-game" ? "active" : ""}
+                  href={"/memory-game"}
+                >
+                  Memory Game
+                </Link>
               </li>
             </ul>
             <select
@@ -125,7 +139,12 @@ const Navbar = () => {
             <option value="pastel">🎨 Pastel</option>
           </select>
           <li className="my-4">
-            <Link href={"/memory-game"}>Memory Game</Link>
+            <Link
+              className={active === "/memory-game" ? "active" : ""}
+              href={"/memory-game"}
+            >
+              Memory Game
+            </Link>
           </li>
           <li>
             <button
@@ -134,7 +153,10 @@ const Navbar = () => {
                 router.push("/blog");
               }}
               disabled={!mg}
-              className="relative disabled:cursor-not-allowed"
+              className={
+                "relative disabled:cursor-not-allowed " +
+                (active === "/blog" ? "active" : "")
+              }
             >
               {newUnlock && (
                 <span className="absolute flex h-3 w-3 left-0 top-1/2 -translate-y-1/2">
@@ -145,9 +167,6 @@ const Navbar = () => {
               Secrets{!mg && <span>🔒</span>}
             </button>
           </li>
-          {/* <li>
-            <Link href={"/sketch"}>AI Picasso</Link>
-          </li> */}
         </ul>
       </div>
     </div>
