@@ -12,6 +12,13 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   if (isLoading) return <Loading />;
 
-  return <div className="min-h-screen flex flex-col">{children}</div>;
+  return (
+    <div
+      data-theme=""
+      className="min-h-screen flex flex-col duration-500"
+    >
+      {children}
+    </div>
+  );
 };
 export default ThemeProvider;

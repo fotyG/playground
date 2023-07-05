@@ -20,11 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      data-theme=""
-      className="duration-500"
-    >
+    <html lang="en">
       <body className={glory.className}>
         <ThemeLoader>
           <Toaster />
