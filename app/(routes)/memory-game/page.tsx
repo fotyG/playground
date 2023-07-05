@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useWindowSize } from "usehooks-ts";
 import Confetti from "react-confetti";
 import secureLocalStorage from "react-secure-storage";
 import { motion } from "framer-motion";
@@ -22,6 +23,7 @@ import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import ProgressBar from "./components/ProgressBar";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
+import ts from "typescript";
 
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
@@ -39,6 +41,8 @@ const MemoryGame = () => {
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
   const [flipComplete, setFlipComplete] = useState(true);
+
+  const { width } = useWindowSize();
   const unlock = useUnlockStore((state) => state.unlockMg);
 
   // Initiation UseEffect
@@ -85,8 +89,7 @@ const MemoryGame = () => {
       localTotalMoveCounter === null ||
       localCardArray === null ||
       localRFCIndexArray === null ||
-      xx === null ||
-      localMatchCounter === 14
+      xx === null
     ) {
       return restartGame();
     }
@@ -252,6 +255,7 @@ const MemoryGame = () => {
       />
       {victoryConfetti && (
         <Confetti
+          width={width}
           numberOfPieces={500}
           recycle={false}
           onConfettiComplete={() => setVictoryConfetti(false)}
@@ -303,6 +307,7 @@ const MemoryGame = () => {
         <Modal
           totalMoveCounter={totalMoveCounter}
           matchCounter={matchCounter}
+          setMatchCounter={setMatchCounter}
           setTotalMoveCounter={setTotalMoveCounter}
           fetchDataOnOpen={fetchDataOnOpen}
         />

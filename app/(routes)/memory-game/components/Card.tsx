@@ -3,11 +3,11 @@
 import { CardState } from "@/types";
 
 import axios from "axios";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
-
-import Image from "next/image";
 import { useState, useEffect, SetStateAction, Dispatch } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface CardProps {
   index: number;
@@ -37,10 +37,12 @@ const Card: React.FC<CardProps> = ({
   setTotalMoveCounter,
 }) => {
   const [cardImage, setCardImage] = useState("/images/1.webp");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const picture = await axios.get(`/api/cards/${randomId}`, {
           responseType: "arraybuffer",
         });
@@ -51,14 +53,17 @@ const Card: React.FC<CardProps> = ({
         setCardImage(imageDataUrl);
       } catch (error) {
         toast.error("Something went wrong!");
+      } finally {
+        setIsLoading(false);
       }
     };
+
     if (cardState[index].matched || !cardState[index].hidden) {
       if (cardImage === "/images/1.webp") {
         fetchData();
       }
     }
-  }, [cardState]);
+  }, [cardState[index].matched, cardState[index].hidden]);
 
   const flipCard = async (index: number) => {
     if (
@@ -67,15 +72,18 @@ const Card: React.FC<CardProps> = ({
       moveCounter === 2 ||
       recentlyFlippedCardIndexes.length === 2 ||
       isCheating ||
-      gameComplete
+      gameComplete ||
+      isLoading ||
+      recentlyFlippedCardIndexes.includes(index)
     )
       return;
 
-    if (recentlyFlippedCardIndexes.includes(index)) return;
+    // if (recentlyFlippedCardIndexes.includes(index)) return;
     recentlyFlippedCardIndexes.push(index);
     setMoveCounter((prev) => prev + 1);
 
     try {
+      setIsLoading(true);
       const picture = await axios.get(`/api/cards/${randomId}`, {
         responseType: "arraybuffer",
       });
@@ -85,7 +93,6 @@ const Card: React.FC<CardProps> = ({
       const imageDataUrl = `data:image/png;base64,${base64Image}`;
       setCardImage(imageDataUrl);
       setTotalMoveCounter((prev) => prev + 1);
-
       setCardState((prev) => {
         const newState = [...prev];
         newState[index] = { ...prev[index], hidden: !prev[index].hidden };
@@ -98,7 +105,9 @@ const Card: React.FC<CardProps> = ({
         return newState;
       });
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast.error("Something went wrong, please try again!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -108,7 +117,10 @@ const Card: React.FC<CardProps> = ({
       animate={{ rotateY: cardState[index].hidden ? 0 : 180 }}
       transition={{ duration: 0.3 }}
       draggable={false}
-      className="card h-[60px] w-[45px] border-[2px] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent sm:h-[130px] sm:w-[80px] md:h-[150px] md:w-[100px]"
+      className={twMerge(
+        "card h-[60px] w-[45px] border-[2px] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent sm:h-[130px] sm:w-[80px] md:h-[150px] md:w-[100px]",
+        isLoading && "border-dotted hover:border-dotted"
+      )}
       onClick={() => flipCard(index)}
     >
       <Image

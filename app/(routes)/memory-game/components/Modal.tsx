@@ -9,6 +9,7 @@ import { Player } from "@/types";
 interface ModalProps {
   totalMoveCounter: number;
   setTotalMoveCounter: (arg: number) => void;
+  setMatchCounter: (arg: number) => void;
   fetchDataOnOpen: boolean;
   matchCounter: number;
 }
@@ -16,6 +17,7 @@ interface ModalProps {
 const NewModal: React.FC<ModalProps> = ({
   totalMoveCounter,
   setTotalMoveCounter,
+  setMatchCounter,
   fetchDataOnOpen,
   matchCounter,
 }) => {
@@ -28,15 +30,16 @@ const NewModal: React.FC<ModalProps> = ({
     e.preventDefault();
     if (name === "") return;
     if (totalMoveCounter < 28 || matchCounter < 14) return;
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       await registerScore({ name, score: totalMoveCounter });
       toast.success("Your score has been registered!");
       setName("");
       setTotalMoveCounter(0);
+      setMatchCounter(0);
       setActiveTab(false);
     } catch (error) {
-      toast.error(error as any);
+      toast.error("Something went wrong!");
     } finally {
       setIsLoading(false);
     }
@@ -45,6 +48,7 @@ const NewModal: React.FC<ModalProps> = ({
   useEffect(() => {
     fetchScores().then((data) => setScores(data as Player[]));
   }, [isLoading, fetchDataOnOpen]);
+
   return (
     <Dialog defaultOpen>
       <DialogTrigger className="btn btn-primary m-2 transition-all">
