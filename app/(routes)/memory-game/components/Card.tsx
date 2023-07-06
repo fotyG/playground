@@ -119,7 +119,7 @@ const Card: React.FC<CardProps> = ({
       draggable={false}
       className={twMerge(
         "card h-[60px] w-[45px] border-[2px] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent sm:h-[130px] sm:w-[80px] md:h-[150px] md:w-[100px]",
-        isLoading && "border-dotted hover:border-dotted"
+        isLoading && "animate-pulse"
       )}
       onClick={() => flipCard(index)}
     >
