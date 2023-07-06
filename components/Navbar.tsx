@@ -96,6 +96,14 @@ const Navbar = () => {
               </li>
               <li className="focus">
                 <Link
+                  className={active === "/store" ? "active" : ""}
+                  href={"/store"}
+                >
+                  Store
+                </Link>
+              </li>
+              <li className="focus">
+                <Link
                   className={active === "/memory-game" ? "active" : ""}
                   href={"/memory-game"}
                 >
@@ -144,6 +152,14 @@ const Navbar = () => {
               href={"/memory-game"}
             >
               Memory Game
+            </Link>
+          </li>
+          <li className="my-4">
+            <Link
+              className={active === "/store" ? "active" : ""}
+              href={"/store"}
+            >
+              Store
             </Link>
           </li>
           <li>
