@@ -6,11 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useEffect, useState } from "react";
-
-import { fetchScores } from "../libs/getHighScores";
-import { Player } from "@/types";
-import { set } from "react-hook-form";
+import { useState } from "react";
 
 interface SkipModalProps {
   unlock: () => void;
@@ -18,8 +14,6 @@ interface SkipModalProps {
 
 const SkipModal: React.FC<SkipModalProps> = ({ unlock }) => {
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {}, []);
 
   return (
     <Dialog
