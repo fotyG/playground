@@ -14,7 +14,7 @@ const JumpIn = () => {
           <h1 className="mb-5 text-5xl font-bold animate-pulse">⚠ Warning ⚠</h1>
           <p className="mb-5">
             Place your cursor below this point at your own risk.. The treasury
-            of local credits is guarded by the most dangerous monsters known to
+            of local secrets is guarded by the most dangerous monsters known to
             mankind. Proceed at your own risk..
           </p>
           <Link
@@ -27,5 +27,5 @@ const JumpIn = () => {
       </div>
     </div>
   );
-}
-export default JumpIn
+};
+export default JumpIn;
