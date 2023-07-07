@@ -4,6 +4,13 @@ import getProducts from "@/actions/get-products";
 import StoreNav from "./components/StoreNav";
 import Billboard from "./components/Billboard";
 
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  images: [];
+}
+
 export const revalidate = 0;
 
 const StorePage = async () => {
@@ -15,21 +22,14 @@ const StorePage = async () => {
       <Billboard billboard={billboard} />
       <StoreNav />
       <div className="container px-10 grid grid-cols-4 gap-4 mt-6">
-        {products.map(
-          (product: {
-            id: string;
-            name: string;
-            price: number;
-            images: [];
-          }) => (
-            <ProductCard
-              key={product.id}
-              name={product.name}
-              price={product.price}
-              images={product.images}
-            />
-          )
-        )}
+        {products.map((product: Product) => (
+          <ProductCard
+            key={product.id}
+            name={product.name}
+            price={product.price}
+            images={product.images}
+          />
+        ))}
       </div>
     </>
   );
