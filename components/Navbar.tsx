@@ -96,6 +96,14 @@ const Navbar = () => {
               </li>
               <li className="focus">
                 <Link
+                  className={active === "/store" ? "active" : ""}
+                  href={"/store"}
+                >
+                  Store
+                </Link>
+              </li>
+              <li className="focus">
+                <Link
                   className={active === "/memory-game" ? "active" : ""}
                   href={"/memory-game"}
                 >
@@ -138,7 +146,7 @@ const Navbar = () => {
             <option value="luxury">💰 Luxury</option>
             <option value="pastel">🎨 Pastel</option>
           </select>
-          <li className="my-4">
+          <li className="mt-2 mb-1">
             <Link
               className={active === "/memory-game" ? "active" : ""}
               href={"/memory-game"}
@@ -146,7 +154,15 @@ const Navbar = () => {
               Memory Game
             </Link>
           </li>
-          <li>
+          <li className="my-1">
+            <Link
+              className={active === "/store" ? "active" : ""}
+              href={"/store"}
+            >
+              Store
+            </Link>
+          </li>
+          <li className="my-1">
             <button
               onClick={() => {
                 resetNewUnlock();

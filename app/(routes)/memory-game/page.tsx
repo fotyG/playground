@@ -1,12 +1,11 @@
 "use client";
 
+import Confetti from "react-confetti";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "usehooks-ts";
-import Confetti from "react-confetti";
 import secureLocalStorage from "react-secure-storage";
-import { motion } from "framer-motion";
 
-import pokemonCardArray from "./libs/pokemonCardData";
 import {
   createState,
   shuffleCards,
@@ -16,14 +15,15 @@ import {
   encodeNumber,
 } from "./helpers/helperFunctions";
 import getState from "./helpers/getState";
+import pokemonCardArray from "./libs/pokemonCardData";
+import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 import Card from "./components/Card";
 import Modal from "./components/Modal";
+import ProgressBar from "./components/ProgressBar";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
-import ProgressBar from "./components/ProgressBar";
-import { useUnlockStore } from "@/hooks/useUnlockStore";
-import ts from "typescript";
+import SkipModal from "./components/SkipModal";
 
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
@@ -44,6 +44,7 @@ const MemoryGame = () => {
 
   const { width } = useWindowSize();
   const unlock = useUnlockStore((state) => state.unlockMg);
+  const stateOfUnlock = useUnlockStore((state) => state.mg);
 
   // Initiation UseEffect
   useEffect(() => {
@@ -66,6 +67,9 @@ const MemoryGame = () => {
     secureLocalStorage.setItem("y7545", y);
     const yy = secureLocalStorage.getItem("y7545");
     const xx = secureLocalStorage.getItem("x7545");
+
+    matchSound = new Audio("/sounds/success.wav");
+    gameWinSound = new Audio("/sounds/gameWin.mp3");
 
     if (xx !== null && yy !== null) {
       if (JSON.stringify(yy) !== JSON.stringify(xx)) {
@@ -96,9 +100,6 @@ const MemoryGame = () => {
 
     cardArray = localCardArray;
     recentlyFlippedCardIndexes = localRFCIndexArray;
-
-    matchSound = new Audio("/sounds/success.wav");
-    gameWinSound = new Audio("/sounds/gameWin.mp3");
 
     setCardState(localCardState);
     setTotalMoveCounter(localTotalMoveCounter);
@@ -301,7 +302,7 @@ const MemoryGame = () => {
           <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
         </div>
       )}
-
+      {!stateOfUnlock && <SkipModal unlock={unlock} />}
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
         <Modal

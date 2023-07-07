@@ -23,8 +23,8 @@ const Hero = () => {
             Welcome to my Portfolio PlayGround
           </h1>
           <p className="mb-5">
-            Instead of boring you with "amazing" design, let's make this more
-            creative and interactive..
+            Instead of telling you what I can do, I'd rather guide you through
+            my skills in a small and interactive adventure..
           </p>
           <button
             className="btn-primary btn"

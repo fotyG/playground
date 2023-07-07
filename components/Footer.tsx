@@ -7,8 +7,8 @@ const Footer = () => {
   const pathname = usePathname();
 
   return (
-    <footer className="flex-column justify-center md:flex md:justify-between md:items-center footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300">
-      <div className="items-center grid-flow-col">
+    <footer className="flex flex-col items-center md:flex-row md:justify-between md:items-center footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300">
+      <div className="flex justify-center items-center">
         <svg
           width="24"
           height="24"
