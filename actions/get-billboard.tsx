@@ -1,7 +1,7 @@
-const APIURL = `${process.env.NEXT_PUBLIC_API_URL}/billboards`;
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/billboards`;
 
-const getBillboard = async () => {
-  const res = await fetch(APIURL);
+const getBillboard = async (id: string) => {
+  const res = await fetch(`${apiUrl}/${id}`);
   const data = await res.json();
   return data;
 };
