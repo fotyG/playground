@@ -78,12 +78,13 @@ const Card: React.FC<CardProps> = ({
     )
       return;
 
-    // if (recentlyFlippedCardIndexes.includes(index)) return;
-    recentlyFlippedCardIndexes.push(index);
-    setMoveCounter((prev) => prev + 1);
+    // recentlyFlippedCardIndexes.push(index);
+    // setMoveCounter((prev) => prev + 1);
 
     try {
       setIsLoading(true);
+      recentlyFlippedCardIndexes.push(index);
+      setMoveCounter((prev) => prev + 1);
       const picture = await axios.get(`/api/cards/${randomId}`, {
         responseType: "arraybuffer",
       });
