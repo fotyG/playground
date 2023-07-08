@@ -14,7 +14,7 @@ const facts = [
   {
     title: "So go ahead..",
     description:
-      "I made this portfolio playground to be enjoyed by people who will potentially share their time with me in the future, my brothers in arms as I like to say. I will showcase a unique approach to problem solving, demonstrate my newly acquired skills and techniques that helped me build cool things throughout my quest. So enjoy your stay and please continue.. Your reward for participation will be an in-depth information and interesting facts about everything you will see here. There will be an option to skip some tasks if your in a hurry or feeling lazy 🔒",
+      "I made this portfolio playground to be enjoyed by people who will potentially share their time with me in the future, my brothers in arms as I like to say. I will showcase a unique approach to problem solving, demonstrate my newly acquired skills and techniques that helped me build cool things throughout my quest. So enjoy your stay and please continue.. Your reward for participation will be an in-depth information and interesting facts about everything you will see here. There will be an option to skip some tasks if you're in a hurry or feeling lazy 🔒",
     image: "backpacker.jpg",
   },
 ];
