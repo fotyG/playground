@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { FaHome } from "react-icons/fa";
+import { BsShop, BsPen } from "react-icons/bs";
 import { themeChange } from "theme-change";
+import { useEffect, useState } from "react";
+import { MdCatchingPokemon } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
+
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 const Navbar = () => {
@@ -63,6 +67,7 @@ const Navbar = () => {
             <Link
               href={"/"}
               className="relative"
+              title="Home"
             >
               <span className="absolute -left-6 bottom-0 animate-[bounce_1s_ease-in-out_infinite]">
                 ⚽
@@ -73,6 +78,22 @@ const Navbar = () => {
           <div className="flex-none hidden lg:block">
             <ul className="menu menu-horizontal [&>li]:mx-1">
               {/* Navbar menu content here */}
+              <li className="focus">
+                <Link
+                  className={active === "/memory-game" ? "active" : ""}
+                  href={"/memory-game"}
+                >
+                  Memory Game
+                </Link>
+              </li>
+              <li className="focus">
+                <Link
+                  className={active === "/store" ? "active" : ""}
+                  href={"/store"}
+                >
+                  Store
+                </Link>
+              </li>
               <li className="focus">
                 <button
                   onClick={() => {
@@ -91,24 +112,8 @@ const Navbar = () => {
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                     </span>
                   )}
-                  {!mg && <span>🔒</span>}Secrets
+                  {!mg && <span>🔒</span>}Blog
                 </button>
-              </li>
-              <li className="focus">
-                <Link
-                  className={active === "/store" ? "active" : ""}
-                  href={"/store"}
-                >
-                  Store
-                </Link>
-              </li>
-              <li className="focus">
-                <Link
-                  className={active === "/memory-game" ? "active" : ""}
-                  href={"/memory-game"}
-                >
-                  Memory Game
-                </Link>
               </li>
             </ul>
             <select
@@ -147,10 +152,16 @@ const Navbar = () => {
             <option value="pastel">🎨 Pastel</option>
           </select>
           <li className="mt-2 mb-1">
+            <Link href={"/"}>
+              <FaHome size={20} /> Home
+            </Link>
+          </li>
+          <li className="mb-1">
             <Link
               className={active === "/memory-game" ? "active" : ""}
               href={"/memory-game"}
             >
+              <MdCatchingPokemon size={20} />
               Memory Game
             </Link>
           </li>
@@ -159,6 +170,7 @@ const Navbar = () => {
               className={active === "/store" ? "active" : ""}
               href={"/store"}
             >
+              <BsShop size={20} />
               Store
             </Link>
           </li>
@@ -170,7 +182,7 @@ const Navbar = () => {
               }}
               disabled={!mg}
               className={
-                "relative disabled:cursor-not-allowed " +
+                "flex relative disabled:cursor-not-allowed " +
                 (active === "/blog" ? "active" : "")
               }
             >
@@ -180,7 +192,8 @@ const Navbar = () => {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                 </span>
               )}
-              Secrets{!mg && <span>🔒</span>}
+              <BsPen size={20} />
+              Blog{!mg && <span>🔒</span>}
             </button>
           </li>
         </ul>

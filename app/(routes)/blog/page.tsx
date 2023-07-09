@@ -1,37 +1,96 @@
 "use client";
 
 import { useUnlockStore } from "@/hooks/useUnlockStore";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+
 import BlogCard from "./components/BlogCard";
+import { Separator } from "@/components/ui/separator";
+import memoryGameContent from "./content/memory-game-content";
+import futureProjects from "./content/future-projects-content";
+import musicAppContent from "./content/music-app-content";
+import rentingAppContent from "./content/renting-app-content";
+import { use, useEffect, useState } from "react";
+import utilityMeterReadingAppContent from "./content/utility-meter-reading-app-content";
+import ecommerceCMSContent from "./content/ecommerce-cms-content";
 
 const BlogPage = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const mg = useUnlockStore((state) => state.mg);
-  const memoryGameContent = {
-    cardTitle: "Memory Game",
-    cardDescription: "NextJS, TypeScript",
-    cardFeatures: "Anti-cheat, SSR",
-    cardBadge: "Game",
-    cardImg: "/images/1.webp",
-    blogContent:
-      "Making the game was very fun and presented no issues, but I was proven wrong as soon as my first customer started playing the game.. 👧🏽 My 3 year old daughter did her best to find the pokemon pairs, but as she got excited - she clicked on side buttons of the mouse and navigated away from the page, which resulted in the game progress to reset 😔 As I observed this repeating scenario - I knew I had to introduce persistent state. Forcing my users to authenticate for a simple game was not an option, so I went with local storage. Another problem popped up because I wanted to introduce a ranking system which is a treat for cheaters 🌭 First step was to encrypt the data in local storage, but if my server knew how to decrypt it - all a user had to do was to copy the value and paste it after seeing the current layout of cards to reduce total steps which would result in a better score. I came up with a very creative solution to compare states of every value on every move against the previous one to ensure no modifications were made 👮🏽‍♂️ I am well aware that there are still ways to cheat, but it will require some effort and I am happy with that as it stands. The second big issue was with rendering the card images, that lagged behind the flip animation when rendered on the client if a user had slow connection. I had to introduce server side rendering to fix this issue. Now every flip is a call to the API which returns the image and the flip animation starts only when the data is received 👍🏽",
-  };
 
-  const futureProjects = {
-    cardTitle: "Coming Soon...",
-    cardDescription: "???",
-    cardFeatures: "???",
-    cardBadge: "???",
-    cardImg: "/images/egg.png",
-    blogContent:
-      "I will be adding more projects soon - be sure to unlock them all!",
-  };
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
-    <div className="container my-5 lg:my-10 flex justify-center">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center flex-wrap gap-5">
+    <div className="container mb-10 flex flex-col justify-center">
+      <Separator
+        className="mb-10 bg-primary/50"
+        decorative
+      />
+      <div className="flex flex-col-reverse items-center justify-center sm:flex-row h-80  rounded-md">
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0, transition: { duration: 0.7 } }}
+          className="p-6 w-full sm:p-8 sm:w-2/3 max-w-lg"
+        >
+          <h1 className="text-lg font-bold sm:text-4xl mb-2">
+            Welcome to the Secret Blog!
+          </h1>
+          <p className="text-sm leading-tight sm:text-xl text-justify">
+            In this section you will find blog articles for my projects. Each
+            card represents a different project with a brief summary of the
+            technology and some cool features used to develop it. <br />
+            If you are interested to know more about the project and want to see
+            a live demo - click on the card and enjoy!
+          </p>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0, transition: { duration: 0.7 } }}
+          className="relative w-1/3 h-full"
+        >
+          <Image
+            fill
+            className="object-contain overflow-visible"
+            alt="naruto"
+            src={"/images/naruto.png"}
+          />
+        </motion.div>
+      </div>
+      <Separator
+        className="my-10 bg-primary/50"
+        decorative
+      />
+
+      <div className="grid grid-cols-1 gap-x-5 gap-y-5 lg:gap-y-10 justify-items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         <BlogCard
           key={memoryGameContent.cardTitle}
           state={mg}
           content={memoryGameContent}
+        />
+        <BlogCard
+          key={utilityMeterReadingAppContent.cardTitle}
+          state={mg}
+          content={utilityMeterReadingAppContent}
+        />
+        <BlogCard
+          key={ecommerceCMSContent.cardTitle}
+          state={mg}
+          content={ecommerceCMSContent}
+        />
+        <BlogCard
+          key={rentingAppContent.cardTitle}
+          state={mg}
+          content={rentingAppContent}
+        />
+        <BlogCard
+          key={musicAppContent.cardTitle}
+          state={mg}
+          content={musicAppContent}
         />
         <BlogCard
           key={futureProjects.cardTitle}

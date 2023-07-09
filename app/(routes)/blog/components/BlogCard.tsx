@@ -1,15 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
-import { useState } from "react";
+
 import Modal from "./Modal";
 
 interface BlogCardProps {
   state: boolean;
   content: {
     cardTitle: string;
-    cardDescription: string;
+    cardDescription: JSX.Element[] | string;
     cardFeatures: string;
     cardBadge: string;
     cardImg: string;
@@ -30,6 +31,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const isLg = useMediaQuery({ minWidth: 1024 });
+
   return (
     <>
       <motion.div
@@ -50,7 +52,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           hover:cursor-pointer
         "
       >
-        <figure className="bg-primary px-10 pt-10 pb-1">
+        <figure className="bg-primary/50 p-5">
           <img
             src={cardImg}
             alt={cardTitle}
@@ -59,12 +61,23 @@ const BlogCard: React.FC<BlogCardProps> = ({
         <div className="card-body">
           <h2 className="card-title">
             {cardTitle}
-            <div className="badge badge-secondary p-3">
+            <div
+              className={
+                "badge badge-accent bg-opacity-70 p-3 " +
+                (!state ? "badge-outline" : "")
+              }
+            >
               {state ? "✔" : "🔒"}
             </div>
           </h2>
-          <p>Made using: {state ? cardDescription : "???"}</p>
-          <p>Features: {state ? cardFeatures : "???"}</p>
+          <p className="flex items-center gap-1 flex-wrap">
+            <span className="font-semibold">Made using:</span>{" "}
+            {state ? cardDescription : "???"}
+          </p>
+          <p>
+            <span className="font-semibold">Features:</span>{" "}
+            {state ? cardFeatures : "???"}
+          </p>
           <div className="card-actions justify-end">
             <div className="badge badge-outline">{cardBadge}</div>
           </div>
