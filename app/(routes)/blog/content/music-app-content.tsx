@@ -11,31 +11,37 @@ const musicAppContent = {
   cardTitle: "Music App",
   cardDescription: [
     <TbBrandNextjs
+      key="nextjs"
       className="text-primary hover:text-secondary"
       title="Next.js"
       size={25}
     />,
     <TbBrandTypescript
+      key="typescript"
       className="text-primary hover:text-secondary"
       title="TypeScript"
       size={25}
     />,
     <TbBrandTailwind
+      key="tailwind"
       className="text-primary hover:text-secondary"
       title="Tailwind CSS"
       size={25}
     />,
     <TbBrandSupabase
+      key="supabase"
       className="text-primary hover:text-secondary"
       title="Supabase"
       size={25}
     />,
     <TbBrandStripe
+      key="stripe"
       className="text-primary hover:text-secondary"
       title="Stripe"
       size={25}
     />,
     <BiLogoPostgresql
+      key="postgresql"
       className="text-primary hover:text-secondary"
       title="PostgreSQL"
       size={25}

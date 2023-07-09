@@ -72,11 +72,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </h2>
           <p className="flex items-center gap-1 flex-wrap">
             <span className="font-semibold">Made using:</span>{" "}
-            {state
-              ? cardDescription.map((item, idx) => (
-                  <span key={idx}>{item}</span>
-                ))
-              : "???"}
+            {state ? cardDescription.map((item) => item) : "???"}
           </p>
           <p>
             <span className="font-semibold">Features:</span>{" "}
