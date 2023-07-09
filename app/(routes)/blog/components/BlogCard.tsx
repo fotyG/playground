@@ -10,7 +10,7 @@ interface BlogCardProps {
   state: boolean;
   content: {
     cardTitle: string;
-    cardDescription: JSX.Element[] | string;
+    cardDescription: JSX.Element[] | string[];
     cardFeatures: string;
     cardBadge: string;
     cardImg: string;
@@ -72,7 +72,11 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </h2>
           <p className="flex items-center gap-1 flex-wrap">
             <span className="font-semibold">Made using:</span>{" "}
-            {state ? cardDescription : "???"}
+            {state
+              ? cardDescription.map((item, idx) => (
+                  <span key={idx}>{item}</span>
+                ))
+              : "???"}
           </p>
           <p>
             <span className="font-semibold">Features:</span>{" "}

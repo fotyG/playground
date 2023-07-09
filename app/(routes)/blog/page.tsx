@@ -7,23 +7,15 @@ import { motion } from "framer-motion";
 
 import BlogCard from "./components/BlogCard";
 import { Separator } from "@/components/ui/separator";
-import memoryGameContent from "./content/memory-game-content";
-import futureProjects from "./content/future-projects-content";
 import musicAppContent from "./content/music-app-content";
+import memoryGameContent from "./content/memory-game-content";
 import rentingAppContent from "./content/renting-app-content";
-import { use, useEffect, useState } from "react";
-import utilityMeterReadingAppContent from "./content/utility-meter-reading-app-content";
+import futureProjects from "./content/future-projects-content";
 import ecommerceCMSContent from "./content/ecommerce-cms-content";
+import utilityMeterReadingAppContent from "./content/utility-meter-reading-app-content";
 
 const BlogPage = () => {
-  const [isMounted, setIsMounted] = useState(false);
   const mg = useUnlockStore((state) => state.mg);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
 
   return (
     <div className="container mb-10 flex flex-col justify-center">

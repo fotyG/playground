@@ -1,6 +1,6 @@
 const futureProjects = {
   cardTitle: "Coming Soon...",
-  cardDescription: "???",
+  cardDescription: ["???"],
   cardFeatures: "???",
   cardBadge: "???",
   cardImg: "/images/egg.png",
