@@ -8,6 +8,7 @@ import Modal from "./Modal";
 
 interface BlogCardProps {
   state: boolean;
+  position: number;
   content: {
     cardTitle: string;
     cardDescription: JSX.Element[] | string[];
@@ -20,6 +21,7 @@ interface BlogCardProps {
 
 const BlogCard: React.FC<BlogCardProps> = ({
   state,
+  position,
   content: {
     cardTitle,
     cardDescription,
@@ -36,7 +38,11 @@ const BlogCard: React.FC<BlogCardProps> = ({
     <>
       <motion.div
         initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 1, x: 0, transition: { duration: 0.7 } }}
+        animate={{
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.7, delay: position * 0.1 },
+        }}
         whileHover={isLg ? { scale: 1.1, transition: { duration: 0.2 } } : {}}
         onClick={() => setOpenModal(true)}
         className="

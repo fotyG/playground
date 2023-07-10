@@ -4,6 +4,7 @@ import {
   TbBrandTailwind,
   TbBrandStripe,
   TbBrandMysql,
+  TbBrandPrisma,
 } from "react-icons/tb";
 
 const ecommerceCMSContent = {
@@ -33,6 +34,12 @@ const ecommerceCMSContent = {
       title="Stripe"
       size={25}
     />,
+    <TbBrandPrisma
+      key="prisma"
+      className="text-primary hover:text-secondary"
+      title="Prisma"
+      size={25}
+    />,
     <TbBrandMysql
       key={"mysql"}
       className="text-primary hover:text-secondary"
@@ -40,8 +47,8 @@ const ecommerceCMSContent = {
       size={25}
     />,
   ],
-  cardFeatures: "Multiple Store CMS, Dynamic API",
-  cardBadge: "App",
+  cardFeatures: "Multiple Store CMS, Dynamic API, Clerk Auth",
+  cardBadge: "CMS",
   cardImg: "/images/cms.png",
   blogContent: "loremp ipsum",
 };

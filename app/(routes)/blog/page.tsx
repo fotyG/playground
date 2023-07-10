@@ -4,6 +4,7 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 import BlogCard from "./components/BlogCard";
 import { Separator } from "@/components/ui/separator";
@@ -16,13 +17,21 @@ import utilityMeterReadingAppContent from "./content/utility-meter-reading-app-c
 
 const BlogPage = () => {
   const mg = useUnlockStore((state) => state.mg);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="container mb-10 flex flex-col justify-center">
-      <Separator
-        className="mb-10 bg-primary/50"
-        decorative
-      />
+      {isMounted && (
+        <Separator
+          className="mb-10 bg-primary/50"
+          decorative
+        />
+      )}
+
       <div className="flex flex-col-reverse items-center justify-center sm:flex-row h-80  rounded-md">
         <motion.div
           initial={{ opacity: 0, x: 100 }}
@@ -53,38 +62,46 @@ const BlogPage = () => {
           />
         </motion.div>
       </div>
-      <Separator
-        className="my-10 bg-primary/50"
-        decorative
-      />
+      {isMounted && (
+        <Separator
+          className="my-10 bg-primary/50"
+          decorative
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-x-5 gap-y-5 lg:gap-y-10 justify-items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         <BlogCard
+          position={1}
           key={memoryGameContent.cardTitle}
           state={mg}
           content={memoryGameContent}
         />
         <BlogCard
+          position={2}
           key={utilityMeterReadingAppContent.cardTitle}
           state={mg}
           content={utilityMeterReadingAppContent}
         />
         <BlogCard
+          position={3}
           key={ecommerceCMSContent.cardTitle}
           state={mg}
           content={ecommerceCMSContent}
         />
         <BlogCard
+          position={4}
           key={rentingAppContent.cardTitle}
           state={mg}
           content={rentingAppContent}
         />
         <BlogCard
+          position={5}
           key={musicAppContent.cardTitle}
           state={mg}
           content={musicAppContent}
         />
         <BlogCard
+          position={6}
           key={futureProjects.cardTitle}
           state={false}
           content={futureProjects}

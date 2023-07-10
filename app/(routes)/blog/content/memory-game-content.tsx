@@ -5,6 +5,7 @@ import {
   TbBrandFramer,
   TbBrandSupabase,
 } from "react-icons/tb";
+import { BiLogoPostgresql } from "react-icons/bi";
 
 const memoryGameContent = {
   cardTitle: "Memory Game",
@@ -37,6 +38,12 @@ const memoryGameContent = {
       key={"framer"}
       className="text-primary hover:text-secondary"
       title="Framer Motion"
+      size={25}
+    />,
+    <BiLogoPostgresql
+      key="postgresql"
+      className="text-primary hover:text-secondary"
+      title="PostgreSQL"
       size={25}
     />,
   ],
