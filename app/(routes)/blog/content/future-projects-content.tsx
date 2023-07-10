@@ -3,7 +3,7 @@ const futureProjects = {
   cardDescription: ["???"],
   cardFeatures: "???",
   cardBadge: "???",
-  cardImg: "/images/egg.png",
+  cardImg: "/images/hatch.png",
   blogContent:
     "I will be adding more projects soon - be sure to unlock them all!",
 };

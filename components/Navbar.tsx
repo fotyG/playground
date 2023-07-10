@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
-import { BsShop, BsPen } from "react-icons/bs";
+import { BsPostageHeart, BsPen } from "react-icons/bs";
 import { themeChange } from "theme-change";
 import { useEffect, useState } from "react";
 import { MdCatchingPokemon } from "react-icons/md";
@@ -12,8 +12,34 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
+  const [blogUnlocked, setBlogUnlocked] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const unlockStore = useUnlockStore();
+  const {
+    mg,
+    ecommerceStore,
+    ecommerceCMS,
+    utilityMeters,
+    rentingApp,
+    musicApp,
+    newUnlock,
+    resetNewUnlock,
+  } = unlockStore;
+
+  useEffect(() => {
+    let localArray = [
+      mg,
+      ecommerceStore,
+      ecommerceCMS,
+      utilityMeters,
+      rentingApp,
+      musicApp,
+    ];
+    const filtered = localArray.filter((item) => item === true).length;
+    if (filtered <= 0) return;
+    setBlogUnlocked(true);
+  }, [mg, ecommerceStore, ecommerceCMS, utilityMeters, rentingApp, musicApp]);
 
   useEffect(() => {
     themeChange(false);
@@ -24,9 +50,6 @@ const Navbar = () => {
     setActive(pathname);
   }, [pathname]);
 
-  const mg = useUnlockStore((state) => state.mg);
-  const newUnlock = useUnlockStore((state) => state.newUnlock);
-  const resetNewUnlock = useUnlockStore((state) => state.resetNewUnlock);
   return (
     <div className="drawer">
       <input
@@ -89,9 +112,9 @@ const Navbar = () => {
               <li className="focus">
                 <Link
                   className={active === "/store" ? "active" : ""}
-                  href={"/store"}
+                  href={"/gallery"}
                 >
-                  Store
+                  Project Gallery
                 </Link>
               </li>
               <li className="focus">
@@ -100,7 +123,7 @@ const Navbar = () => {
                     resetNewUnlock();
                     router.push("/blog");
                   }}
-                  disabled={!mg}
+                  disabled={!blogUnlocked}
                   className={
                     "relative disabled:cursor-not-allowed " +
                     (active === "/blog" ? "active" : "")
@@ -112,7 +135,7 @@ const Navbar = () => {
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                     </span>
                   )}
-                  {!mg && <span>🔒</span>}Blog
+                  {!blogUnlocked && <span>🔒</span>}Blog
                 </button>
               </li>
             </ul>
@@ -131,7 +154,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="drawer-side z-50">
+      <div className="drawer-side z-[51]">
         <label
           htmlFor="my-drawer-3"
           className="drawer-overlay"
@@ -167,11 +190,11 @@ const Navbar = () => {
           </li>
           <li className="my-1">
             <Link
-              className={active === "/store" ? "active" : ""}
-              href={"/store"}
+              className={active === "/gallery" ? "active" : ""}
+              href={"/gallery"}
             >
-              <BsShop size={20} />
-              Store
+              <BsPostageHeart size={20} />
+              Project Gallery
             </Link>
           </li>
           <li className="my-1">
@@ -180,7 +203,7 @@ const Navbar = () => {
                 resetNewUnlock();
                 router.push("/blog");
               }}
-              disabled={!mg}
+              disabled={!blogUnlocked}
               className={
                 "flex relative disabled:cursor-not-allowed " +
                 (active === "/blog" ? "active" : "")
@@ -193,7 +216,7 @@ const Navbar = () => {
                 </span>
               )}
               <BsPen size={20} />
-              Blog{!mg && <span>🔒</span>}
+              Blog{!blogUnlocked && <span>🔒</span>}
             </button>
           </li>
         </ul>

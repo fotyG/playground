@@ -31,7 +31,7 @@ const Footer = () => {
           title="pokemon icons"
           target="_blank"
         >
-          Pokemon icons created by Roundicons Freebies - Flaticon
+          Find these wonderful icons on Flaticon
         </a>
       )}
 

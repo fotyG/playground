@@ -13,10 +13,17 @@ import memoryGameContent from "./content/memory-game-content";
 import rentingAppContent from "./content/renting-app-content";
 import futureProjects from "./content/future-projects-content";
 import ecommerceCMSContent from "./content/ecommerce-cms-content";
+import ecommerceStoreContent from "./content/ecommerce-store-content";
 import utilityMeterReadingAppContent from "./content/utility-meter-reading-app-content";
+import { twMerge } from "tailwind-merge";
 
 const BlogPage = () => {
   const mg = useUnlockStore((state) => state.mg);
+  const utilityMeters = useUnlockStore((state) => state.utilityMeters);
+  const ecommerceCMS = useUnlockStore((state) => state.ecommerceCMS);
+  const ecommerceStore = useUnlockStore((state) => state.ecommerceStore);
+  const rentingApp = useUnlockStore((state) => state.rentingApp);
+  const musicApp = useUnlockStore((state) => state.musicApp);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -25,12 +32,13 @@ const BlogPage = () => {
 
   return (
     <div className="container mb-10 flex flex-col justify-center">
-      {isMounted && (
-        <Separator
-          className="mb-10 bg-primary/50"
-          decorative
-        />
-      )}
+      <Separator
+        className={twMerge(
+          "mb-10 bg-primary/50 scale-0 transition-transform duration-500",
+          isMounted ? "scale-100" : ""
+        )}
+        decorative
+      />
 
       <div className="flex flex-col-reverse items-center justify-center sm:flex-row h-80  rounded-md">
         <motion.div
@@ -62,12 +70,14 @@ const BlogPage = () => {
           />
         </motion.div>
       </div>
-      {isMounted && (
-        <Separator
-          className="my-10 bg-primary/50"
-          decorative
-        />
-      )}
+
+      <Separator
+        className={twMerge(
+          "my-10 bg-primary/50 scale-0 transition-transform duration-500",
+          isMounted ? "scale-100" : ""
+        )}
+        decorative
+      />
 
       <div className="grid grid-cols-1 gap-x-5 gap-y-5 lg:gap-y-10 justify-items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         <BlogCard
@@ -79,29 +89,35 @@ const BlogPage = () => {
         <BlogCard
           position={2}
           key={utilityMeterReadingAppContent.cardTitle}
-          state={mg}
+          state={utilityMeters}
           content={utilityMeterReadingAppContent}
         />
         <BlogCard
           position={3}
           key={ecommerceCMSContent.cardTitle}
-          state={mg}
+          state={ecommerceCMS}
           content={ecommerceCMSContent}
         />
         <BlogCard
-          position={4}
-          key={rentingAppContent.cardTitle}
-          state={mg}
-          content={rentingAppContent}
-        />
-        <BlogCard
           position={5}
-          key={musicAppContent.cardTitle}
-          state={mg}
-          content={musicAppContent}
+          key={ecommerceStoreContent.cardTitle}
+          state={ecommerceStore}
+          content={ecommerceStoreContent}
         />
         <BlogCard
           position={6}
+          key={rentingAppContent.cardTitle}
+          state={rentingApp}
+          content={rentingAppContent}
+        />
+        <BlogCard
+          position={7}
+          key={musicAppContent.cardTitle}
+          state={musicApp}
+          content={musicAppContent}
+        />
+        <BlogCard
+          position={8}
           key={futureProjects.cardTitle}
           state={false}
           content={futureProjects}

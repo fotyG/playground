@@ -60,6 +60,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
       >
         <figure className="bg-primary/50 p-5">
           <img
+            className={state ? "" : "grayscale"}
             src={cardImg}
             alt={cardTitle}
           />
@@ -85,7 +86,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
             {state ? cardFeatures : "???"}
           </p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">{cardBadge}</div>
+            <div className="badge badge-outline">
+              {state ? cardBadge : "???"}
+            </div>
           </div>
         </div>
       </motion.div>
