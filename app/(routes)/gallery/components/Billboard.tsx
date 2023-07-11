@@ -12,7 +12,7 @@ const Billboard: React.FC<BillboardProps> = ({ billboard }) => {
       className="overflow-hidden"
     >
       <div
-        className="relative aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover"
+        className="relative aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover md:bg-fixed"
         style={{ backgroundImage: `url(${billboard?.imageUrl})` }}
       >
         <div className="absolute bg-primary/30 w-full h-full"></div>

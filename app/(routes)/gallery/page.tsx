@@ -1,9 +1,9 @@
-import { Product } from "@/types";
 import Billboard from "./components/Billboard";
 import getProducts from "@/actions/get-products";
 import GalleryNav from "./components/GalleryNav";
-import ProductCard from "./components/ProductCard";
 import getBillboard from "@/actions/get-billboard";
+import ProjectHeader from "./components/ProjectHeader";
+import ProductCardContainer from "./components/ProductCardContainer";
 
 export const revalidate = 0;
 
@@ -15,16 +15,8 @@ const GalleryPage = async () => {
     <>
       <Billboard billboard={billboard} />
       <GalleryNav projectCount={products.length} />
-      <div className="container px-10 grid grid-cols-4 gap-4 mt-6">
-        {products.map((product: Product) => (
-          <ProductCard
-            key={product.id}
-            name={product.name}
-            url={product.url}
-            images={product.images}
-          />
-        ))}
-      </div>
+      <ProjectHeader />
+      <ProductCardContainer products={products} />
     </>
   );
 };

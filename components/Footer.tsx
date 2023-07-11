@@ -2,12 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const pathname = usePathname();
 
   return (
-    <footer className="flex flex-col items-center md:flex-row md:justify-between md:items-center footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300">
+    <motion.footer
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="flex flex-col items-center md:flex-row md:justify-between md:items-center footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300"
+    >
       <div className="flex justify-center items-center">
         <svg
           width="24"
@@ -95,7 +100,7 @@ const Footer = () => {
           </Link>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 

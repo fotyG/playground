@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
-import { BsPostageHeart, BsPen } from "react-icons/bs";
 import { themeChange } from "theme-change";
 import { useEffect, useState } from "react";
 import { MdCatchingPokemon } from "react-icons/md";
+import { BsPostageHeart, BsPen } from "react-icons/bs";
 import { usePathname, useRouter } from "next/navigation";
 
 import { useUnlockStore } from "@/hooks/useUnlockStore";
@@ -175,7 +175,10 @@ const Navbar = () => {
             <option value="pastel">🎨 Pastel</option>
           </select>
           <li className="mt-2 mb-1">
-            <Link href={"/"}>
+            <Link
+              className={active === "/" ? "active" : ""}
+              href={"/"}
+            >
               <FaHome size={20} /> Home
             </Link>
           </li>

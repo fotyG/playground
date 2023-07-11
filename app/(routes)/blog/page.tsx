@@ -16,6 +16,7 @@ import ecommerceCMSContent from "./content/ecommerce-cms-content";
 import ecommerceStoreContent from "./content/ecommerce-store-content";
 import utilityMeterReadingAppContent from "./content/utility-meter-reading-app-content";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 const BlogPage = () => {
   const mg = useUnlockStore((state) => state.mg);
@@ -31,10 +32,10 @@ const BlogPage = () => {
   }, []);
 
   return (
-    <div className="container mb-10 flex flex-col justify-center">
+    <div className="container mb-20 flex flex-col justify-center">
       <Separator
         className={twMerge(
-          "mb-10 bg-primary/50 scale-0 transition-transform duration-500",
+          "mb-20 bg-primary/50 scale-0 transition-transform duration-500",
           isMounted ? "scale-100" : ""
         )}
         decorative
@@ -53,8 +54,15 @@ const BlogPage = () => {
             In this section you will find blog articles for my projects. Each
             card represents a different project with a brief summary of the
             technology and some cool features used to develop it. <br />
-            If you are interested to know more about the project and want to see
-            a live demo - click on the card and enjoy!
+            If you are interested to know more about the project be sure to
+            unlock the card by visiting the link in the{" "}
+            <Link
+              className="border px-2 rounded-full font-bold hover:text-secondary hover:border-secondary transition-colors shadow-md"
+              href={"/gallery"}
+            >
+              Gallery
+            </Link>{" "}
+            section first!
           </p>
         </motion.div>
         <motion.div
@@ -73,13 +81,13 @@ const BlogPage = () => {
 
       <Separator
         className={twMerge(
-          "my-10 bg-primary/50 scale-0 transition-transform duration-500",
+          "my-20 bg-primary/50 scale-0 transition-transform duration-500",
           isMounted ? "scale-100" : ""
         )}
         decorative
       />
 
-      <div className="grid grid-cols-1 gap-x-5 gap-y-5 lg:gap-y-10 justify-items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-x-5 xl:gap-x-0 gap-y-5 lg:gap-y-10 justify-items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         <BlogCard
           position={1}
           key={memoryGameContent.cardTitle}
