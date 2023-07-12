@@ -44,6 +44,7 @@ const MemoryGame = () => {
 
   const { width } = useWindowSize();
   const unlock = useUnlockStore((state) => state.unlockMg);
+  const gameState = useUnlockStore((state) => state.mg);
   const stateOfUnlock = useUnlockStore((state) => state.mg);
 
   // Initiation UseEffect
@@ -212,8 +213,10 @@ const MemoryGame = () => {
     if (matchCounter === 14) {
       setGameComplete(true);
       setVictoryConfetti(true);
-      playSound(gameWinSound);
       setFetchDataOnOpen((prev) => !prev);
+      if (!gameState) {
+        playSound(gameWinSound);
+      }
       unlock();
     }
   }, [moveCounter, matchCounter, totalMoveCounter, flipComplete]);
@@ -233,20 +236,20 @@ const MemoryGame = () => {
   };
 
   return (
-    <div className="container px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">
+    <div className="container mb-5 px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">
       <motion.h1
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-center text-xl"
+        className="text-center text-lg font-extrabold uppercase"
       >
-        Welcome To The Memory Game!
+        Memorize 'em all!
       </motion.h1>
       <motion.p
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-xl font-bold"
+        className="text-xl md:text-2xl font-bold"
       >
         Total Moves: {totalMoveCounter}
       </motion.p>
@@ -302,7 +305,7 @@ const MemoryGame = () => {
           <LeaderBoardModal fetchDataOnOpen={fetchDataOnOpen} />
         </div>
       )}
-      {!stateOfUnlock && <SkipModal unlock={unlock} />}
+      {cardArray ? !stateOfUnlock && <SkipModal unlock={unlock} /> : <></>}
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
         <Modal

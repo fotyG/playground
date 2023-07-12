@@ -1,17 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { twMerge } from "tailwind-merge";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 
 const Footer = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
-    <motion.footer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="flex flex-col items-center md:flex-row md:justify-between md:items-center footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300"
+    <footer
+      className={twMerge(
+        "flex flex-col items-center opacity-0 transition-opacity delay-1000 md:flex-row md:justify-between md:items-center footer px-10 py-4 mt-auto border-t bg-base-200 text-base-content border-base-300",
+        isMounted ? "opacity-100" : ""
+      )}
     >
       <div className="flex justify-center items-center">
         <svg
@@ -100,7 +107,7 @@ const Footer = () => {
           </Link>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 };
 

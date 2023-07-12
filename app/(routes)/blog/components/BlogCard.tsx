@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import Modal from "./Modal";
@@ -32,7 +32,14 @@ const BlogCard: React.FC<BlogCardProps> = ({
   },
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const isLg = useMediaQuery({ minWidth: 1024 });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <>

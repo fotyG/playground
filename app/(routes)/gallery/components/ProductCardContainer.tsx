@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 
@@ -14,8 +16,13 @@ interface ProductCardContainerProps {
 const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
   products,
 }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
   const isLg = useMediaQuery({ minWidth: 1024 });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const onScroll = (direction: string) => {
     const carousel = carouselRef.current;
@@ -25,14 +32,19 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
     }
   };
 
+  if (!isMounted) return null;
+
   return (
-    <div className="container my-10 relative">
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0, transition: { duration: 0.7, delay: 0.3 } }}
+      className="flex items-center justify-center gap-1 container my-10"
+    >
       {isLg && (
         <button
           onClick={() => {
             onScroll("left");
           }}
-          className="absolute -left-7 top-1/2 -translate-y-1/2"
         >
           <ArrowLeftCircle
             className="opacity-80 hover:opacity-100"
@@ -42,7 +54,7 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
       )}
       <div
         ref={carouselRef}
-        className="grid md:grid-flow-col gap-5 md:gap-10 md:overflow-x-scroll snap-x scroll-smooth rounded-md"
+        className="grid md:grid-flow-col gap-5 mx-5 md:gap-10 md:overflow-x-scroll snap-x scroll-smooth rounded-md"
       >
         {products.map((product: Product) => (
           <ProductCard
@@ -58,7 +70,6 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
           onClick={() => {
             onScroll("right");
           }}
-          className="absolute -right-7 top-1/2 -translate-y-1/2"
         >
           <ArrowRightCircle
             className="opacity-80 hover:opacity-100"
@@ -66,7 +77,7 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
           />
         </button>
       )}
-    </div>
+    </motion.div>
   );
 };
 export default ProductCardContainer;

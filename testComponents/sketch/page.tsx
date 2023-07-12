@@ -108,7 +108,7 @@ const SketchPage = () => {
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? <ScaleLoader color="gray" /> : "Submit"}
+              {isLoading ? <ScaleLoader color="hsl(var(--bc))" /> : "Submit"}
             </button>
             <button
               className="btn btn-xs border-primary"

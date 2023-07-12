@@ -1,9 +1,10 @@
+import { toast } from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { PacmanLoader } from "react-spinners";
+
+import { fetchScores, registerScore } from "../libs/getHighScores";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-import { useEffect, useState } from "react";
-import { fetchScores, registerScore } from "../libs/getHighScores";
-import { PacmanLoader } from "react-spinners";
-import { toast } from "react-hot-toast";
 import { Player } from "@/types";
 
 interface ModalProps {
@@ -115,7 +116,7 @@ const NewModal: React.FC<ModalProps> = ({
                   {isLoading ? (
                     <PacmanLoader
                       size={15}
-                      color="#1e293b"
+                      color="hsl(var(--bc))"
                       className="hover:cursor-not-allowed"
                     />
                   ) : (

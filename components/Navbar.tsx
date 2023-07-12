@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
+import { twMerge } from "tailwind-merge";
 import { themeChange } from "theme-change";
 import { useEffect, useState } from "react";
 import { MdCatchingPokemon } from "react-icons/md";
@@ -12,7 +13,9 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
   const [blogUnlocked, setBlogUnlocked] = useState(false);
+
   const router = useRouter();
   const pathname = usePathname();
   const unlockStore = useUnlockStore();
@@ -26,6 +29,10 @@ const Navbar = () => {
     newUnlock,
     resetNewUnlock,
   } = unlockStore;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     let localArray = [
@@ -44,14 +51,21 @@ const Navbar = () => {
   useEffect(() => {
     themeChange(false);
     // 👆 false parameter is required for react project
-  }, []);
+  }, [isMounted]);
 
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
 
+  if (!isMounted) return null;
+
   return (
-    <div className="drawer">
+    <div
+      className={twMerge(
+        "max-lg:fixed max-lg:top-0 z-[200] drawer opacity-0 transition-opacity bg-base-100",
+        isMounted ? "opacity-100" : ""
+      )}
+    >
       <input
         id="my-drawer-3"
         type="checkbox"
@@ -154,13 +168,13 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="drawer-side z-[51]">
+      <div className="drawer-side ">
         <label
           htmlFor="my-drawer-3"
-          className="drawer-overlay"
+          className="drawer-overlay "
         ></label>
 
-        <ul className="menu p-4 w-[55%] sm:w-80 h-full bg-base-200">
+        <ul className="menu p-4 w-[55%] sm:w-80 h-full bg-base-200 ">
           {/* Sidebar content here */}
           <select
             data-choose-theme

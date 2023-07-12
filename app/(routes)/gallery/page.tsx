@@ -12,12 +12,12 @@ const GalleryPage = async () => {
   const products = await getProducts();
 
   return (
-    <>
+    <div>
       <Billboard billboard={billboard} />
       <GalleryNav projectCount={products.length} />
       <ProjectHeader />
       <ProductCardContainer products={products} />
-    </>
+    </div>
   );
 };
 export default GalleryPage;
