@@ -26,8 +26,8 @@ const ProjectHeader = () => {
             Utility Meter App is the first full-stack application that I
             developed and deployed for a client. It is being used internally for
             the company's needs so until I make a demo with dummy data - I can
-            only share some pictures and the code of the app. <br /> Visiting
-            the link will unlock a detailed blog post about the project in the{" "}
+            only share some pictures and the code of the app. <br /> Visiting a
+            project link will unlock a detailed blog post about it in the{" "}
             <Link
               className="border px-2 rounded-full font-bold hover:text-secondary hover:border-secondary transition-colors shadow-md"
               href={"/blog"}
