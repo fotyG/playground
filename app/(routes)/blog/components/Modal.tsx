@@ -8,7 +8,7 @@ import {
 interface ModalProps {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  blogContent: string;
+  blogContent?: string;
   cardTitle: string;
   state: boolean;
 }

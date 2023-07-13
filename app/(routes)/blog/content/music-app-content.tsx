@@ -9,6 +9,7 @@ import { BiLogoPostgresql } from "react-icons/bi";
 
 const musicAppContent = {
   cardTitle: "Music App",
+  slug: "music-app",
   cardDescription: [
     <TbBrandNextjs
       key="nextjs"
@@ -50,7 +51,6 @@ const musicAppContent = {
   cardFeatures: "Music-upload, Stripe-Subscription",
   cardBadge: "App",
   cardImg: "/images/guitar.png",
-  blogContent: "loremp ipsum",
 };
 
 export default musicAppContent;

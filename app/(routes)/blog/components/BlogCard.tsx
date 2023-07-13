@@ -5,17 +5,19 @@ import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import Modal from "./Modal";
+import { useRouter } from "next/navigation";
 
 interface BlogCardProps {
   state: boolean;
   position: number;
   content: {
     cardTitle: string;
+    slug: string;
     cardDescription: JSX.Element[] | string[];
     cardFeatures: string;
     cardBadge: string;
     cardImg: string;
-    blogContent: string;
+    blogContent?: string;
   };
 }
 
@@ -24,6 +26,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   position,
   content: {
     cardTitle,
+    slug,
     cardDescription,
     cardFeatures,
     cardBadge,
@@ -34,6 +37,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   const [openModal, setOpenModal] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const isLg = useMediaQuery({ minWidth: 1024 });
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
@@ -51,7 +55,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
           transition: { duration: 0.7, delay: position * 0.1 },
         }}
         whileHover={isLg ? { scale: 1.1, transition: { duration: 0.2 } } : {}}
-        onClick={() => setOpenModal(true)}
+        onClick={() => {
+          state ? router.push(`/blog/${slug}`) : setOpenModal(true);
+          // setOpenModal(true);
+        }}
         className="
           card 
           lg:w-72 
@@ -59,7 +66,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           shadow-sm 
           shadow-neutral
           transition-shadow
-          hover:z-50 
+          hover:z-[47] 
           hover:shadow-xl 
           hover:shadow-neutral
           hover:cursor-pointer

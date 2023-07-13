@@ -8,6 +8,7 @@ import {
 
 const ecommerceStoreContent = {
   cardTitle: "Ecommerce Store",
+  slug: "ecommerce-store",
   cardDescription: [
     <TbBrandNextjs
       key={"nextjs"}
@@ -43,7 +44,6 @@ const ecommerceStoreContent = {
   cardFeatures: "Managed by CMS",
   cardBadge: "App",
   cardImg: "/images/online-shop.png",
-  blogContent: "loremp ipsum",
 };
 
 export default ecommerceStoreContent;

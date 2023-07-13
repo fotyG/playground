@@ -17,7 +17,9 @@ const Navbar = () => {
   const [blogUnlocked, setBlogUnlocked] = useState(false);
 
   const router = useRouter();
-  const pathname = usePathname();
+  const fullPathname = usePathname();
+  const formattedPathname = fullPathname.split("/")[1];
+
   const unlockStore = useUnlockStore();
   const {
     mg,
@@ -54,15 +56,15 @@ const Navbar = () => {
   }, [isMounted]);
 
   useEffect(() => {
-    setActive(pathname);
-  }, [pathname]);
+    setActive(formattedPathname);
+  }, [formattedPathname]);
 
   if (!isMounted) return null;
 
   return (
     <div
       className={twMerge(
-        "max-lg:fixed max-lg:top-0 z-[200] drawer opacity-0 transition-opacity bg-base-100",
+        "max-lg:fixed max-lg:top-0 z-[49] drawer opacity-0 transition-opacity bg-base-100",
         isMounted ? "opacity-100" : ""
       )}
     >
@@ -117,7 +119,7 @@ const Navbar = () => {
               {/* Navbar menu content here */}
               <li className="focus">
                 <Link
-                  className={active === "/memory-game" ? "active" : ""}
+                  className={active === "memory-game" ? "active" : ""}
                   href={"/memory-game"}
                 >
                   Memory Game
@@ -125,7 +127,7 @@ const Navbar = () => {
               </li>
               <li className="focus">
                 <Link
-                  className={active === "/store" ? "active" : ""}
+                  className={active === "store" ? "active" : ""}
                   href={"/gallery"}
                 >
                   Project Gallery
@@ -140,7 +142,7 @@ const Navbar = () => {
                   disabled={!blogUnlocked}
                   className={
                     "relative disabled:cursor-not-allowed " +
-                    (active === "/blog" ? "active" : "")
+                    (active === "blog" ? "active" : "")
                   }
                 >
                   {newUnlock && (
@@ -190,7 +192,7 @@ const Navbar = () => {
           </select>
           <li className="mt-2 mb-1">
             <Link
-              className={active === "/" ? "active" : ""}
+              className={active === "" ? "active" : ""}
               href={"/"}
             >
               <FaHome size={20} /> Home
@@ -198,7 +200,7 @@ const Navbar = () => {
           </li>
           <li className="mb-1">
             <Link
-              className={active === "/memory-game" ? "active" : ""}
+              className={active === "memory-game" ? "active" : ""}
               href={"/memory-game"}
             >
               <MdCatchingPokemon size={20} />
@@ -207,7 +209,7 @@ const Navbar = () => {
           </li>
           <li className="my-1">
             <Link
-              className={active === "/gallery" ? "active" : ""}
+              className={active === "gallery" ? "active" : ""}
               href={"/gallery"}
             >
               <BsPostageHeart size={20} />
@@ -223,7 +225,7 @@ const Navbar = () => {
               disabled={!blogUnlocked}
               className={
                 "flex relative disabled:cursor-not-allowed " +
-                (active === "/blog" ? "active" : "")
+                (active === "blog" ? "active" : "")
               }
             >
               {newUnlock && (

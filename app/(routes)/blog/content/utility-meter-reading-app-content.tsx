@@ -4,6 +4,7 @@ import { SiExpress } from "react-icons/si";
 
 const utilityMeterReadingAppContent = {
   cardTitle: "Utility Meter Reading App",
+  slug: "utility-meter-reading-app",
   cardDescription: [
     <FaReact
       key="react"
@@ -39,7 +40,6 @@ const utilityMeterReadingAppContent = {
   cardFeatures: "Express BE, JWT",
   cardBadge: "App",
   cardImg: "/images/utilities.png",
-  blogContent: "loremp ipsum",
 };
 
 export default utilityMeterReadingAppContent;

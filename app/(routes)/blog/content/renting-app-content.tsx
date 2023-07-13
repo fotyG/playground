@@ -9,6 +9,7 @@ import {
 
 const rentingAppContent = {
   cardTitle: "Renting App",
+  slug: "renting-app",
   cardDescription: [
     <TbBrandNextjs
       key="nextjs"
@@ -44,7 +45,6 @@ const rentingAppContent = {
   cardFeatures: "Advanced Reservation, NextAuth",
   cardBadge: "App",
   cardImg: "/images/rent.png",
-  blogContent: "loremp ipsum",
 };
 
 export default rentingAppContent;

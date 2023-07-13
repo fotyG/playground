@@ -1,5 +1,6 @@
 const futureProjects = {
   cardTitle: "Coming Soon...",
+  slug: "future-projects",
   cardDescription: ["???"],
   cardFeatures: "???",
   cardBadge: "???",
