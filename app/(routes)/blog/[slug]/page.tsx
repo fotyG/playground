@@ -43,7 +43,7 @@ const BlogArticlePage = ({ params }: { params: { slug: string } }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.3 } }}
-      className="container my-5 md:my-14 prose md:prose-lg xl:prose-xl 2xl:prose-2xl prose-img:h-full prose-img:mx-auto prose-img:rounded-md hover:prose-a:text-secondary"
+      className="container my-5 md:my-14 prose md:prose-lg xl:prose-xl 2xl:prose-2xl prose-img:max-w-full prose-img:h-auto prose-img:mx-auto prose-img:rounded-md hover:prose-a:text-secondary"
     >
       <button
         className="mb-5"
