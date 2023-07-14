@@ -81,6 +81,8 @@ const MemoryGame = () => {
         localStorage.removeItem("mg_move_counter");
         localStorage.removeItem("mg_total_move_counter");
         localStorage.removeItem("mg_state");
+        localStorage.removeItem("@secure.j.y7545");
+        localStorage.removeItem("@secure.j.x7545");
         cardArray = shuffleCards(pokemonCardArray);
         recentlyFlippedCardIndexes = [];
         return;
@@ -106,6 +108,7 @@ const MemoryGame = () => {
     setTotalMoveCounter(localTotalMoveCounter);
     setMatchCounter(localMatchCounter);
     setMoveCounter(localMoveCounter);
+    localStorage.removeItem("@secure.j.y7545");
   }, []);
 
   // Cheater Check UseEffect

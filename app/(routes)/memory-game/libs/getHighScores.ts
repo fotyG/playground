@@ -1,5 +1,6 @@
-import { supabase } from "@/lib/supabaseClient";
 import { toast } from "react-hot-toast";
+
+import { supabase } from "@/lib/supabaseClient";
 
 export const fetchScores = async () => {
   let { data } = await supabase

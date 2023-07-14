@@ -1,5 +1,6 @@
 import AES from "crypto-js/aes";
 import { enc, HmacSHA256 } from "crypto-js";
+
 import { CardState } from "@/types";
 
 const secret: string = process.env.NEXT_PUBLIC_SUPER_SECRET || "";
@@ -93,7 +94,6 @@ export function decodeNumber(encodedNumber: string): number | null {
   if (key === weakSecret) {
     return parseInt(number, 10);
   }
-
   // Return a default value or handle invalid decoding
   return null;
 }

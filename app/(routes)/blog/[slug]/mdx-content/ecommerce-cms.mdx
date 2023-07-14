@@ -1,1 +1,36 @@
-# Lorem ipsum
+import { Github, ExternalLink } from "lucide-react";
+
+# Ecommerce CMS
+
+[<span className="inline-flex items-center mr-2"><Github /> Github</span>](https://github.com/fotyG/ecommerce-admin-new)
+[<span className="inline-flex items-center"><ExternalLink /> Live Demo</span>](https://ecommerce-admin-new.vercel.app/)
+
+This is one of more recent projects that helped me learn a ton about Next.js, particularly about the API routes and how it is possible to make them dynamic and secure 🔥  
+The primary function of this application is to create and manage multiple stores from a single dashboard. Each store has its own unique API routes that are generated dynamically based on the store ID. For ease of use, under each section all existing routes are displayed with a button to copy the URL to clipboard. These routes are also marked as private or public based on the type of CRUD operation they provide 🌟
+
+![apiroutes](/images/blog/admin-cms/admincms1.jpg)
+
+---
+
+#### Authentication
+
+To make the routes secure, authentication was mandatory - so I had a great opportunity to explore the available options even further. This time the choice was [Clerk](https://clerk.com/), which was a really cool solution to work with 🙏🏽
+
+#### TypeScript
+
+I made it my habit to use TypeScript in all projects that come my way in order to master it as fast as possible, so this one was no exception. I am still learning and getting used to it, but I can definitely see benefits of using it when projects become more complex.
+
+#### Styling & Components
+
+When it comes to styling - my all time favorite is without a doubt [TailwindCSS](https://tailwindcss.com/). In order to explore more options and check out some of the latest trends - the widely popular unstyled component library called [shadcn](https://ui.shadcn.com/) was used for this project. It was an amazing experience so I'm definitely going to use them in my future projects. In fact, I'm already using some of them here in my Portfolio Playground 🎉
+
+---
+
+MySQL on [PlanetScale](https://planetscale.com/) and [Prisma](https://www.prisma.io/) as an ORM were used to store and manage data for this project. As for image upload - the good old [Cloudinary](https://cloudinary.com/) did not disappoint 🙌🏽  
+The most challenging part for me was to setup stripe and the payment data to be displayed in the dashboard and order section 💪🏽 Working with charts and graphs is also a topic that I want to dedicate more time to, so I can be more comfortable working with analytical data 📈
+
+### Fun Fact:
+
+> I used this Admin CMS to create content you can see on the [gallery](https://playground-portfolio.vercel.app/gallery) page of this website. It was a great opportunity to test it out and see how it performs in real life.
+
+![Products](/images/blog/admin-cms/admincms2.jpg)

@@ -1,13 +1,47 @@
+import { Github, ExternalLink } from "lucide-react";
+
 # Memory Game
 
-## Process:
+[<span className="inline-flex items-center mr-2"><Github />Github</span>](<https://github.com/fotyG/playground/tree/master/app/(routes)/memory-game>)
+[<span className="inline-flex items-center"><ExternalLink />Live Demo</span>](https://playground-portfolio.vercel.app/memory-game)
 
-Making the game was very fun and presented no issues, but I was proven wrong as soon as my first customer started playing the game.. 👧🏽 My 3 year old daughter did her best to find the pokemon pairs, but as she got excited - she clicked on side buttons of the mouse and navigated away from the page, which resulted in the game progress to reset 😔 As I observed this repeating scenario - I knew I had to introduce persistent state. Forcing my users to authenticate for a simple game was not an option, so I went with local storage. Another problem popped up because I wanted to introduce a ranking system which is a treat for cheaters 🌭 First step was to encrypt the data in local storage, but if my server knew how to decrypt it - all a user had to do was to copy the value and paste it after seeing the current layout of cards to reduce total steps which would result in a better score. I came up with a very creative solution to compare states of every value on every move against the previous one to ensure no modifications were made 👮🏽‍♂️ I am well aware that there are still ways to cheat, but it will require some effort and I am happy with that as it stands. The second big issue was with rendering the card images, that lagged behind the flip animation when rendered on the client if a user had slow connection. I had to introduce server side rendering to fix this issue. Now every flip is a call to the API which returns the image and the flip animation starts only when the data is received 👍🏽
+Glad you made it here! Let me tell you a little bit about this fun project...  
+Making this game was probably my favorite part of the whole portfolio as this was my starting point. Not having to follow any guidelines and letting my imagination run wild 🦄 - went hand in hand with my set theme of making this into a **playground**.  
+One of my goals when starting to learn programming was to make at least one game that my children would be able to play. At this point I had acquired enough knowledge to make this into reality and I was really excited to get started.
 
-## Tech stack:
+---
 
-- React
-- Redux
-- Redux Saga
-- Express
-- MongoDB
+![pikachu](/images/pika.png)
+
+Writing the initial logic presented no issues and as soon as I latched to a feeling that everything is going smoothly, I was proven wrong when my first customer started to test the game..  
+👧🏽 My 3 year old daughter did her
+best to find the pokemon pairs, but as she got excited - she clicked on side buttons
+of the mouse and navigated away from the page, which resulted in the game progress
+to reset 😔 As I observed this repeating scenario - I knew I had to introduce persistent
+state. Forcing my users to authenticate for a simple game was not an option, so I
+went with local storage.
+
+Another problem popped up because I wanted to introduce
+a ranking system which is a treat for cheaters 🌭 First step was to encrypt the data
+in local storage, but if my app knew how to decrypt it - all a user had to do
+was to copy the value and paste it after seeing the current layout of cards to reduce
+total steps which would result in a better score. I came up with a very creative
+solution to compare states of every value on every move against the previous one
+to ensure no modifications were made 👮🏽‍♂️ I am well aware that there are still ways
+to cheat, but it will require some effort and I am happy with that as it stands.
+
+The second big issue was with rendering the card images, that lagged behind the flip
+animation if a user had slow connection. Initially the images were rendered conditionally on a flip and the id of the required image was passed with the function - not to expose the image in the document tree. To mitigate the blank card bug - I had to redo the logic and implement
+**SSR** to fix this issue. Now every flip is a call to the **Backend** which
+returns the image and the flip animation starts only when the data is received 👍🏽  
+Scores are stored in SupaBase using Postgres. At first I wanted to store my images there as well, but using the SupaBase bucket required implementation of authentication which did not make sense for this project so I went with pulling the images from public folder instead.
+
+---
+
+To sum it up - I am very fond of this game and seeing new names pop-up in the ranking table makes me really happy 😊
+
+### Bonus Content:
+
+> Here is the secret GIF that you get to see if you meddle with local state 😅
+
+![cheater](/images/spank.gif)
