@@ -1,1 +1,28 @@
-# lorem ipsum
+import { Github, ExternalLink } from "lucide-react";
+
+# E-commerce Store
+
+[<span className="inline-flex items-center mr-2"><Github /> Github</span>](https://github.com/fotyG/ecommerce-store)
+[<span className="inline-flex items-center"><ExternalLink /> Live Demo</span>](https://ecommerce-foty-store.vercel.app/)
+
+In order to test out the Admin CMS, this store was created. With minimal depth and complexity, the accent was placed on the most crucial functionality for a working e-commerce store. With that said it didn't mean we were not learning something new.. As usually - it was a great opportunity to play with tools we haven't used before! 🪀
+
+![online-store](/images/blog/ecom-store/ecomstore1.jpg)
+
+---
+
+#### Styling & Components
+
+For being a loyal fan of [TailwindCSS](https://tailwindcss.com/) - time had come to see what else mixes well with it. We had already established that [shadcn](https://ui.shadcn.com/) is great but we needed more variety in our toolbox so the choice for unstyled components was made in favour of [Headless UI](https://headlessui.com/). It had some similarities with shadcn but it was also different enough to be considered as a good alternative. I think the visual result of the store speaks for itself. 😊
+
+---
+
+#### Filters
+
+Since starting to learn programming, what scared me the most - were filters, query parameters and search functionality. Thanks to projects like this - I get to fight my fears head on and learn the best practices for implementing them. 👻 Before this project - I played around with react query to get better understanding of how it works and how to use pagination, infinite scroll, cache results from fetched data and so on.. At the point of making this project - react query did not mix well with server components. Therefore we did not use react query here but instead pushed the desired filters as query parameters on click and fetched the data dynamically from our [CMS](https://playground-portfolio.vercel.app/blog/ecommerce-cms) straight from our server components.
+
+To sum it up this was a really good learning project and addition to my portfolio. It is one of those projects that I am not ashamed to show so I hope you like it just as much as I do! 😊
+
+### Fun Fact:
+
+> Going to checkout - calls our Stripe webhook in Admin CMS and completed orders are also displayed in the dashboard. You can try it out by using stripe test card 42(42) and any random data for the rest of the fields.

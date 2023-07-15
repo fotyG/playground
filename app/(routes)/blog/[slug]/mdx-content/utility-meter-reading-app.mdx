@@ -1,1 +1,36 @@
-# Lorem Ipsum
+import { Github, ExternalLink } from "lucide-react";
+
+# Utility Meter Reading App
+
+[<span className="inline-flex items-center mr-2"><Github /> Github</span>](https://github.com/fotyG/tipo-meter-readings-app)
+
+Oh boy.. This application is really special to me. It was my first ever chance to work on a real life project. And it was such a joy to see it being used and hear nice feedback from people 😍 The task was very simple at glance, but required considerable amount of planning. I was given a pretty looking notebook and told to make it into an app.
+
+![blue-journal](/images/blog/utility-meters/meter-journal.jpeg)
+
+---
+
+This notebook was used by the client to keep track of their utility meters. They had to write down the readings every month and then calculate the difference between the readings to get the actual usage. This was a very tedious task especially when it ran out of pages and they had to plan a new one. So I was tasked to make an app that would allow them to do the same thing but in a more convenient way. ☕  
+At the point of taking on this project - I was actively practicing the **MERN** stack, so naturally I saw my latest learning material to fit really well for making this app into reality. The other topic that was really interesting to me at the time was authentication and authorization - so I couldn't wait to get my hands on the project and make my first ever custom authentication system. 🔑
+
+At first I tried establishing a session cookie straight from my Express backend, but unfortunately in the process of doing so, I found out that making it _httpOnly_ required a shared domain between the backend and the frontend for the cookie to be used for my intended purpose. For the time being I decided to go with **JWT** and store it as a normal cookie with a short expiration time.  
+Naturally the password had to be hashed and salted before being stored in the database. I used bcrypt for that. I also made middleware to check if the user is authorized to make requests to ensure maximum security. 🚨
+
+![login-gif](/images/blog/utility-meters/login.gif)
+
+---
+
+As I mentioned in the start of this article - the biggest challenge was planing the app and deciding on correct steps to take. Unfortunately I had to learn the hard way - but the key word in this sentence is _learn_. I messed up by creating a model, controller and routes for every meter separately which resulted in a lot of time wasted and slow performance. I had to go back and refactor the code to make it much more efficient and scalable. I created three separate models - one for the users, one for the meters and one for the readings. Each of these models had their own controller and routes - which made the code much more readable and easier to maintain, not to mention the improvement in speed and performance. 🚀  
+I also learned that making relations using **MongoDB** is not an easy feat... I had to jump some hoops to figure out aggregate pipelines to extract the necessary data but just like always - I was victorious! 🏆
+
+![crud-demo](/images/blog/utility-meters/demo1.gif)
+
+---
+
+This projects was also a good opportunity for me to find out more about deploying apps. Previously I had only deployed some of my smaller scale training apps on **Netlify** so it was my first time dealing with a fullstack app. I must say, that whole day I spent trying to deploy the app, made me realize why there are people, who specialize in this field... It was a nightmare 😱 but I'm glad that I always manage to find my way through!
+
+The last step was to make the app responsive.. To be honest I did not do it right away, but I did come back to this project in a few months, when I felt my skills had improved considerably and I was excited to revisit my old code. It was a really interesting feeling to see how much I had improved by reading my old lines.. I made some minor adjustments to make the code more readable but my main goal was to make the app usable on any device.. Once again this was a moment where [TailwindCSS](https://tailwindcss.com/) really shined and I was able to make the app responsive in a matter of hours. ⏰
+
+![responsive-demo](/images/blog/utility-meters/demo2.gif)
+
+I consider this project to be my first child among all projects on my developer journey and I love it very much! 💗 It gave me a warm feeling in my chest and a lot of excitement for the future!
