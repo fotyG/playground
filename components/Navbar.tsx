@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { FaHome } from "react-icons/fa";
-import { twMerge } from "tailwind-merge";
 import { themeChange } from "theme-change";
 import { useEffect, useState } from "react";
 import { MdCatchingPokemon } from "react-icons/md";
@@ -62,11 +62,10 @@ const Navbar = () => {
   if (!isMounted) return null;
 
   return (
-    <div
-      className={twMerge(
-        "max-lg:fixed max-lg:top-0 z-[49] drawer opacity-0 transition-opacity bg-base-100",
-        isMounted ? "opacity-100" : ""
-      )}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { delay: 0.3 } }}
+      className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100"
     >
       <input
         id="my-drawer-3"
@@ -240,7 +239,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default Navbar;

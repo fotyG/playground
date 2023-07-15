@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
 
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import Image from "next/image";
 
 const BlogHeader = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -14,8 +14,6 @@ const BlogHeader = () => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  if (!isMounted) return null;
 
   return (
     <>

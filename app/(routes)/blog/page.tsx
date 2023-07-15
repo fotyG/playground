@@ -3,7 +3,7 @@ import BlogHeader from "./components/BlogHeader";
 
 const BlogPage = () => {
   return (
-    <div className="container mb-20 flex flex-col justify-center">
+    <div className="container mb-20">
       <BlogHeader />
       <BlogCardContainer />
     </div>

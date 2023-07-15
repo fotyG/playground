@@ -54,7 +54,7 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
       )}
       <div
         ref={carouselRef}
-        className="grid md:grid-flow-col gap-5 mx-5 md:gap-10 md:overflow-x-scroll snap-x scroll-smooth rounded-md"
+        className="flex-1 grid md:grid-flow-col mx-5 gap-10 md:overflow-x-scroll snap-x scroll-smooth rounded-md"
       >
         {products.map((product: Product) => (
           <ProductCard

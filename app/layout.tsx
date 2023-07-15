@@ -25,11 +25,11 @@ export default function RootLayout({
       className="duration-500"
     >
       <body
-        className={"max-lg:mt-16 min-h-screen flex flex-col " + glory.className}
+        className={"max-lg:mt-16 max-lg:pt-0 flex flex-col " + glory.className}
       >
         <Toaster />
         <Navbar />
-        {children}
+        <div className="flex-1">{children}</div>
         <Footer />
       </body>
     </html>

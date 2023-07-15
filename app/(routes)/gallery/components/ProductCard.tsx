@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
   ]);
 
   return (
-    <div className="md:min-w-[320px] lg:min-w-[400px] xl:min-w-[340px] 2xl:min-w-[310px] snap-start mb-10 bg-base-200/50 border border-secondary/30 group rounded-xl p-5 space-y-5 shadow-md">
+    <div className="md:min-w-[320px] lg:min-w-[400px] xl:min-w-[340px] 2xl:min-w-[310px] snap-start md:mb-10 bg-base-200/50 border border-secondary/30 group rounded-xl p-5 space-y-5 shadow-md">
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <Image
           alt="Image"

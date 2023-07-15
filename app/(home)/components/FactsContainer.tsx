@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 import Fact from "./Fact";
 import factsData from "../facts-data/data";
 
@@ -6,7 +8,12 @@ const FactsContainer = () => {
     <div className="container my-10 md:my-20">
       <div className="md:text-xl lg:text-2xl 2xl:text-3xl">
         {factsData.map((fact, idx) => (
-          <div
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{
+              opacity: 1,
+              transition: { duration: 0.5, delay: 0.2 },
+            }}
             key={idx}
             className="flex flex-col gap-5 my-5 sm:flex-row sm:odd:flex-row-reverse"
           >
@@ -15,7 +22,7 @@ const FactsContainer = () => {
               description={fact.description}
               image={fact.image}
             />
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
