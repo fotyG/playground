@@ -114,28 +114,31 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex-none hidden lg:flex lg:text-sm lg:items-center">
-            <ul className="inline-flex items-center mx-4 [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:rounded-btn [&>li>*]:hover:cursor-pointer [&>li>*]:transition-[border-radius] [&>li>*]:duration-500">
+            <ul className="inline-flex items-center p-2 [&>li>*]:grid [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:mx-1 [&>li>*]:rounded-btn [&>li>*]:hover:cursor-pointer [&>li>*]:transition-[border-radius] [&>li>*]:duration-500">
               {/* Navbar menu content here */}
-              <li>
+              <li className="focus">
                 <Link
                   className={
                     active === "memory-game"
                       ? "bg-neutral text-neutral-content"
-                      : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content"
+                      : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content leading-5"
                   }
                   href={"/memory-game"}
                 >
                   Memory Game
                 </Link>
               </li>
-              <li
-                className={
-                  active === "gallery"
-                    ? "bg-neutral text-neutral-content"
-                    : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content"
-                }
-              >
-                <Link href={"/gallery"}>Project Gallery</Link>
+              <li>
+                <Link
+                  className={
+                    active === "gallery"
+                      ? "bg-neutral text-neutral-content"
+                      : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content"
+                  }
+                  href={"/gallery"}
+                >
+                  Project Gallery
+                </Link>
               </li>
               <li
                 className={
