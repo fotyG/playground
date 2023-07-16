@@ -113,26 +113,44 @@ const Navbar = () => {
               <p className="text-xl font-bold">Foty</p>
             </Link>
           </div>
-          <div className="flex-none hidden lg:block">
-            <ul className="menu menu-horizontal [&>li]:mx-1">
+          <div className="flex-none hidden lg:flex lg:text-sm lg:items-center">
+            <ul className="inline-flex items-center mx-4 [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:rounded-btn [&>li>*]:hover:cursor-pointer [&>li>*]:transition-[border-radius] [&>li>*]:duration-500">
               {/* Navbar menu content here */}
-              <li className="focus">
+              <li>
                 <Link
-                  className={active === "memory-game" ? "active" : ""}
+                  className={
+                    active === "memory-game"
+                      ? "bg-neutral text-neutral-content"
+                      : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content"
+                  }
                   href={"/memory-game"}
                 >
                   Memory Game
                 </Link>
               </li>
-              <li className="focus">
-                <Link
-                  className={active === "store" ? "active" : ""}
-                  href={"/gallery"}
-                >
-                  Project Gallery
-                </Link>
+              <li
+                className={
+                  active === "gallery"
+                    ? "bg-neutral text-neutral-content"
+                    : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content"
+                }
+              >
+                <Link href={"/gallery"}>Project Gallery</Link>
               </li>
-              <li className="focus">
+              <li
+                className={
+                  active === "blog"
+                    ? "bg-neutral text-neutral-content focus"
+                    : "focus relative hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content " +
+                      (blogUnlocked ? "" : "cursor-not-allowed")
+                }
+              >
+                {newUnlock && (
+                  <span className="absolute flex h-3 w-3 -right-1 -top-1">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                  </span>
+                )}
                 <button
                   onClick={() => {
                     resetNewUnlock();
@@ -140,16 +158,9 @@ const Navbar = () => {
                   }}
                   disabled={!blogUnlocked}
                   className={
-                    "relative disabled:cursor-not-allowed " +
-                    (active === "blog" ? "active" : "")
+                    "relative disabled:cursor-not-allowed grid grid-flow-col items-center content-start gap-2"
                   }
                 >
-                  {newUnlock && (
-                    <span className="absolute flex h-3 w-3 -right-1 -top-1">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-                    </span>
-                  )}
                   {!blogUnlocked && <span>🔒</span>}Blog
                 </button>
               </li>
