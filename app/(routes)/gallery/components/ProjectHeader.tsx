@@ -11,14 +11,14 @@ const ProjectHeader = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.7 } }}
-      className="container mt-16"
+      className="container"
     >
-      <div className="flex flex-col-reverse items-center justify-center sm:flex-row h-96  rounded-md">
-        <div className="p-6 w-full sm:p-8 sm:w-2/3 max-w-lg">
+      <div className="flex flex-col-reverse items-center justify-center sm:flex-row rounded-md">
+        <div className="w-full sm:p-8 h-1/2 sm:w-2/3 xl:w-1/2">
           <h1 className="text-lg font-bold sm:text-4xl mb-2">
             Training projects
           </h1>
-          <p className="text-sm leading-tight sm:text-xl text-justify">
+          <p className="leading-tight sm:text-xl text-justify">
             This gallery will present you with an opportunity to view the
             projects that were the most crucial ones for my progress as a
             developer.
@@ -37,18 +37,18 @@ const ProjectHeader = () => {
             section!
           </p>
         </div>
-        <div className="relative w-1/3 h-full">
+        <div className="relative p-6 aspect-square sm:w-1/3 xl:w-1/2 w-full">
           <Image
             fill
-            className="object-contain overflow-visible"
-            alt="killua"
-            src={"/images/killua.png"}
+            className="object-contain"
+            alt="bleach"
+            src={"/images/bleach.png"}
           />
         </div>
       </div>
 
       <Separator
-        className={"mt-10 bg-secondary/50"}
+        className={"mt-10 sm:mt-0 bg-secondary/50"}
         decorative
       />
     </motion.div>
