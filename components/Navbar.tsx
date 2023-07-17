@@ -64,7 +64,7 @@ const Navbar = () => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { delay: 0.3 } }}
+      animate={{ opacity: 1 }}
       className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100"
     >
       <input
@@ -114,14 +114,14 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex-none hidden lg:flex lg:text-sm lg:items-center">
-            <ul className="inline-flex items-center p-2 [&>li>*]:grid [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:mx-1 [&>li>*]:rounded-btn [&>li>*]:hover:cursor-pointer [&>li>*]:transition-[border-radius] [&>li>*]:duration-500">
+            <ul className="inline-flex items-center p-2 [&>li>*]:grid [&>li>*]:grid-flow-col [&>li>*]:gap-2 [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:transition-[border-radius] [&>li>*]:duration-500 [&>li>*]:mx-1 [&>li>*]:rounded-btn">
               {/* Navbar menu content here */}
-              <li className="focus">
+              <li>
                 <Link
                   className={
                     active === "memory-game"
                       ? "bg-neutral text-neutral-content"
-                      : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content leading-5"
+                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
                   }
                   href={"/memory-game"}
                 >
@@ -133,39 +133,41 @@ const Navbar = () => {
                   className={
                     active === "gallery"
                       ? "bg-neutral text-neutral-content"
-                      : "hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content"
+                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
                   }
                   href={"/gallery"}
                 >
                   Project Gallery
                 </Link>
               </li>
-              <li
-                className={
-                  active === "blog"
-                    ? "bg-neutral text-neutral-content focus"
-                    : "focus relative hover:bg-base-content/10 hover:cursor-pointer active:bg-neutral active:text-neutral-content " +
-                      (blogUnlocked ? "" : "cursor-not-allowed")
-                }
-              >
-                {newUnlock && (
-                  <span className="absolute flex h-3 w-3 -right-1 -top-1">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-                  </span>
-                )}
-                <button
+              <li>
+                <Link
                   onClick={() => {
+                    if (!blogUnlocked) return;
                     resetNewUnlock();
-                    router.push("/blog");
                   }}
-                  disabled={!blogUnlocked}
+                  onAuxClick={() => {
+                    if (!blogUnlocked) return;
+                    resetNewUnlock();
+                  }}
+                  href={blogUnlocked ? "/blog" : "#"}
                   className={
-                    "relative disabled:cursor-not-allowed grid grid-flow-col items-center content-start gap-2"
+                    active === "blog"
+                      ? "bg-neutral text-neutral-content"
+                      : "relative hover:bg-base-content/10 active:opacity-75 " +
+                        (blogUnlocked
+                          ? "hover:cursor-pointer"
+                          : "hover:cursor-not-allowed")
                   }
                 >
+                  {newUnlock && (
+                    <span className="absolute flex h-3 w-3 -right-1 -top-1">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                    </span>
+                  )}
                   {!blogUnlocked && <span>🔒</span>}Blog
-                </button>
+                </Link>
               </li>
             </ul>
             <select
@@ -189,7 +191,7 @@ const Navbar = () => {
           className="drawer-overlay "
         ></label>
 
-        <ul className="menu p-4 w-[55%] sm:w-80 h-full bg-base-200 ">
+        <ul className="flex flex-col text-sm [&>li>*]:flex [&>li]:flex [&>li]:flex-col [&>li>*]:grid-flow-col [&>li>*]:auto-cols-[max-content_auto_max-content] [&>li>*]:justify-start [&>li>*]:items-center [&>li>*]:gap-2 [&>li>*]:px-4 [&>li>*]:py-2 [&>li>*]:rounded-btn [&>li>*]:transition-[border-radius] [&>li>*]:duration-500 p-4 w-[55%] sm:w-80 h-full bg-base-200">
           {/* Sidebar content here */}
           <select
             data-choose-theme
@@ -205,7 +207,11 @@ const Navbar = () => {
           </select>
           <li className="mt-2 mb-1">
             <Link
-              className={active === "" ? "active" : ""}
+              className={
+                active === ""
+                  ? "bg-neutral text-neutral-content"
+                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+              }
               href={"/"}
             >
               <FaHome size={20} /> Home
@@ -213,7 +219,11 @@ const Navbar = () => {
           </li>
           <li className="mb-1">
             <Link
-              className={active === "memory-game" ? "active" : ""}
+              className={
+                active === "memory-game"
+                  ? "bg-neutral text-neutral-content"
+                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+              }
               href={"/memory-game"}
             >
               <MdCatchingPokemon size={20} />
@@ -222,7 +232,11 @@ const Navbar = () => {
           </li>
           <li className="my-1">
             <Link
-              className={active === "gallery" ? "active" : ""}
+              className={
+                active === "gallery"
+                  ? "bg-neutral text-neutral-content"
+                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+              }
               href={"/gallery"}
             >
               <BsPostageHeart size={20} />
@@ -230,15 +244,23 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="my-1">
-            <button
+            <Link
               onClick={() => {
+                if (!blogUnlocked) return;
                 resetNewUnlock();
-                router.push("/blog");
               }}
-              disabled={!blogUnlocked}
+              onAuxClick={() => {
+                if (!blogUnlocked) return;
+                resetNewUnlock();
+              }}
+              href={blogUnlocked ? "/blog" : "#"}
               className={
-                "flex relative disabled:cursor-not-allowed " +
-                (active === "blog" ? "active" : "")
+                active === "blog"
+                  ? "bg-neutral text-neutral-content"
+                  : "relative hover:bg-base-content/10 active:opacity-75 " +
+                    (blogUnlocked
+                      ? "hover:cursor-pointer"
+                      : "hover:cursor-not-allowed")
               }
             >
               {newUnlock && (
@@ -249,7 +271,7 @@ const Navbar = () => {
               )}
               <BsPen size={20} />
               Blog{!blogUnlocked && <span>🔒</span>}
-            </button>
+            </Link>
           </li>
         </ul>
       </div>
