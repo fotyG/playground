@@ -110,7 +110,7 @@ const Navbar = () => {
               <span className="absolute -left-6 bottom-0 animate-[bounce_1s_ease-in-out_infinite]">
                 ⚽
               </span>
-              <p className="text-xl font-bold">Foty</p>
+              <p className="text-xl font-bold">PlayGround</p>
             </Link>
           </div>
           <div className="flex-none hidden lg:flex lg:text-sm lg:items-center">

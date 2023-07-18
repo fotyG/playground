@@ -1,1 +1,37 @@
-# lorem ipsum
+import { Github, ExternalLink } from "lucide-react";
+
+# Renting App
+
+[<span className="inline-flex items-center mr-2"><Github />Github</span>](https://github.com/fotyG/airbnb-clone-next13)
+[<span className="inline-flex items-center"><ExternalLink />Live Demo</span>](https://renting-example-app.vercel.app/)
+
+Buckle up for this one.. I doubt there is a person who has traveled and hasn't head about airbnb - so naturally learning how to build a similar app, that is so widely recognized in the world, is a must for me! 🙏🏽 This also happened to be the first advanced training project that I completed using [Next.js](https://nextjs.org/), so this is where our lasting relationship started.. 💘
+
+---
+
+![demo](/images/blog/renting-app/demo1.gif)
+
+After spending some time learning the **MERN** stack, fetching data straight from the database using server components felt like some kind of sorcery to me.. Although this new approach raised a lot of questions - it did feel very intuitive and somehow I started to lose interest in the old way of doing these things 👀
+
+Like always, the start of a project means authentication system - so this one was no different. The tech choice here landed on [NextAuth](https://next-auth.js.org/), which at that time was the most popular solution for projects using Next.js.  
+As for strategies - only 3 were used:
+
+- E-mail Credentials
+- Google OAuth
+- Github OAuth
+
+Having a solid authentication system was crucial for the advanced reservation system. Each account is able to list properties and also book a trip - both of these are separate sections that exist inside the application.  
+What I also find really cool, is the visual representation in the calendar for date ranges, when a certain property has already been booked for that particular period. As soon as one of the parties cancels the reservation - it instantly becomes available again.
+
+One of the really cool features that absolutely need to be highlighted in this project, is the advanced search algorithm using url queries, that are also shareable across different browsers, meaning that if you select a specific date range, price, category and room preference - you can easily share the link with a friend and they will be able to see identical search result in their browser as well 🤯
+
+Concerning the visual representation - this project is a masterclass of how you are able to style and animate an advanced, high quality and visually appealing web application using only [Tailwind CSS](https://tailwindcss.com/) and display success or error messages with a super simple to use [React Hot Toast](https://react-hot-toast.com/) library, which has also become one of my favorites after working with it on this application.
+
+---
+
+Completing this project was a really big step to acquiring essential skills for building complex, larger scale applications that are to be maintainable in the future, because this type of projects always require an addition of new features - so naturally the code has to be clean, easy to read and very well organized.  
+So.. Take a peek inside the [github repository](https://github.com/fotyG/airbnb-clone-next13) and you'll find that all of the points mentioned above are successfully ✅**Done**
+
+### Bonus Content:
+
+> If you are wondering why I'm calling it a Renting App instead of "this & that clone" - it's because I was a regular costumer of being flagged for phishing when I used existing, popular platform names in my training projects 😅
