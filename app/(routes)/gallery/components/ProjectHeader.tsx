@@ -13,8 +13,8 @@ const ProjectHeader = () => {
       animate={{ opacity: 1, transition: { duration: 0.7 } }}
       className="container"
     >
-      <div className="flex flex-col-reverse items-center justify-center sm:flex-row rounded-md">
-        <div className="w-full sm:p-8 h-1/2 sm:w-2/3 xl:w-1/2">
+      <div className="flex flex-row mt-5 items-center justify-center">
+        <div className="sm:p-8 h-1/2 sm:w-2/3 xl:w-1/2">
           <h1 className="text-lg font-bold sm:text-4xl mb-2">
             Training projects
           </h1>
@@ -42,7 +42,7 @@ const ProjectHeader = () => {
             fill
             className="object-contain"
             alt="bleach"
-            src={"/images/bleach.png"}
+            src={"/images/pngs/purplehair.png"}
           />
         </div>
       </div>
