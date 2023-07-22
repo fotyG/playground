@@ -13,9 +13,9 @@ const ProjectHeader = () => {
       animate={{ opacity: 1, transition: { duration: 0.7 } }}
       className="container"
     >
-      <div className="flex flex-row mt-5 items-center justify-center">
-        <div className="sm:p-8 h-1/2 sm:w-2/3 xl:w-1/2">
-          <h1 className="text-lg font-bold sm:text-4xl mb-2">
+      <div className="flex flex-col sm:flex-row items-center justify-center">
+        <div className="sm:p-8 sm:w-2/3 xl:w-1/2">
+          <h1 className="text-lg font-bold sm:text-4xl mt-10 sm:mt-0 mb-2">
             Training projects
           </h1>
           <p className="leading-tight sm:text-xl text-justify">
@@ -37,7 +37,7 @@ const ProjectHeader = () => {
             section!
           </p>
         </div>
-        <div className="relative p-6 aspect-square sm:w-1/3 xl:w-1/2 w-full">
+        <div className="mt-5 relative p-6 aspect-square sm:w-1/3 xl:w-1/2 w-full">
           <Image
             fill
             className="object-contain"
@@ -48,7 +48,7 @@ const ProjectHeader = () => {
       </div>
 
       <Separator
-        className={"mt-10 sm:mt-0 bg-secondary/50"}
+        className={"sm:mt-0 bg-secondary/50"}
         decorative
       />
     </motion.div>
