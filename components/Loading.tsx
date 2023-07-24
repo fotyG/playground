@@ -4,7 +4,7 @@ import { GridLoader } from "react-spinners";
 
 const Loading = () => {
   return (
-    <div className="container flex justify-center items-center min-h-screen transition-all">
+    <div className="container flex justify-center items-center min-h-screen transition duration-300">
       <GridLoader
         size={50}
         color="hsl(var(--bc))"

@@ -2,8 +2,8 @@
 
 import Confetti from "react-confetti";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { useWindowSize } from "usehooks-ts";
+import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 import {
@@ -20,10 +20,10 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 import Card from "./components/Card";
 import Modal from "./components/Modal";
+import SkipModal from "./components/SkipModal";
 import ProgressBar from "./components/ProgressBar";
 import CheaterModal from "./components/CheaterModal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
-import SkipModal from "./components/SkipModal";
 
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
@@ -32,18 +32,19 @@ let matchSound: HTMLAudioElement;
 let gameWinSound: HTMLAudioElement;
 
 const MemoryGame = () => {
-  const [isCheating, setIsCheating] = useState(false);
-  const [cardState, setCardState] = useState(createState(pokemonCardArray));
   const [moveCounter, setMoveCounter] = useState(0);
+  const [isCheating, setIsCheating] = useState(false);
   const [matchCounter, setMatchCounter] = useState(0);
+  const [flipComplete, setFlipComplete] = useState(true);
+  const [gameComplete, setGameComplete] = useState(false);
   const [totalMoveCounter, setTotalMoveCounter] = useState(0);
   const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
-  const [gameComplete, setGameComplete] = useState(false);
-  const [flipComplete, setFlipComplete] = useState(true);
+  const [cardState, setCardState] = useState(createState(pokemonCardArray));
 
   const { width } = useWindowSize();
   const unlock = useUnlockStore((state) => state.unlockMg);
+
   const gameState = useUnlockStore((state) => state.mg);
   const stateOfUnlock = useUnlockStore((state) => state.mg);
 
@@ -75,28 +76,29 @@ const MemoryGame = () => {
     if (xx !== null && yy !== null) {
       if (JSON.stringify(yy) !== JSON.stringify(xx)) {
         setIsCheating(true);
-        localStorage.removeItem("mg_card_array");
-        localStorage.removeItem("mg_rf_array");
-        localStorage.removeItem("mg_match_counter");
-        localStorage.removeItem("mg_move_counter");
-        localStorage.removeItem("mg_total_move_counter");
         localStorage.removeItem("mg_state");
+        localStorage.removeItem("mg_rf_array");
+        localStorage.removeItem("mg_card_array");
+        localStorage.removeItem("mg_move_counter");
         localStorage.removeItem("@secure.j.y7545");
         localStorage.removeItem("@secure.j.x7545");
-        cardArray = shuffleCards(pokemonCardArray);
+        localStorage.removeItem("mg_match_counter");
+        localStorage.removeItem("mg_total_move_counter");
+
         recentlyFlippedCardIndexes = [];
+        cardArray = shuffleCards(pokemonCardArray);
         return;
       }
     }
 
     if (
+      xx === null ||
+      localCardArray === null ||
       localCardState === null ||
       localMoveCounter === null ||
       localMatchCounter === null ||
-      localTotalMoveCounter === null ||
-      localCardArray === null ||
       localRFCIndexArray === null ||
-      xx === null
+      localTotalMoveCounter === null
     ) {
       return restartGame();
     }
@@ -105,9 +107,10 @@ const MemoryGame = () => {
     recentlyFlippedCardIndexes = localRFCIndexArray;
 
     setCardState(localCardState);
-    setTotalMoveCounter(localTotalMoveCounter);
-    setMatchCounter(localMatchCounter);
     setMoveCounter(localMoveCounter);
+    setMatchCounter(localMatchCounter);
+    setTotalMoveCounter(localTotalMoveCounter);
+
     localStorage.removeItem("@secure.j.y7545");
   }, []);
 
@@ -123,22 +126,23 @@ const MemoryGame = () => {
     ] = getState();
 
     if (
+      localCardArray?.cheater ||
       localCardState?.cheater ||
       localMoveCounter?.cheater ||
       localMatchCounter?.cheater ||
-      localTotalMoveCounter?.cheater ||
       localRFCIndexArray?.cheater ||
-      localCardArray?.cheater
+      localTotalMoveCounter?.cheater
     ) {
       setIsCheating(true);
-      localStorage.removeItem("mg_card_array");
-      localStorage.removeItem("mg_rf_array");
-      localStorage.removeItem("mg_match_counter");
-      localStorage.removeItem("mg_move_counter");
-      localStorage.removeItem("mg_total_move_counter");
       localStorage.removeItem("mg_state");
-      cardArray = shuffleCards(pokemonCardArray);
+      localStorage.removeItem("mg_rf_array");
+      localStorage.removeItem("mg_card_array");
+      localStorage.removeItem("mg_move_counter");
+      localStorage.removeItem("mg_match_counter");
+      localStorage.removeItem("mg_total_move_counter");
+
       recentlyFlippedCardIndexes = [];
+      cardArray = shuffleCards(pokemonCardArray);
       return;
     }
   }, [totalMoveCounter]);
@@ -231,11 +235,11 @@ const MemoryGame = () => {
     matchSound = new Audio("/sounds/success.wav");
     gameWinSound = new Audio("/sounds/gameWin.mp3");
     setMoveCounter(0);
-    setTotalMoveCounter(0);
     setMatchCounter(0);
-    setVictoryConfetti(false);
     setIsCheating(false);
+    setTotalMoveCounter(0);
     setGameComplete(false);
+    setVictoryConfetti(false);
   };
 
   return (
@@ -263,10 +267,10 @@ const MemoryGame = () => {
       {victoryConfetti && (
         <Confetti
           width={width}
-          numberOfPieces={500}
           recycle={false}
-          onConfettiComplete={() => setVictoryConfetti(false)}
+          numberOfPieces={500}
           style={{ zIndex: 1000 }}
+          onConfettiComplete={() => setVictoryConfetti(false)}
         />
       )}
       <motion.div
@@ -300,8 +304,8 @@ const MemoryGame = () => {
       ) : (
         <div className="mt-3 flex justify-center gap-2">
           <button
-            className="btn-primary btn"
             onClick={restartGame}
+            className="btn-primary btn transition-[border-radius] duration-500"
           >
             Restart
           </button>
@@ -312,11 +316,11 @@ const MemoryGame = () => {
       {isCheating && <CheaterModal restartGame={restartGame} />}
       {gameComplete && (
         <Modal
-          totalMoveCounter={totalMoveCounter}
           matchCounter={matchCounter}
-          setMatchCounter={setMatchCounter}
-          setTotalMoveCounter={setTotalMoveCounter}
           fetchDataOnOpen={fetchDataOnOpen}
+          setMatchCounter={setMatchCounter}
+          totalMoveCounter={totalMoveCounter}
+          setTotalMoveCounter={setTotalMoveCounter}
         />
       )}
     </div>

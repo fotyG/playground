@@ -1,11 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import Modal from "./Modal";
-import { useRouter } from "next/navigation";
 
 interface BlogCardProps {
   state: boolean;
@@ -107,11 +107,11 @@ const BlogCard: React.FC<BlogCardProps> = ({
         </div>
       </motion.div>
       <Modal
+        state={state}
         openModal={openModal}
-        setOpenModal={setOpenModal}
         cardTitle={cardTitle}
         blogContent={blogContent}
-        state={state}
+        setOpenModal={setOpenModal}
       />
     </>
   );

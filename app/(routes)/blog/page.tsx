@@ -1,5 +1,5 @@
-import BlogCardContainer from "./components/BlogCardContainer";
 import BlogHeader from "./components/BlogHeader";
+import BlogCardContainer from "./components/BlogCardContainer";
 
 const BlogPage = () => {
   return (

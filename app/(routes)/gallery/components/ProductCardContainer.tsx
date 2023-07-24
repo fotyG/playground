@@ -47,8 +47,8 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
           }}
         >
           <ArrowLeftCircle
-            className="opacity-80 hover:opacity-100"
             size={40}
+            className="opacity-80 hover:opacity-100"
           />
         </button>
       )}
@@ -59,8 +59,8 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
         {products.map((product: Product) => (
           <ProductCard
             key={product.id}
-            name={product.name}
             url={product.url}
+            name={product.name}
             images={product.images}
           />
         ))}
@@ -72,8 +72,8 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
           }}
         >
           <ArrowRightCircle
-            className="opacity-80 hover:opacity-100"
             size={40}
+            className="opacity-80 hover:opacity-100"
           />
         </button>
       )}

@@ -1,0 +1,36 @@
+import { Github, ExternalLink } from "lucide-react";
+
+# AI Software as a Service
+
+[<span className="inline-flex items-center mr-2"><Github /> Github</span>](https://github.com/fotyG/ai-saas)
+[<span className="inline-flex items-center"><ExternalLink /> Live Demo</span>](https://ai-foty.vercel.app/)
+
+Since the day, when ChatGPT became my full-time teacher and source of instant advice, concerning everything related to coding - one of my goals, was to develop something using this amazing piece of technology. 📚  
+Chatting with a computer, that felt like having a conversation with a very knowledgeable human, seemed like something out of sci-fi movies 🌌 to say the least...
+
+![genius-app](/images/blog/ai-saas/ai-demo1.gif)
+
+---
+
+In this training project two independent API's were used:
+
+- OpenAPI
+- Replicate
+
+I had some experience with Replicate, because when I initially started developing my PlayGround Portfolio, I implemented a model using Replicate, that allowed a user to draw a doodle and have an AI generate a high quality, detailed picture out of it. I wanted it to be one of the interactive tasks for the PlayGround, but my nephew was so excited for this new feature, that my _Free tier_ for the API was gone on the first day of implementation. 😂
+
+I've set up a small monthly budget for both API's so that my guests are able to play a bit, but, please, don't be too sad if the spending limit is reached on the day, when you are visiting the app. 🙏🏽 The wait time for some operations could be pretty long as well - because Replicate API has a _cold start_ that will take some time on the initial attempt. The hobby plan of vercel is also limiting our wait time. ⏲ All of these issues present us with an opportunity to explore hooks and edge functions in the near future to make up for the drawbacks of this initial training project.
+
+One cool feature of this project, is the ability to limit users to free generation counts and ask them to upgrade to _Premium_ tier afterwards. This logic is handled by implementation of Stripe payment and uses a working webhook that can be successfully triggered, using the mock data provided by Stripe (Card Nr. 42(42), everything else can be random). 💰
+
+![login-gif](/images/blog/ai-saas/ai-demo2.gif)
+
+---
+
+All in all, this lightweight AI training project laid a very sturdy foundation in my head of how _SaaS_ applications are made and managed. It was really fun to explore different setups for models and default prompts to match the model behavior to the intended use case of a particular section in the app. 🤖 I hope you will have some fun playing with it, because I had a lot of fun developing and learning this awesome technology. I will definitely dedicate more of my free time to create and explore more complex projects using AI tools! 🔫
+
+### Bonus Content:
+
+> This is an image of an early prototype, made specifically for PlayGround as one of it's interactive tasks..
+
+![early-prototype](/images/blog/ai-saas/prototype.jpeg)

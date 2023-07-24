@@ -32,11 +32,17 @@ const Modal: React.FC<ModalProps> = ({
           </DialogTitle>
         </DialogHeader>
         {cardTitle === "Coming Soon..." ? (
-          blogContent
+          <p className="font-semibold flex items-center justify-justify text-xl">
+            {blogContent}
+          </p>
         ) : state ? (
-          <p className="text-justify sm:text-xl">{blogContent}</p>
+          <p className="font-semibold flex items-center justify-center text-justify text-xl">
+            {blogContent}
+          </p>
         ) : (
-          "Complete the event to unlock this blog post!"
+          <p className="font-semibold flex items-center justify-center text-xl">
+            Complete the event to unlock this blog post!
+          </p>
         )}
       </DialogContent>
     </Dialog>

@@ -8,6 +8,7 @@ interface UnlockState {
   utilityMeters: boolean;
   rentingApp: boolean;
   musicApp: boolean;
+  aiSaas: boolean;
   newUnlock: boolean;
   unlockMg: () => void;
   unlockEcommerceStore: () => void;
@@ -15,6 +16,7 @@ interface UnlockState {
   unlockUtilityMeters: () => void;
   unlockRentingApp: () => void;
   unlockMusicApp: () => void;
+  unlockAISaas: () => void;
   resetNewUnlock: () => void;
 }
 
@@ -28,6 +30,7 @@ export const useUnlockStore = create<UnlockState>()(
         utilityMeters: false,
         rentingApp: false,
         musicApp: false,
+        aiSaas: false,
         newUnlock: false,
         unlockMg: () =>
           set((state) => {
@@ -70,6 +73,13 @@ export const useUnlockStore = create<UnlockState>()(
               return { musicApp: true, newUnlock: true };
             }
             return { musicApp: true };
+          }),
+        unlockAISaas: () =>
+          set((state) => {
+            if (!state.aiSaas) {
+              return { aiSaas: true, newUnlock: true };
+            }
+            return { aiSaas: true };
           }),
         resetNewUnlock: () => set((state) => ({ newUnlock: false })),
       }),

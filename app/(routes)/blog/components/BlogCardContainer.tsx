@@ -3,6 +3,7 @@
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 import BlogCard from "./BlogCard";
+import aiSaasContent from "../content/ai-saas-content";
 import musicAppContent from "../content/music-app-content";
 import rentingAppContent from "../content/renting-app-content";
 import memoryGameContent from "../content/memory-game-content";
@@ -13,11 +14,13 @@ import utilityMeterReadingAppContent from "../content/utility-meter-reading-app-
 
 const BlogCardContainer = () => {
   const mg = useUnlockStore((state) => state.mg);
-  const utilityMeters = useUnlockStore((state) => state.utilityMeters);
-  const ecommerceCMS = useUnlockStore((state) => state.ecommerceCMS);
-  const ecommerceStore = useUnlockStore((state) => state.ecommerceStore);
-  const rentingApp = useUnlockStore((state) => state.rentingApp);
+  const aiSaas = useUnlockStore((state) => state.aiSaas);
   const musicApp = useUnlockStore((state) => state.musicApp);
+  const rentingApp = useUnlockStore((state) => state.rentingApp);
+  const ecommerceCMS = useUnlockStore((state) => state.ecommerceCMS);
+  const utilityMeters = useUnlockStore((state) => state.utilityMeters);
+  const ecommerceStore = useUnlockStore((state) => state.ecommerceStore);
+
   return (
     <div className="grid grid-cols-1 gap-x-5 xl:gap-x-0 gap-y-5 lg:gap-y-10 justify-items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       <BlogCard
@@ -28,12 +31,18 @@ const BlogCardContainer = () => {
       />
       <BlogCard
         position={2}
+        key={aiSaasContent.cardTitle}
+        state={aiSaas}
+        content={aiSaasContent}
+      />
+      <BlogCard
+        position={3}
         key={utilityMeterReadingAppContent.cardTitle}
         state={utilityMeters}
         content={utilityMeterReadingAppContent}
       />
       <BlogCard
-        position={3}
+        position={4}
         key={ecommerceCMSContent.cardTitle}
         state={ecommerceCMS}
         content={ecommerceCMSContent}

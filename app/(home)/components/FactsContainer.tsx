@@ -12,7 +12,7 @@ const FactsContainer = () => {
             initial={{ opacity: 0 }}
             whileInView={{
               opacity: 1,
-              transition: { duration: 0.5 },
+              transition: { duration: 0.3 },
             }}
             key={idx}
             className="flex flex-col gap-5 my-5 sm:flex-row sm:odd:flex-row-reverse"

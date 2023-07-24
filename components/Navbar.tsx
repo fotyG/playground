@@ -7,7 +7,7 @@ import { themeChange } from "theme-change";
 import { useEffect, useState } from "react";
 import { MdCatchingPokemon } from "react-icons/md";
 import { BsPostageHeart, BsPen } from "react-icons/bs";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 
@@ -16,19 +16,19 @@ const Navbar = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [blogUnlocked, setBlogUnlocked] = useState(false);
 
-  const router = useRouter();
   const fullPathname = usePathname();
   const formattedPathname = fullPathname.split("/")[1];
 
   const unlockStore = useUnlockStore();
   const {
     mg,
-    ecommerceStore,
-    ecommerceCMS,
-    utilityMeters,
-    rentingApp,
+    aiSaas,
     musicApp,
     newUnlock,
+    rentingApp,
+    ecommerceCMS,
+    utilityMeters,
+    ecommerceStore,
     resetNewUnlock,
   } = unlockStore;
 
@@ -39,6 +39,7 @@ const Navbar = () => {
   useEffect(() => {
     let localArray = [
       mg,
+      aiSaas,
       ecommerceStore,
       ecommerceCMS,
       utilityMeters,
@@ -48,7 +49,15 @@ const Navbar = () => {
     const filtered = localArray.filter((item) => item === true).length;
     if (filtered <= 0) return;
     setBlogUnlocked(true);
-  }, [mg, ecommerceStore, ecommerceCMS, utilityMeters, rentingApp, musicApp]);
+  }, [
+    mg,
+    ecommerceStore,
+    ecommerceCMS,
+    utilityMeters,
+    rentingApp,
+    musicApp,
+    aiSaas,
+  ]);
 
   useEffect(() => {
     themeChange(false);
@@ -65,7 +74,7 @@ const Navbar = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100"
+      className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100 transition-colors duration-500"
     >
       <input
         id="my-drawer-3"

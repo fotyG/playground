@@ -12,16 +12,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
   const [unlockState, setUnlockState] = useState(false);
   const unlockStore = useUnlockStore();
   const {
-    ecommerceCMS,
-    ecommerceStore,
+    aiSaas,
     musicApp,
     rentingApp,
+    ecommerceCMS,
     utilityMeters,
+    ecommerceStore,
+    unlockAISaas,
+    unlockMusicApp,
+    unlockRentingApp,
+    unlockEcommerceCMS,
     unlockUtilityMeters,
     unlockEcommerceStore,
-    unlockEcommerceCMS,
-    unlockRentingApp,
-    unlockMusicApp,
   } = unlockStore;
 
   useEffect(() => {
@@ -35,8 +37,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
       setUnlockState(rentingApp);
     } else if (name === "Music App") {
       setUnlockState(musicApp);
+    } else if (name === "AI - SaaS") {
+      setUnlockState(aiSaas);
     }
-  }, [ecommerceCMS, ecommerceStore, musicApp, rentingApp, utilityMeters]);
+  }, [
+    ecommerceCMS,
+    ecommerceStore,
+    musicApp,
+    rentingApp,
+    utilityMeters,
+    aiSaas,
+  ]);
 
   const action = useCallback(() => {
     if (name === "Utility Meter Reading App") {
@@ -49,6 +60,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
       unlockRentingApp();
     } else if (name === "Music App") {
       unlockMusicApp();
+    } else if (name === "AI - SaaS") {
+      unlockAISaas();
     }
   }, [
     name,
@@ -57,6 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
     unlockEcommerceCMS,
     unlockRentingApp,
     unlockMusicApp,
+    unlockAISaas,
   ]);
 
   return (

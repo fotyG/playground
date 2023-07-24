@@ -9,8 +9,14 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 const GalleryNav: React.FC<GalleryNavProps> = ({ projectCount }) => {
   const [visited, setVisited] = useState(0);
   const unlockStore = useUnlockStore();
-  const { ecommerceStore, ecommerceCMS, utilityMeters, rentingApp, musicApp } =
-    unlockStore;
+  const {
+    ecommerceStore,
+    ecommerceCMS,
+    utilityMeters,
+    rentingApp,
+    musicApp,
+    aiSaas,
+  } = unlockStore;
 
   useEffect(() => {
     let localArray = [
@@ -19,9 +25,17 @@ const GalleryNav: React.FC<GalleryNavProps> = ({ projectCount }) => {
       utilityMeters,
       rentingApp,
       musicApp,
+      aiSaas,
     ];
     setVisited(localArray.filter((item) => item === true).length);
-  }, [ecommerceStore, ecommerceCMS, utilityMeters, rentingApp, musicApp]);
+  }, [
+    ecommerceStore,
+    ecommerceCMS,
+    utilityMeters,
+    rentingApp,
+    musicApp,
+    aiSaas,
+  ]);
 
   return (
     <motion.div

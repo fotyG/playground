@@ -19,7 +19,7 @@ const Footer = () => {
     <motion.footer
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1, transition: { duration: 0.3 } }}
-      className="flex flex-col items-center md:flex-row md:justify-between md:items-center footer px-10 py-4 border-t bg-base-200 text-base-content border-base-300"
+      className="flex flex-col items-center md:flex-row md:justify-between md:items-center footer px-10 py-4 border-t bg-base-200 text-base-content border-base-300 transition-colors duration-500"
     >
       <div className="flex justify-center items-center">
         <svg

@@ -6,8 +6,8 @@ import axios from "axios";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
-import { useState, useEffect, SetStateAction, Dispatch } from "react";
 import { twMerge } from "tailwind-merge";
+import { useState, useEffect, SetStateAction, Dispatch } from "react";
 
 interface CardProps {
   index: number;
@@ -78,13 +78,10 @@ const Card: React.FC<CardProps> = ({
     )
       return;
 
-    // recentlyFlippedCardIndexes.push(index);
-    // setMoveCounter((prev) => prev + 1);
-
     try {
       setIsLoading(true);
       recentlyFlippedCardIndexes.push(index);
-      setMoveCounter((prev) => prev + 1);
+
       const picture = await axios.get(`/api/cards/${randomId}`, {
         responseType: "arraybuffer",
       });
@@ -93,12 +90,14 @@ const Card: React.FC<CardProps> = ({
       );
       const imageDataUrl = `data:image/png;base64,${base64Image}`;
       setCardImage(imageDataUrl);
+
+      setMoveCounter((prev) => prev + 1);
       setTotalMoveCounter((prev) => prev + 1);
       setCardState((prev) => {
         const newState = [...prev];
         newState[index] = { ...prev[index], hidden: !prev[index].hidden };
 
-        if (recentlyFlippedCardIndexes.length === 2 && moveCounter >= 1) {
+        if (recentlyFlippedCardIndexes.length === 2) {
           setFlipComplete(true);
           return newState;
         }

@@ -52,7 +52,7 @@ const NewModal: React.FC<ModalProps> = ({
 
   return (
     <Dialog defaultOpen>
-      <DialogTrigger className="btn btn-primary m-2 transition-all">
+      <DialogTrigger className="btn btn-primary m-2 transition-[border-radius] duration-500">
         Submit your Score
       </DialogTrigger>
       <DialogContent className="modal-box">
