@@ -61,14 +61,14 @@ const MemoryGame = () => {
   // Initiation UseEffect
   useEffect(() => {
     setIsMounted(true);
-    const [
+    const {
       localCardState,
       localCardArray,
       localMoveCounter,
       localMatchCounter,
       localRFCIndexArray,
       localTotalMoveCounter,
-    ] = getState();
+    } = getState();
     const y = {
       a: localCardState,
       b: localCardArray,
@@ -130,22 +130,22 @@ const MemoryGame = () => {
 
   // Cheater Check UseEffect
   useEffect(() => {
-    const [
+    const {
       localCardState,
       localCardArray,
       localMoveCounter,
       localMatchCounter,
       localRFCIndexArray,
       localTotalMoveCounter,
-    ] = getState();
+    } = getState();
 
     if (
-      localCardArray?.cheater ||
-      localCardState?.cheater ||
-      localMoveCounter?.cheater ||
-      localMatchCounter?.cheater ||
-      localRFCIndexArray?.cheater ||
-      localTotalMoveCounter?.cheater
+      localCardArray?.hasOwnProperty("cheater") ||
+      localCardState?.hasOwnProperty("cheater") ||
+      localMoveCounter?.hasOwnProperty("cheater") ||
+      localMatchCounter?.hasOwnProperty("cheater") ||
+      localRFCIndexArray?.hasOwnProperty("cheater") ||
+      localTotalMoveCounter?.hasOwnProperty("cheater")
     ) {
       setIsCheating(true);
       localStorage.removeItem("mg_state");
@@ -298,7 +298,7 @@ const MemoryGame = () => {
           width={width}
           recycle={false}
           numberOfPieces={500}
-          style={{ zIndex: 1000 }}
+          style={{ zIndex: 1001 }}
           onConfettiComplete={() => setVictoryConfetti(false)}
         />
       )}

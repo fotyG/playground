@@ -8,14 +8,14 @@ const getState = () => {
   const localMatchCounter = getLocalIntItem("mg_match_counter");
   const localTotalMoveCounter = getLocalIntItem("mg_total_move_counter");
 
-  return [
+  return {
     localCardState,
     localCardArray,
     localMoveCounter,
     localMatchCounter,
     localRFCIndexArray,
     localTotalMoveCounter,
-  ];
+  };
 };
 
 export default getState;
