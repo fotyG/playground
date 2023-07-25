@@ -2,30 +2,32 @@ import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
 
+import { Player } from "@/types";
+import { useGameCompleteStore } from "@/hooks/useGameComplete";
 import { fetchScores, registerScore } from "../libs/getHighScores";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-import { Player } from "@/types";
-
 interface ModalProps {
-  totalMoveCounter: number;
-  setTotalMoveCounter: (arg: number) => void;
-  setMatchCounter: (arg: number) => void;
-  fetchDataOnOpen: boolean;
   matchCounter: number;
+  fetchDataOnOpen: boolean;
+  totalMoveCounter: number;
+  setMatchCounter: (arg: number) => void;
+  setTotalMoveCounter: (arg: number) => void;
 }
 
 const NewModal: React.FC<ModalProps> = ({
-  totalMoveCounter,
-  setTotalMoveCounter,
+  matchCounter,
   setMatchCounter,
   fetchDataOnOpen,
-  matchCounter,
+  totalMoveCounter,
+  setTotalMoveCounter,
 }) => {
-  const [scores, setScores] = useState<Player[]>([]);
   const [name, setName] = useState("");
   const [activeTab, setActiveTab] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [scores, setScores] = useState<Player[]>([]);
+
+  const submitScore = useGameCompleteStore((state) => state.submitScore);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -34,11 +36,14 @@ const NewModal: React.FC<ModalProps> = ({
     try {
       setIsLoading(true);
       await registerScore({ name, score: totalMoveCounter });
+
       toast.success("Your score has been registered!");
+
       setName("");
-      setTotalMoveCounter(0);
+      submitScore();
       setMatchCounter(0);
       setActiveTab(false);
+      setTotalMoveCounter(0);
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
@@ -48,7 +53,7 @@ const NewModal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     fetchScores().then((data) => setScores(data as Player[]));
-  }, [isLoading, fetchDataOnOpen]);
+  }, [isLoading, fetchDataOnOpen, activeTab]);
 
   return (
     <Dialog defaultOpen>

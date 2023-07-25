@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { FaHome } from "react-icons/fa";
 import { themeChange } from "theme-change";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { MdCatchingPokemon } from "react-icons/md";
 import { BsPostageHeart, BsPen } from "react-icons/bs";
-import { usePathname } from "next/navigation";
 
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 
@@ -15,6 +15,7 @@ const Navbar = () => {
   const [active, setActive] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const [blogUnlocked, setBlogUnlocked] = useState(false);
+  const [clickedNavItem, setClickedNavItem] = useState("");
 
   const fullPathname = usePathname();
   const formattedPathname = fullPathname.split("/")[1];
@@ -112,6 +113,7 @@ const Navbar = () => {
           </div>
           <div className="flex-1 px-5 mx-2">
             <Link
+              onClick={() => setClickedNavItem("home")}
               href={"/"}
               className="relative"
               title="Home"
@@ -127,10 +129,14 @@ const Navbar = () => {
               {/* Navbar menu content here */}
               <li>
                 <Link
+                  onClick={() => setClickedNavItem("memory-game")}
                   className={
                     active === "memory-game"
                       ? "bg-neutral text-neutral-content"
-                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
+                        (clickedNavItem === "memory-game"
+                          ? "bg-base-content/10"
+                          : "")
                   }
                   href={"/memory-game"}
                 >
@@ -139,10 +145,14 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
+                  onClick={() => setClickedNavItem("gallery")}
                   className={
                     active === "gallery"
                       ? "bg-neutral text-neutral-content"
-                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
+                        (clickedNavItem === "gallery"
+                          ? "bg-base-content/10"
+                          : "")
                   }
                   href={"/gallery"}
                 >
@@ -153,6 +163,7 @@ const Navbar = () => {
                 <Link
                   onClick={() => {
                     if (!blogUnlocked) return;
+                    setClickedNavItem("blog");
                     resetNewUnlock();
                   }}
                   onAuxClick={() => {
@@ -165,8 +176,9 @@ const Navbar = () => {
                       ? "bg-neutral text-neutral-content"
                       : "relative hover:bg-base-content/10 active:opacity-75 " +
                         (blogUnlocked
-                          ? "hover:cursor-pointer"
-                          : "hover:cursor-not-allowed")
+                          ? "hover:cursor-pointer "
+                          : "hover:cursor-not-allowed ") +
+                        (clickedNavItem === "blog" ? "bg-base-content/10" : "")
                   }
                 >
                   {newUnlock && (
@@ -216,10 +228,12 @@ const Navbar = () => {
           </select>
           <li className="mt-2 mb-1">
             <Link
+              onClick={() => setClickedNavItem("home")}
               className={
                 active === ""
                   ? "bg-neutral text-neutral-content"
-                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
+                    (clickedNavItem === "home" ? "bg-base-content/10" : "")
               }
               href={"/"}
             >
@@ -228,10 +242,14 @@ const Navbar = () => {
           </li>
           <li className="mb-1">
             <Link
+              onClick={() => setClickedNavItem("memory-game")}
               className={
                 active === "memory-game"
                   ? "bg-neutral text-neutral-content"
-                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
+                    (clickedNavItem === "memory-game"
+                      ? "bg-base-content/10"
+                      : "")
               }
               href={"/memory-game"}
             >
@@ -241,10 +259,12 @@ const Navbar = () => {
           </li>
           <li className="my-1">
             <Link
+              onClick={() => setClickedNavItem("gallery")}
               className={
                 active === "gallery"
                   ? "bg-neutral text-neutral-content"
-                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75"
+                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
+                    (clickedNavItem === "gallery" ? "bg-base-content/10" : "")
               }
               href={"/gallery"}
             >
@@ -256,6 +276,7 @@ const Navbar = () => {
             <Link
               onClick={() => {
                 if (!blogUnlocked) return;
+                setClickedNavItem("blog");
                 resetNewUnlock();
               }}
               onAuxClick={() => {
@@ -268,8 +289,9 @@ const Navbar = () => {
                   ? "bg-neutral text-neutral-content"
                   : "relative hover:bg-base-content/10 active:opacity-75 " +
                     (blogUnlocked
-                      ? "hover:cursor-pointer"
-                      : "hover:cursor-not-allowed")
+                      ? "hover:cursor-pointer "
+                      : "hover:cursor-not-allowed ") +
+                    (clickedNavItem === "blog" ? "bg-base-content/10" : "")
               }
             >
               {newUnlock && (
