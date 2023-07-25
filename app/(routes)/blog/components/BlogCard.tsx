@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -57,7 +58,6 @@ const BlogCard: React.FC<BlogCardProps> = ({
         whileHover={isLg ? { scale: 1.1, transition: { duration: 0.2 } } : {}}
         onClick={() => {
           state ? router.push(`/blog/${slug}`) : setOpenModal(true);
-          // setOpenModal(true);
         }}
         className="
           card 
@@ -73,7 +73,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
         "
       >
         <figure className="bg-primary/50 p-5">
-          <img
+          <Image
+            width={300}
+            height={300}
             className={state ? "" : "grayscale"}
             src={cardImg}
             alt={cardTitle}

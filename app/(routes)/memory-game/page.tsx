@@ -7,26 +7,25 @@ import { useEffect, useRef, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 import {
+  playSound,
   createState,
   shuffleCards,
-  playSound,
+  encodeNumber,
   setLocalIntItem,
   setLocalStringItem,
-  encodeNumber,
 } from "./helpers/helperFunctions";
-import getState from "./helpers/getState";
-import pokemonCardArray from "./libs/pokemonCardData";
-import { useUnlockStore } from "@/hooks/useUnlockStore";
-
 import Card from "./components/Card";
 import Modal from "./components/Modal";
+import getState from "./helpers/getState";
+import { useMute } from "@/hooks/useMute";
+import SoundMute from "./components/SoundMute";
 import SkipModal from "./components/SkipModal";
 import ProgressBar from "./components/ProgressBar";
 import CheaterModal from "./components/CheaterModal";
+import pokemonCardArray from "./libs/pokemonCardData";
+import { useUnlockStore } from "@/hooks/useUnlockStore";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
-import { useMute } from "@/hooks/useMute";
-import SoundMute from "./components/SoundMute";
 
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
@@ -64,19 +63,19 @@ const MemoryGame = () => {
     setIsMounted(true);
     const [
       localCardState,
+      localCardArray,
       localMoveCounter,
       localMatchCounter,
-      localTotalMoveCounter,
-      localCardArray,
       localRFCIndexArray,
+      localTotalMoveCounter,
     ] = getState();
     const y = {
       a: localCardState,
       b: localCardArray,
       c: localMoveCounter,
       d: localMatchCounter,
-      e: localTotalMoveCounter,
-      f: localRFCIndexArray,
+      e: localRFCIndexArray,
+      f: localTotalMoveCounter,
     };
     secureLocalStorage.setItem("y7545", y);
     const yy = secureLocalStorage.getItem("y7545");
@@ -115,10 +114,16 @@ const MemoryGame = () => {
     cardArray = localCardArray;
     recentlyFlippedCardIndexes = localRFCIndexArray;
 
-    setCardState(localCardState);
-    setMoveCounter(localMoveCounter);
-    setMatchCounter(localMatchCounter);
-    setTotalMoveCounter(localTotalMoveCounter);
+    if (
+      typeof localMoveCounter === "number" &&
+      typeof localMatchCounter === "number" &&
+      typeof localTotalMoveCounter === "number"
+    ) {
+      setCardState(localCardState);
+      setMoveCounter(localMoveCounter);
+      setMatchCounter(localMatchCounter);
+      setTotalMoveCounter(localTotalMoveCounter);
+    }
 
     localStorage.removeItem("@secure.j.y7545");
   }, []);
@@ -127,11 +132,11 @@ const MemoryGame = () => {
   useEffect(() => {
     const [
       localCardState,
+      localCardArray,
       localMoveCounter,
       localMatchCounter,
-      localTotalMoveCounter,
-      localCardArray,
       localRFCIndexArray,
+      localTotalMoveCounter,
     ] = getState();
 
     if (
@@ -170,8 +175,8 @@ const MemoryGame = () => {
       b: cardArray,
       c: moveCounter,
       d: matchCounter,
-      e: totalMoveCounter,
-      f: recentlyFlippedCardIndexes,
+      e: recentlyFlippedCardIndexes,
+      f: totalMoveCounter,
     };
     secureLocalStorage.setItem("x7545", x);
   }, [totalMoveCounter, cardState, matchCounter, moveCounter]);
@@ -210,8 +215,9 @@ const MemoryGame = () => {
       if (matchSound.current) {
         playSound(matchSound.current);
       }
-      setMatchCounter((prev) => prev + 1);
       setMoveCounter(0);
+      setMatchCounter((prev) => prev + 1);
+
       setCardState((prev) => {
         const newState = [...prev];
         newState[recentlyFlippedCardIndexes[0]] = {
@@ -222,27 +228,34 @@ const MemoryGame = () => {
           ...prev[recentlyFlippedCardIndexes[1]],
           matched: !prev[recentlyFlippedCardIndexes[1]].matched,
         };
-        recentlyFlippedCardIndexes = [];
 
+        recentlyFlippedCardIndexes = [];
         return newState;
       });
     }
 
     if (matchCounter === 14) {
       setGameComplete(true);
-      setVictoryConfetti(true);
       setFetchDataOnOpen((prev) => !prev);
-
       if (!gameCompleteState) {
+        setVictoryConfetti(true);
         if (gameWinSound.current) {
           playSound(gameWinSound.current);
         }
       }
-
       unlock();
       completeGame();
     }
-  }, [moveCounter, matchCounter, totalMoveCounter, flipComplete]);
+  }, [
+    unlock,
+    moveCounter,
+    matchCounter,
+    flipComplete,
+    gameComplete,
+    completeGame,
+    totalMoveCounter,
+    gameCompleteState,
+  ]);
 
   const restartGame = () => {
     setMoveCounter(0);

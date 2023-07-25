@@ -63,7 +63,8 @@ const Card: React.FC<CardProps> = ({
         fetchData();
       }
     }
-  }, [cardState[index].matched, cardState[index].hidden]);
+  }, [cardImage, randomId, index, cardState]);
+  // cardState[index].matched, cardState[index].hidden,
 
   const flipCard = async (index: number) => {
     if (

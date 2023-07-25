@@ -10,6 +10,7 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
   const [unlockState, setUnlockState] = useState(false);
+
   const unlockStore = useUnlockStore();
   const {
     aiSaas,
@@ -41,12 +42,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
       setUnlockState(aiSaas);
     }
   }, [
-    ecommerceCMS,
-    ecommerceStore,
+    name,
+    aiSaas,
     musicApp,
     rentingApp,
+    ecommerceCMS,
     utilityMeters,
-    aiSaas,
+    ecommerceStore,
   ]);
 
   const action = useCallback(() => {
