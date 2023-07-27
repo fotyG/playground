@@ -22,7 +22,7 @@ const usePlaySound = (
     } else {
       if (sound) sound.muted = false;
     }
-  }, [muted]);
+  }, [muted, sound]);
 
   return { playSound };
 };
