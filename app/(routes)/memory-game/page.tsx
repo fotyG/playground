@@ -18,12 +18,12 @@ import getState from "./helpers/getState";
 import { useMute } from "@/hooks/useMute";
 import SoundMute from "./components/SoundMute";
 import SkipModal from "./components/SkipModal";
-import usePlaySound from "./hooks/usePlaySound";
 import useIsCheating from "./hooks/useIsCheating";
 import ProgressBar from "./components/ProgressBar";
 import setLocalState from "./helpers/setLocalState";
 import CheaterModal from "./components/CheaterModal";
 import pokemonCardArray from "./lib/pokemonCardData";
+import { playSound } from "./helpers/helperFunctions";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
@@ -48,11 +48,6 @@ const MemoryGame = () => {
   const matchSound = useRef<HTMLAudioElement>(null);
   const gameWinSound = useRef<HTMLAudioElement>(null);
   const soundMuted = useMute((state) => state.soundMuted);
-  const { playSound: playMatchSound } = usePlaySound(matchSound, soundMuted);
-  const { playSound: playGameWinSound } = usePlaySound(
-    gameWinSound,
-    soundMuted
-  );
 
   const unlock = useUnlockStore((state) => state.unlockMg);
   const stateOfUnlock = useUnlockStore((state) => state.mg);
@@ -173,7 +168,9 @@ const MemoryGame = () => {
         cardArray[recentlyFlippedCardIndexes[0]]?.id ===
           cardArray[recentlyFlippedCardIndexes[1]]?.id
       ) {
-        playMatchSound();
+        if (matchSound.current) {
+          playSound(matchSound.current);
+        }
         setMoveCounter(0);
         setMatchCounter((prev) => prev + 1);
 
@@ -197,7 +194,9 @@ const MemoryGame = () => {
         setGameComplete(true);
         setFetchDataOnOpen((prev) => !prev);
         if (!gameCompleteState) {
-          playGameWinSound();
+          if (gameWinSound.current) {
+            playSound(gameWinSound.current);
+          }
           setVictoryConfetti(true);
         }
         unlock();
@@ -313,12 +312,22 @@ const MemoryGame = () => {
           setTotalMoveCounter={setTotalMoveCounter}
         />
       )}
-      <audio ref={matchSound}>
-        <source src="/sounds/success.wav" />
-      </audio>
-      <audio ref={gameWinSound}>
-        <source src="/sounds/gameWin.mp3" />
-      </audio>
+      {isMounted && (
+        <>
+          <audio
+            ref={matchSound}
+            muted={soundMuted}
+          >
+            <source src="/sounds/success.wav" />
+          </audio>
+          <audio
+            ref={gameWinSound}
+            muted={soundMuted}
+          >
+            <source src="/sounds/gameWin.mp3" />
+          </audio>
+        </>
+      )}
     </div>
   );
 };
