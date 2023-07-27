@@ -64,7 +64,7 @@ const Card: React.FC<CardProps> = ({
         fetchData();
       }
     }
-  }, [cardImage, randomId, index, cardState]);
+  }, [cardImage, randomId, index, cardState, isCheating]);
 
   const flipCard = async (index: number) => {
     if (

@@ -127,7 +127,7 @@ const MemoryGame = () => {
         recentlyFlippedCardIndexes,
       });
     }
-  }, [totalMoveCounter, cardState, matchCounter, moveCounter, resetTrigger]);
+  }, [totalMoveCounter, cardState, matchCounter, moveCounter, resetTrigger, isMounted]);
 
   // Game progress UseEffect
   useEffect(() => {
