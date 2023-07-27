@@ -12,10 +12,10 @@ import { useState, useEffect, SetStateAction, Dispatch } from "react";
 interface CardProps {
   index: number;
   randomId: string;
-  cardState: CardState[];
   isCheating: boolean;
   moveCounter: number;
   gameComplete: boolean;
+  cardState: CardState[];
   recentlyFlippedCardIndexes: number[];
   setCardState: Dispatch<SetStateAction<CardState[]>>;
   setFlipComplete: Dispatch<SetStateAction<boolean>>;
@@ -30,16 +30,17 @@ const Card: React.FC<CardProps> = ({
   isCheating,
   moveCounter,
   gameComplete,
-  recentlyFlippedCardIndexes,
   setCardState,
-  setFlipComplete,
   setMoveCounter,
+  setFlipComplete,
   setTotalMoveCounter,
+  recentlyFlippedCardIndexes,
 }) => {
-  const [cardImage, setCardImage] = useState("/images/1.webp");
   const [isLoading, setIsLoading] = useState(false);
+  const [cardImage, setCardImage] = useState("/images/1.webp");
 
   useEffect(() => {
+    if (isCheating) return;
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -58,18 +59,17 @@ const Card: React.FC<CardProps> = ({
       }
     };
 
-    if (cardState[index].matched || !cardState[index].hidden) {
+    if (cardState[index]?.matched || !cardState[index]?.hidden) {
       if (cardImage === "/images/1.webp") {
         fetchData();
       }
     }
   }, [cardImage, randomId, index, cardState]);
-  // cardState[index].matched, cardState[index].hidden,
 
   const flipCard = async (index: number) => {
     if (
-      !cardState[index].hidden ||
-      cardState[index].matched ||
+      !cardState[index]?.hidden ||
+      cardState[index]?.matched ||
       moveCounter === 2 ||
       recentlyFlippedCardIndexes.length === 2 ||
       isCheating ||
@@ -115,7 +115,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <motion.div
       initial={{ rotateY: 0 }}
-      animate={{ rotateY: cardState[index].hidden ? 0 : 180 }}
+      animate={{ rotateY: cardState[index]?.hidden ? 0 : 180 }}
       transition={{ duration: 0.3 }}
       draggable={false}
       className={twMerge(
@@ -126,7 +126,7 @@ const Card: React.FC<CardProps> = ({
     >
       <Image
         src={
-          cardState[index].hidden ? "/images/pokemon/pokeball.png" : cardImage
+          cardState[index]?.hidden ? "/images/pokemon/pokeball.png" : cardImage
         }
         fill
         priority={true}

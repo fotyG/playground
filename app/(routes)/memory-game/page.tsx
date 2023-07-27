@@ -2,6 +2,7 @@
 
 import Confetti from "react-confetti";
 import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 import { useWindowSize } from "usehooks-ts";
 import { useEffect, useRef, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
@@ -11,8 +12,6 @@ import {
   createState,
   shuffleCards,
   encodeNumber,
-  setLocalIntItem,
-  setLocalStringItem,
 } from "./helpers/helperFunctions";
 import Card from "./components/Card";
 import Modal from "./components/Modal";
@@ -20,9 +19,11 @@ import getState from "./helpers/getState";
 import { useMute } from "@/hooks/useMute";
 import SoundMute from "./components/SoundMute";
 import SkipModal from "./components/SkipModal";
+import useIsCheating from "./hooks/useIsCheating";
 import ProgressBar from "./components/ProgressBar";
+import setLocalState from "./helpers/setLocalState";
 import CheaterModal from "./components/CheaterModal";
-import pokemonCardArray from "./libs/pokemonCardData";
+import pokemonCardArray from "./lib/pokemonCardData";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
@@ -33,9 +34,9 @@ let recentlyFlippedCardIndexes: number[] = [];
 const MemoryGame = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [moveCounter, setMoveCounter] = useState(0);
-  const [isCheating, setIsCheating] = useState(false);
   const [matchCounter, setMatchCounter] = useState(0);
   const [flipComplete, setFlipComplete] = useState(true);
+  const [resetTrigger, setResetTrigger] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
   const [totalMoveCounter, setTotalMoveCounter] = useState(0);
   const [victoryConfetti, setVictoryConfetti] = useState(false);
@@ -51,6 +52,8 @@ const MemoryGame = () => {
   const unlock = useUnlockStore((state) => state.unlockMg);
   const stateOfUnlock = useUnlockStore((state) => state.mg);
 
+  const isCheating = useIsCheating(totalMoveCounter, resetTrigger);
+
   const completeGame = useGameCompleteStore((state) => state.completeGame);
   const scoreSubmitted = useGameCompleteStore((state) => state.scoreSubmitted);
   const gameCompleteState = useGameCompleteStore((state) => state.gameComplete);
@@ -61,190 +64,140 @@ const MemoryGame = () => {
   // Initiation UseEffect
   useEffect(() => {
     setIsMounted(true);
-    const {
-      localCardState,
-      localCardArray,
-      localMoveCounter,
-      localMatchCounter,
-      localRFCIndexArray,
-      localTotalMoveCounter,
-    } = getState();
-    const y = {
-      a: localCardState,
-      b: localCardArray,
-      c: localMoveCounter,
-      d: localMatchCounter,
-      e: localRFCIndexArray,
-      f: localTotalMoveCounter,
-    };
-    secureLocalStorage.setItem("y7545", y);
-    const yy = secureLocalStorage.getItem("y7545");
-    const xx = secureLocalStorage.getItem("x7545");
+    try {
+      const {
+        localCardState,
+        localCardArray,
+        localMoveCounter,
+        localMatchCounter,
+        localRFCIndexArray,
+        localTotalMoveCounter,
+      } = getState();
 
-    if (xx !== null && yy !== null) {
-      if (JSON.stringify(yy) !== JSON.stringify(xx)) {
-        setIsCheating(true);
-        localStorage.removeItem("mg_state");
-        localStorage.removeItem("mg_rf_array");
-        localStorage.removeItem("mg_card_array");
-        localStorage.removeItem("mg_move_counter");
-        localStorage.removeItem("@secure.j.y7545");
-        localStorage.removeItem("@secure.j.x7545");
-        localStorage.removeItem("mg_match_counter");
-        localStorage.removeItem("mg_total_move_counter");
+      const xx = secureLocalStorage.getItem("x7545");
 
+      if (
+        xx === null ||
+        localCardArray === null ||
+        localCardState === null ||
+        localMoveCounter === null ||
+        localMatchCounter === null ||
+        localRFCIndexArray === null ||
+        localTotalMoveCounter === null ||
+        (gameCompleteState && scoreSubmitted)
+      ) {
+        return restartGame();
+      }
+
+      if (Array.isArray(localCardArray) && Array.isArray(localRFCIndexArray)) {
+        cardArray = localCardArray;
+        recentlyFlippedCardIndexes = localRFCIndexArray;
+      } else {
         recentlyFlippedCardIndexes = [];
         cardArray = shuffleCards(pokemonCardArray);
-        return;
       }
-    }
 
-    if (
-      xx === null ||
-      localCardArray === null ||
-      localCardState === null ||
-      localMoveCounter === null ||
-      localMatchCounter === null ||
-      localRFCIndexArray === null ||
-      localTotalMoveCounter === null ||
-      (gameCompleteState && scoreSubmitted)
-    ) {
-      return restartGame();
-    }
-    cardArray = localCardArray;
-    recentlyFlippedCardIndexes = localRFCIndexArray;
+      if (
+        typeof localMoveCounter === "number" &&
+        typeof localMatchCounter === "number" &&
+        typeof localTotalMoveCounter === "number"
+      ) {
+        setCardState(localCardState);
+        setMoveCounter(localMoveCounter);
+        setMatchCounter(localMatchCounter);
+        setTotalMoveCounter(localTotalMoveCounter);
+      }
 
-    if (
-      typeof localMoveCounter === "number" &&
-      typeof localMatchCounter === "number" &&
-      typeof localTotalMoveCounter === "number"
-    ) {
-      setCardState(localCardState);
-      setMoveCounter(localMoveCounter);
-      setMatchCounter(localMatchCounter);
-      setTotalMoveCounter(localTotalMoveCounter);
+      localStorage.removeItem("@secure.j.y7545");
+    } catch (error) {
+      toast.error("Something went wrong, restarting the game!");
+      restartGame();
     }
-
-    localStorage.removeItem("@secure.j.y7545");
   }, []);
-
-  // Cheater Check UseEffect
-  useEffect(() => {
-    const {
-      localCardState,
-      localCardArray,
-      localMoveCounter,
-      localMatchCounter,
-      localRFCIndexArray,
-      localTotalMoveCounter,
-    } = getState();
-
-    if (
-      localCardArray?.hasOwnProperty("cheater") ||
-      localCardState?.hasOwnProperty("cheater") ||
-      localMoveCounter?.hasOwnProperty("cheater") ||
-      localMatchCounter?.hasOwnProperty("cheater") ||
-      localRFCIndexArray?.hasOwnProperty("cheater") ||
-      localTotalMoveCounter?.hasOwnProperty("cheater")
-    ) {
-      setIsCheating(true);
-      localStorage.removeItem("mg_state");
-      localStorage.removeItem("mg_rf_array");
-      localStorage.removeItem("mg_card_array");
-      localStorage.removeItem("mg_move_counter");
-      localStorage.removeItem("mg_match_counter");
-      localStorage.removeItem("mg_total_move_counter");
-
-      recentlyFlippedCardIndexes = [];
-      cardArray = shuffleCards(pokemonCardArray);
-      return;
-    }
-  }, [totalMoveCounter]);
 
   // Every move update to LocalStorage
   useEffect(() => {
-    setLocalStringItem(cardState, "mg_state");
-    setLocalStringItem(cardArray, "mg_card_array");
-    setLocalIntItem(moveCounter, "mg_move_counter");
-    setLocalIntItem(matchCounter, "mg_match_counter");
-    setLocalIntItem(totalMoveCounter, "mg_total_move_counter");
-    setLocalStringItem(recentlyFlippedCardIndexes, "mg_rf_array");
-
-    const x = {
-      a: cardState,
-      b: cardArray,
-      c: moveCounter,
-      d: matchCounter,
-      e: recentlyFlippedCardIndexes,
-      f: totalMoveCounter,
-    };
-    secureLocalStorage.setItem("x7545", x);
-  }, [totalMoveCounter, cardState, matchCounter, moveCounter]);
+    if (isMounted) {
+      setLocalState({
+        cardState,
+        cardArray,
+        moveCounter,
+        matchCounter,
+        totalMoveCounter,
+        recentlyFlippedCardIndexes,
+      });
+    }
+  }, [totalMoveCounter, cardState, matchCounter, moveCounter, resetTrigger]);
 
   // Game progress UseEffect
   useEffect(() => {
-    if (
-      moveCounter === 2 &&
-      cardArray[recentlyFlippedCardIndexes[0]]?.id !==
-        cardArray[recentlyFlippedCardIndexes[1]]?.id &&
-      flipComplete
-    ) {
-      setTimeout(() => {
+    try {
+      if (
+        moveCounter === 2 &&
+        cardArray[recentlyFlippedCardIndexes[0]]?.id !==
+          cardArray[recentlyFlippedCardIndexes[1]]?.id &&
+        flipComplete
+      ) {
+        setTimeout(() => {
+          setCardState((prev) => {
+            const newState = [...prev];
+            newState[recentlyFlippedCardIndexes[0]] = {
+              ...prev[recentlyFlippedCardIndexes[0]],
+              hidden: !prev[recentlyFlippedCardIndexes[0]]?.hidden,
+            };
+            newState[recentlyFlippedCardIndexes[1]] = {
+              ...prev[recentlyFlippedCardIndexes[1]],
+              hidden: !prev[recentlyFlippedCardIndexes[1]]?.hidden,
+            };
+            recentlyFlippedCardIndexes = [];
+            setMoveCounter(0);
+            setFlipComplete(false);
+
+            return newState;
+          });
+        }, 1000);
+      } else if (
+        moveCounter === 2 &&
+        cardArray[recentlyFlippedCardIndexes[0]]?.id ===
+          cardArray[recentlyFlippedCardIndexes[1]]?.id
+      ) {
+        if (matchSound.current) {
+          playSound(matchSound.current);
+        }
+        setMoveCounter(0);
+        setMatchCounter((prev) => prev + 1);
+
         setCardState((prev) => {
           const newState = [...prev];
           newState[recentlyFlippedCardIndexes[0]] = {
             ...prev[recentlyFlippedCardIndexes[0]],
-            hidden: !prev[recentlyFlippedCardIndexes[0]]?.hidden,
+            matched: !prev[recentlyFlippedCardIndexes[0]].matched,
           };
           newState[recentlyFlippedCardIndexes[1]] = {
             ...prev[recentlyFlippedCardIndexes[1]],
-            hidden: !prev[recentlyFlippedCardIndexes[1]]?.hidden,
+            matched: !prev[recentlyFlippedCardIndexes[1]].matched,
           };
-          recentlyFlippedCardIndexes = [];
-          setMoveCounter(0);
-          setFlipComplete(false);
 
+          recentlyFlippedCardIndexes = [];
           return newState;
         });
-      }, 1000);
-    } else if (
-      moveCounter === 2 &&
-      cardArray[recentlyFlippedCardIndexes[0]]?.id ===
-        cardArray[recentlyFlippedCardIndexes[1]]?.id
-    ) {
-      if (matchSound.current) {
-        playSound(matchSound.current);
       }
-      setMoveCounter(0);
-      setMatchCounter((prev) => prev + 1);
 
-      setCardState((prev) => {
-        const newState = [...prev];
-        newState[recentlyFlippedCardIndexes[0]] = {
-          ...prev[recentlyFlippedCardIndexes[0]],
-          matched: !prev[recentlyFlippedCardIndexes[0]].matched,
-        };
-        newState[recentlyFlippedCardIndexes[1]] = {
-          ...prev[recentlyFlippedCardIndexes[1]],
-          matched: !prev[recentlyFlippedCardIndexes[1]].matched,
-        };
-
-        recentlyFlippedCardIndexes = [];
-        return newState;
-      });
-    }
-
-    if (matchCounter === 14) {
-      setGameComplete(true);
-      setFetchDataOnOpen((prev) => !prev);
-      if (!gameCompleteState) {
-        setVictoryConfetti(true);
-        if (gameWinSound.current) {
-          playSound(gameWinSound.current);
+      if (matchCounter === 14) {
+        setGameComplete(true);
+        setFetchDataOnOpen((prev) => !prev);
+        if (!gameCompleteState) {
+          setVictoryConfetti(true);
+          if (gameWinSound.current) {
+            playSound(gameWinSound.current);
+          }
         }
+        unlock();
+        completeGame();
       }
-      unlock();
-      completeGame();
+    } catch (error) {
+      toast.error("Something went wrong, restarting the game!");
+      restartGame();
     }
   }, [
     unlock,
@@ -260,12 +213,12 @@ const MemoryGame = () => {
   const restartGame = () => {
     setMoveCounter(0);
     setMatchCounter(0);
-    setIsCheating(false);
     setTotalMoveCounter(0);
     setGameComplete(false);
     resetGameCompleteState();
     setVictoryConfetti(false);
     recentlyFlippedCardIndexes = [];
+    setResetTrigger((prev) => !prev);
     cardArray = shuffleCards(pokemonCardArray);
     setCardState(createState(pokemonCardArray));
   };

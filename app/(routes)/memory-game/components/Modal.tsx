@@ -4,7 +4,7 @@ import { PacmanLoader } from "react-spinners";
 
 import { Player } from "@/types";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
-import { fetchScores, registerScore } from "../libs/getHighScores";
+import { fetchScores, registerScore } from "../lib/getHighScores";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 interface ModalProps {

@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
 import Replicate from "replicate";
+
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const { prompt, image } = await request.json();

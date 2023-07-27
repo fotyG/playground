@@ -8,7 +8,7 @@ import {
 
 import { useEffect, useState } from "react";
 
-import { fetchScores } from "../libs/getHighScores";
+import { fetchScores } from "../lib/getHighScores";
 import { Player } from "@/types";
 
 interface LeaderBoardModalProps {
