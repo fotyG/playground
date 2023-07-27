@@ -127,7 +127,14 @@ const MemoryGame = () => {
         recentlyFlippedCardIndexes,
       });
     }
-  }, [totalMoveCounter, cardState, matchCounter, moveCounter, resetTrigger, isMounted]);
+  }, [
+    totalMoveCounter,
+    cardState,
+    matchCounter,
+    moveCounter,
+    resetTrigger,
+    isMounted,
+  ]);
 
   // Game progress UseEffect
   useEffect(() => {
@@ -307,13 +314,13 @@ const MemoryGame = () => {
       )}
       <audio
         ref={matchSound}
-        muted={isMounted && soundMuted}
+        muted={soundMuted}
       >
         <source src="/sounds/success.wav" />
       </audio>
       <audio
         ref={gameWinSound}
-        muted={isMounted && soundMuted}
+        muted={soundMuted}
       >
         <source src="/sounds/gameWin.mp3" />
       </audio>
