@@ -15,15 +15,15 @@ import {
 import Card from "./components/Card";
 import Modal from "./components/Modal";
 import getState from "./helpers/getState";
-import { useMute } from "@/hooks/useMute";
 import SoundMute from "./components/SoundMute";
+import GameAudio from "./components/GameAudio";
 import SkipModal from "./components/SkipModal";
+import usePlaySound from "./hooks/usePlaySound";
 import useIsCheating from "./hooks/useIsCheating";
 import ProgressBar from "./components/ProgressBar";
 import setLocalState from "./helpers/setLocalState";
 import CheaterModal from "./components/CheaterModal";
 import pokemonCardArray from "./lib/pokemonCardData";
-import { playSound } from "./helpers/helperFunctions";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
@@ -47,7 +47,8 @@ const MemoryGame = () => {
 
   const matchSound = useRef<HTMLAudioElement>(null);
   const gameWinSound = useRef<HTMLAudioElement>(null);
-  const soundMuted = useMute((state) => state.soundMuted);
+  const { playSound: playMatchSound } = usePlaySound(matchSound);
+  const { playSound: playGameWinSound } = usePlaySound(gameWinSound);
 
   const unlock = useUnlockStore((state) => state.unlockMg);
   const stateOfUnlock = useUnlockStore((state) => state.mg);
@@ -168,9 +169,7 @@ const MemoryGame = () => {
         cardArray[recentlyFlippedCardIndexes[0]]?.id ===
           cardArray[recentlyFlippedCardIndexes[1]]?.id
       ) {
-        if (matchSound.current) {
-          playSound(matchSound.current);
-        }
+        playMatchSound();
         setMoveCounter(0);
         setMatchCounter((prev) => prev + 1);
 
@@ -194,9 +193,7 @@ const MemoryGame = () => {
         setGameComplete(true);
         setFetchDataOnOpen((prev) => !prev);
         if (!gameCompleteState) {
-          if (gameWinSound.current) {
-            playSound(gameWinSound.current);
-          }
+          playGameWinSound();
           setVictoryConfetti(true);
         }
         unlock();
@@ -312,22 +309,10 @@ const MemoryGame = () => {
           setTotalMoveCounter={setTotalMoveCounter}
         />
       )}
-      {isMounted && (
-        <>
-          <audio
-            ref={matchSound}
-            muted={soundMuted}
-          >
-            <source src="/sounds/success.wav" />
-          </audio>
-          <audio
-            ref={gameWinSound}
-            muted={soundMuted}
-          >
-            <source src="/sounds/gameWin.mp3" />
-          </audio>
-        </>
-      )}
+      <GameAudio
+        matchSound={matchSound}
+        gameWinSound={gameWinSound}
+      />
     </div>
   );
 };

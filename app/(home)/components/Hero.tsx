@@ -16,18 +16,18 @@ const Hero = () => {
         backgroundImage: `url(/images/anime-car.jpg)`,
       }}
     >
-      <div className="hero-overlay bg-opacity-60"></div>
+      <div className="hero-overlay bg-opacity-60 transition-colors duration-500"></div>
       <div className="hero-content text-center text-neutral-content">
         <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold">
+          <h1 className="mb-5 text-5xl font-bold transition-colors duration-500">
             Welcome to my Portfolio PlayGround
           </h1>
-          <p className="mb-5">
+          <p className="mb-5 transition-colors duration-500">
             Instead of telling you what I can do, I'd rather guide you through
             my skills in a small and interactive adventure..
           </p>
           <button
-            className="btn-primary btn"
+            className="btn-primary btn transition-all duration-500"
             onClick={agree}
           >
             Sounds fun

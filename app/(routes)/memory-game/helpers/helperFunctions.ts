@@ -23,12 +23,6 @@ export const createState = (arr: { id: number }[]) => {
   return localArr;
 };
 
-export const playSound = (sound: HTMLAudioElement) => {
-  if (!sound) return;
-  sound.load();
-  sound.play();
-};
-
 const generateMac = (value: string) => {
   const mac = HmacSHA256(value, secret);
   return mac.toString(enc.Hex);

@@ -1,32 +1,33 @@
-// A really cool hook that I made. I want to keep it as a reference for future projects.
+"use client";
 
-// import { RefObject, useEffect } from "react";
+import { RefObject, useEffect } from "react";
 
-// const usePlaySound = (
-//   soundRef: RefObject<HTMLAudioElement>,
-//   muted: boolean
-// ) => {
-//   const sound = soundRef.current;
-//   const playSound = () => {
-//     if (sound) {
-//       try {
-//         sound.load();
-//         sound.play();
-//       } catch (error) {
-//         return;
-//       }
-//     }
-//   };
+import { useMute } from "@/hooks/useMute";
 
-//   useEffect(() => {
-//     if (sound && muted) {
-//       sound.muted = true;
-//     } else {
-//       if (sound) sound.muted = false;
-//     }
-//   }, [muted, sound]);
+const usePlaySound = (soundRef: RefObject<HTMLAudioElement>) => {
+  const sound = soundRef.current;
+  const muted = useMute((state) => state.soundMuted);
 
-//   return { playSound };
-// };
+  const playSound = () => {
+    if (sound) {
+      try {
+        sound.load();
+        sound.play();
+      } catch (error) {
+        return;
+      }
+    }
+  };
 
-// export default usePlaySound;
+  useEffect(() => {
+    if (sound && muted) {
+      sound.muted = true;
+    } else {
+      if (sound) sound.muted = false;
+    }
+  }, [muted, sound]);
+
+  return { playSound };
+};
+
+export default usePlaySound;

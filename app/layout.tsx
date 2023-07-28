@@ -1,9 +1,9 @@
+import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import "./globals.css";
 
-import { Inter, Glory } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { Inter, Glory } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 const glory = Glory({ subsets: ["latin"] });
