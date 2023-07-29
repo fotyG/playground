@@ -117,9 +117,14 @@ const Card: React.FC<CardProps> = ({
       initial={{ rotateY: 0 }}
       animate={{ rotateY: cardState[index]?.hidden ? 0 : 180 }}
       transition={{ duration: 0.3 }}
+      whileTap={
+        cardState[index]?.hidden
+          ? { y: 5, scale: 0.95, transition: { duration: 0.1 } }
+          : {}
+      }
       draggable={false}
       className={twMerge(
-        "card h-[60px] w-[45px] border-[2px] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent sm:h-[130px] sm:w-[80px] md:h-[150px] md:w-[100px]",
+        "card h-[60px] w-[45px] border-[2px] transition-[border-radius] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent sm:h-[130px] sm:w-[80px] md:h-[150px] md:w-[100px]",
         isLoading && "animate-pulse"
       )}
       onClick={() => flipCard(index)}
