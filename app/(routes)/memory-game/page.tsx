@@ -146,7 +146,7 @@ const MemoryGame = () => {
           cardArray[recentlyFlippedCardIndexes[1]]?.id &&
         flipComplete
       ) {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           setCardState((prev) => {
             const newState = [...prev];
             newState[recentlyFlippedCardIndexes[0]] = {
@@ -164,6 +164,7 @@ const MemoryGame = () => {
             return newState;
           });
         }, 1000);
+        return () => clearTimeout(timeout);
       } else if (
         moveCounter === 2 &&
         cardArray[recentlyFlippedCardIndexes[0]]?.id ===
