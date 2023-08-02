@@ -65,6 +65,7 @@ const MemoryGame = () => {
   // Initiation UseEffect
   useEffect(() => {
     setIsMounted(true);
+    if (isCheating) return;
     try {
       const {
         localCardState,
