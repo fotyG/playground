@@ -4,7 +4,7 @@ import Confetti from "react-confetti";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useWindowSize } from "usehooks-ts";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 import {
@@ -73,6 +73,19 @@ const MemoryGame = () => {
     gameComplete: gameCompleteState,
     resetGameComplete: resetGameCompleteState,
   } = useGameCompleteStore();
+
+  const restartGame = useCallback(() => {
+    setMoveCounter(0);
+    setMatchCounter(0);
+    setTotalMoveCounter(0);
+    setGameComplete(false);
+    resetGameCompleteState();
+    setVictoryConfetti(false);
+    recentlyFlippedCardIndexes = [];
+    setResetTrigger((prev) => !prev);
+    cardArray = shuffleCards(pokemonCardArray);
+    setCardState(createState(pokemonCardArray));
+  }, [resetGameCompleteState]);
 
   // Initiation UseEffect
   useEffect(() => {
@@ -198,27 +211,17 @@ const MemoryGame = () => {
     }
   }, [
     unlock,
+    restartGame,
     moveCounter,
     matchCounter,
     flipComplete,
     gameComplete,
     completeGame,
+    playMatchSound,
     totalMoveCounter,
+    playGameWinSound,
     gameCompleteState,
   ]);
-
-  const restartGame = () => {
-    setMoveCounter(0);
-    setMatchCounter(0);
-    setTotalMoveCounter(0);
-    setGameComplete(false);
-    resetGameCompleteState();
-    setVictoryConfetti(false);
-    recentlyFlippedCardIndexes = [];
-    setResetTrigger((prev) => !prev);
-    cardArray = shuffleCards(pokemonCardArray);
-    setCardState(createState(pokemonCardArray));
-  };
 
   return (
     <div className="container mb-5 px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">

@@ -15,8 +15,8 @@ export const useUpdateLocal = ({
   useEffect(() => {
     if (isMounted && cardArray?.length > 0) {
       setLocalState({
-        cardState,
         cardArray,
+        cardState,
         moveCounter,
         matchCounter,
         totalMoveCounter,
@@ -24,11 +24,13 @@ export const useUpdateLocal = ({
       });
     }
   }, [
+    cardArray,
     cardState,
     isMounted,
     moveCounter,
     matchCounter,
     resetTrigger,
     totalMoveCounter,
+    recentlyFlippedCardIndexes,
   ]);
 };

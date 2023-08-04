@@ -17,7 +17,7 @@ import { BiLogoPostgresql } from "react-icons/bi";
 
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 
-export const getCardContent = () => {
+export const useBlogCardContent = () => {
   const {
     mg,
     aiSaas,
