@@ -4,8 +4,8 @@ import Confetti from "react-confetti";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useWindowSize } from "usehooks-ts";
-import { useCallback, useEffect, useRef, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   createState,
@@ -211,15 +211,11 @@ const MemoryGame = () => {
     }
   }, [
     unlock,
-    restartGame,
     moveCounter,
     matchCounter,
     flipComplete,
     gameComplete,
-    completeGame,
-    playMatchSound,
     totalMoveCounter,
-    playGameWinSound,
     gameCompleteState,
   ]);
 
