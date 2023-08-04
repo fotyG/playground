@@ -3,21 +3,21 @@ import { devtools, persist } from "zustand/middleware";
 
 interface UnlockState {
   mg: boolean;
-  ecommerceStore: boolean;
+  aiSaas: boolean;
+  musicApp: boolean;
+  newUnlock: boolean;
+  rentingApp: boolean;
   ecommerceCMS: boolean;
   utilityMeters: boolean;
-  rentingApp: boolean;
-  musicApp: boolean;
-  aiSaas: boolean;
-  newUnlock: boolean;
+  ecommerceStore: boolean;
   unlockMg: () => void;
-  unlockEcommerceStore: () => void;
+  unlockAISaas: () => void;
+  unlockMusicApp: () => void;
+  resetNewUnlock: () => void;
+  unlockRentingApp: () => void;
   unlockEcommerceCMS: () => void;
   unlockUtilityMeters: () => void;
-  unlockRentingApp: () => void;
-  unlockMusicApp: () => void;
-  unlockAISaas: () => void;
-  resetNewUnlock: () => void;
+  unlockEcommerceStore: () => void;
 }
 
 export const useUnlockStore = create<UnlockState>()(
@@ -25,13 +25,13 @@ export const useUnlockStore = create<UnlockState>()(
     persist(
       (set) => ({
         mg: false,
-        ecommerceStore: false,
+        aiSaas: false,
+        musicApp: false,
+        newUnlock: false,
+        rentingApp: false,
         ecommerceCMS: false,
         utilityMeters: false,
-        rentingApp: false,
-        musicApp: false,
-        aiSaas: false,
-        newUnlock: false,
+        ecommerceStore: false,
         unlockMg: () =>
           set((state) => {
             if (!state.mg) {

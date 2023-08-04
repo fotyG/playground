@@ -23,6 +23,21 @@ interface CardProps {
   setTotalMoveCounter: Dispatch<SetStateAction<number>>;
 }
 
+const fadeInAnimationVariants = {
+  initial: {
+    x: -100,
+    opacity: 0,
+  },
+  animate: (index: number) => ({
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.7,
+      delay: index * 0.04,
+    },
+  }),
+};
+
 const Card: React.FC<CardProps> = ({
   index,
   randomId,
@@ -114,33 +129,43 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <motion.div
-      initial={{ rotateY: 0 }}
-      animate={{ rotateY: cardState[index]?.hidden ? 0 : 180 }}
-      transition={{ duration: 0.3 }}
-      whileTap={
-        cardState[index]?.hidden
-          ? { y: 5, scale: 0.95, transition: { duration: 0.1 } }
-          : {}
-      }
-      draggable={false}
-      className={twMerge(
-        "card h-[60px] w-[45px] border-[2px] transition-[border-radius] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent sm:h-[130px] sm:w-[80px] md:h-[150px] md:w-[100px]",
-        isLoading && "animate-pulse"
-      )}
-      onClick={() => flipCard(index)}
+      custom={index}
+      initial="initial"
+      animate="animate"
+      viewport={{ once: true }}
+      variants={fadeInAnimationVariants}
     >
-      <Image
-        src={
-          cardState[index]?.hidden ? "/images/pokemon/pokeball.png" : cardImage
+      <motion.div
+        initial={{ rotateY: 0 }}
+        animate={{ rotateY: cardState[index]?.hidden ? 0 : 180 }}
+        transition={{ duration: 0.3 }}
+        whileTap={
+          cardState[index]?.hidden
+            ? { y: 5, scale: 0.95, transition: { duration: 0.1 } }
+            : {}
         }
-        fill
-        priority={true}
-        sizes="100%"
-        quality={100}
         draggable={false}
-        alt="pokeball"
-        className={"object-contain p-1 md:p-2"}
-      />
+        className={twMerge(
+          "card h-[60px] w-[45px] border-[2px] transition-[border-radius] border-primary bg-slate-500 shadow-sm hover:cursor-pointer hover:border-accent sm:h-[130px] sm:w-[80px] md:h-[150px] md:w-[100px]",
+          isLoading && "animate-pulse"
+        )}
+        onClick={() => flipCard(index)}
+      >
+        <Image
+          src={
+            cardState[index]?.hidden
+              ? "/images/pokemon/pokeball.png"
+              : cardImage
+          }
+          fill
+          priority={true}
+          sizes="100%"
+          quality={100}
+          draggable={false}
+          alt="pokeball"
+          className={"object-contain p-1 md:p-2"}
+        />
+      </motion.div>
     </motion.div>
   );
 };

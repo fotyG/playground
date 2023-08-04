@@ -10,55 +10,22 @@ import { MdCatchingPokemon } from "react-icons/md";
 import { BsPostageHeart, BsPen } from "react-icons/bs";
 
 import { useUnlockStore } from "@/hooks/useUnlockStore";
+import { useBlogUnlocked } from "@/hooks/useBlogUnlocked";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
   const [isMounted, setIsMounted] = useState(false);
-  const [blogUnlocked, setBlogUnlocked] = useState(false);
   const [clickedNavItem, setClickedNavItem] = useState("");
 
-  const fullPathname = usePathname();
-  const formattedPathname = fullPathname.split("/")[1];
+  const pathname = usePathname();
+  const formattedPathname = pathname.split("/")[1];
 
-  const unlockStore = useUnlockStore();
-  const {
-    mg,
-    aiSaas,
-    musicApp,
-    newUnlock,
-    rentingApp,
-    ecommerceCMS,
-    utilityMeters,
-    ecommerceStore,
-    resetNewUnlock,
-  } = unlockStore;
+  const blogUnlocked = useBlogUnlocked();
+  const { newUnlock, resetNewUnlock } = useUnlockStore();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  useEffect(() => {
-    let localArray = [
-      mg,
-      aiSaas,
-      ecommerceStore,
-      ecommerceCMS,
-      utilityMeters,
-      rentingApp,
-      musicApp,
-    ];
-    const filtered = localArray.filter((item) => item === true).length;
-    if (filtered <= 0) return;
-    setBlogUnlocked(true);
-  }, [
-    mg,
-    ecommerceStore,
-    ecommerceCMS,
-    utilityMeters,
-    rentingApp,
-    musicApp,
-    aiSaas,
-  ]);
 
   useEffect(() => {
     themeChange(false);
@@ -75,7 +42,7 @@ const Navbar = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100 transition-colors duration-500"
+      className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100 bg-opacity-80 backdrop-blur-sm transition-colors duration-500"
     >
       <input
         id="my-drawer-3"
@@ -84,7 +51,7 @@ const Navbar = () => {
       />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <div className="w-full navbar">
+        <div className="navbar">
           <div className="flex-none lg:hidden relative">
             {newUnlock && (
               <span className="absolute flex h-3 w-3 top-1 right-1">
@@ -111,7 +78,7 @@ const Navbar = () => {
               </svg>
             </label>
           </div>
-          <div className="flex-1 px-5 mx-2">
+          <div className="lg:mx-2 lg:flex-1 px-5">
             <Link
               onClick={() => setClickedNavItem("home")}
               href={"/"}

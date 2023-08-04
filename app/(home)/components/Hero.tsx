@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 
 const Hero = () => {
@@ -10,7 +11,9 @@ const Hero = () => {
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.5 } }}
       className="hero min-h-screen md:bg-fixed"
       style={{
         backgroundImage: `url(/images/anime-car.jpg)`,
@@ -34,7 +37,7 @@ const Hero = () => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default Hero;

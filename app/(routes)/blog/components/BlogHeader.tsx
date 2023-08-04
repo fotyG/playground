@@ -3,27 +3,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { twMerge } from "tailwind-merge";
-import { useEffect, useState } from "react";
 
 import { Separator } from "@/components/ui/separator";
 
 const BlogHeader = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   return (
     <>
-      <Separator
-        className={twMerge(
-          "mb-10 sm:mb-20 bg-primary/50 scale-0 transition-transform duration-500",
-          isMounted ? "scale-100" : ""
-        )}
-        decorative
-      />
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { duration: 0.5 } }}
+      >
+        <Separator
+          className="mb-10 sm:mb-20 bg-primary/50"
+          decorative
+        />
+      </motion.div>
 
       <div className="flex flex-col-reverse items-center justify-center sm:flex-row h-80  rounded-md">
         <motion.div
@@ -62,14 +56,15 @@ const BlogHeader = () => {
           />
         </motion.div>
       </div>
-
-      <Separator
-        className={twMerge(
-          "my-10 sm:my-20 bg-primary/50 scale-0 transition-transform duration-500",
-          isMounted ? "scale-100" : ""
-        )}
-        decorative
-      />
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { duration: 0.5 } }}
+      >
+        <Separator
+          className="my-10 sm:my-20 bg-primary/50"
+          decorative
+        />
+      </motion.div>
     </>
   );
 };

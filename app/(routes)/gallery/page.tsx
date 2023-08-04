@@ -12,7 +12,7 @@ const GalleryPage = async () => {
   const products = await getProducts();
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Billboard billboard={billboard} />
       <GalleryNav projectCount={products.length} />
       <ProjectHeader />

@@ -21,10 +21,10 @@ import SkipModal from "./components/SkipModal";
 import usePlaySound from "./hooks/usePlaySound";
 import useIsCheating from "./hooks/useIsCheating";
 import ProgressBar from "./components/ProgressBar";
-import setLocalState from "./helpers/setLocalState";
 import CheaterModal from "./components/CheaterModal";
 import pokemonCardArray from "./lib/pokemonCardData";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
+import { useUpdateLocal } from "./hooks/useUpdateLocal";
 import LeaderBoardModal from "./components/LeaderBoardModal";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
 
@@ -50,17 +50,29 @@ const MemoryGame = () => {
   const { playSound: playMatchSound } = usePlaySound(matchSound);
   const { playSound: playGameWinSound } = usePlaySound(gameWinSound);
 
-  const unlock = useUnlockStore((state) => state.unlockMg);
-  const stateOfUnlock = useUnlockStore((state) => state.mg);
+  const { mg: stateOfUnlock, unlockMg: unlock } = useUnlockStore();
 
+  // Check if cheating hook
   const isCheating = useIsCheating(totalMoveCounter, resetTrigger);
 
-  const completeGame = useGameCompleteStore((state) => state.completeGame);
-  const scoreSubmitted = useGameCompleteStore((state) => state.scoreSubmitted);
-  const gameCompleteState = useGameCompleteStore((state) => state.gameComplete);
-  const resetGameCompleteState = useGameCompleteStore(
-    (state) => state.resetGameComplete
-  );
+  // Every move update to LocalStorage hook
+  useUpdateLocal({
+    cardArray,
+    cardState,
+    isMounted,
+    moveCounter,
+    matchCounter,
+    resetTrigger,
+    totalMoveCounter,
+    recentlyFlippedCardIndexes,
+  });
+
+  const {
+    completeGame,
+    scoreSubmitted,
+    gameComplete: gameCompleteState,
+    resetGameComplete: resetGameCompleteState,
+  } = useGameCompleteStore();
 
   // Initiation UseEffect
   useEffect(() => {
@@ -116,27 +128,6 @@ const MemoryGame = () => {
       restartGame();
     }
   }, []);
-
-  // Every move update to LocalStorage
-  useEffect(() => {
-    if (isMounted) {
-      setLocalState({
-        cardState,
-        cardArray,
-        moveCounter,
-        matchCounter,
-        totalMoveCounter,
-        recentlyFlippedCardIndexes,
-      });
-    }
-  }, [
-    cardState,
-    isMounted,
-    moveCounter,
-    matchCounter,
-    resetTrigger,
-    totalMoveCounter,
-  ]);
 
   // Game progress UseEffect
   useEffect(() => {
@@ -261,12 +252,7 @@ const MemoryGame = () => {
           onConfettiComplete={() => setVictoryConfetti(false)}
         />
       )}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5"
-      >
+      <div className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5">
         {cardArray?.map((pokemon: { id: number }, idx: number) => {
           const encodedId = encodeNumber(pokemon.id);
           return (
@@ -286,7 +272,7 @@ const MemoryGame = () => {
             />
           );
         })}
-      </motion.div>
+      </div>
       {!cardArray ? (
         ""
       ) : (

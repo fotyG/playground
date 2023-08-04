@@ -2,43 +2,47 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useMediaQuery } from "react-responsive";
 
 import Modal from "./Modal";
 
 interface BlogCardProps {
-  state: boolean;
-  position: number;
+  custom: number;
   content: {
-    cardTitle: string;
     slug: string;
-    cardDescription: JSX.Element[] | string[];
-    cardFeatures: string;
-    cardBadge: string;
+    state: boolean;
     cardImg: string;
+    cardTitle: string;
+    cardBadge: string;
+    cardFeatures: string;
     blogContent?: string;
+    cardDescription: JSX.Element[] | string[];
   };
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({
-  state,
-  position,
-  content: {
-    cardTitle,
-    slug,
-    cardDescription,
-    cardFeatures,
-    cardBadge,
-    cardImg,
-    blogContent,
+const fadeInAnimationVariants = {
+  initial: {
+    x: -100,
+    opacity: 0,
   },
-}) => {
+  animate: (index: number) => ({
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.7,
+      delay: index * 0.1,
+    },
+  }),
+};
+
+const BlogCard: React.FC<BlogCardProps> = ({ custom, content }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const isLg = useMediaQuery({ minWidth: 1024 });
+
   const router = useRouter();
+  const isLg = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
     setIsMounted(true);
@@ -49,15 +53,16 @@ const BlogCard: React.FC<BlogCardProps> = ({
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, x: -100 }}
-        animate={{
-          opacity: 1,
-          x: 0,
-          transition: { duration: 0.7, delay: position * 0.1 },
-        }}
+        custom={custom}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        variants={fadeInAnimationVariants}
         whileHover={isLg ? { scale: 1.1, transition: { duration: 0.2 } } : {}}
         onClick={() => {
-          state ? router.push(`/blog/${slug}`) : setOpenModal(true);
+          content.state
+            ? router.push(`/blog/${content.slug}`)
+            : setOpenModal(true);
         }}
         className="
           card 
@@ -76,44 +81,46 @@ const BlogCard: React.FC<BlogCardProps> = ({
           <Image
             width={300}
             height={300}
-            className={state ? "" : "grayscale"}
-            src={cardImg}
-            alt={cardTitle}
+            src={content.cardImg}
+            alt={content.cardTitle}
+            className={content.state ? "" : "grayscale"}
           />
         </figure>
         <div className="card-body">
           <h2 className="card-title">
-            {cardTitle}
+            {content.cardTitle}
             <div
               className={
                 "badge badge-accent bg-opacity-70 p-3 " +
-                (!state ? "badge-outline" : "")
+                (!content.state ? "badge-outline" : "")
               }
             >
-              {state ? "✔" : "🔒"}
+              {content.state ? "✔" : "🔒"}
             </div>
           </h2>
           <p className="flex items-center gap-1 flex-wrap">
             <span className="font-semibold">Made using:</span>{" "}
-            {state ? cardDescription.map((item) => item) : "???"}
+            {content.state
+              ? content.cardDescription.map((item) => item)
+              : "???"}
           </p>
           <p>
             <span className="font-semibold">Features:</span>{" "}
-            {state ? cardFeatures : "???"}
+            {content.state ? content.cardFeatures : "???"}
           </p>
           <div className="card-actions justify-end">
             <div className="badge badge-outline">
-              {state ? cardBadge : "???"}
+              {content.state ? content.cardBadge : "???"}
             </div>
           </div>
         </div>
       </motion.div>
       <Modal
-        state={state}
+        state={content.state}
         openModal={openModal}
-        cardTitle={cardTitle}
-        blogContent={blogContent}
         setOpenModal={setOpenModal}
+        cardTitle={content.cardTitle}
+        blogContent={content.blogContent}
       />
     </>
   );
