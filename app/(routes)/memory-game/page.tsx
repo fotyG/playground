@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useWindowSize } from "usehooks-ts";
 import secureLocalStorage from "react-secure-storage";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   createState,
@@ -16,7 +16,6 @@ import Card from "./components/Card";
 import Modal from "./components/Modal";
 import getState from "./helpers/getState";
 import SoundMute from "./components/SoundMute";
-import GameAudio from "./components/GameAudio";
 import SkipModal from "./components/SkipModal";
 import usePlaySound from "./hooks/usePlaySound";
 import useIsCheating from "./hooks/useIsCheating";
@@ -45,10 +44,8 @@ const MemoryGame = () => {
 
   const { width } = useWindowSize();
 
-  const matchSound = useRef<HTMLAudioElement>(null);
-  const gameWinSound = useRef<HTMLAudioElement>(null);
-  const { playSound: playMatchSound } = usePlaySound(matchSound);
-  const { playSound: playGameWinSound } = usePlaySound(gameWinSound);
+  const playMatchSound = usePlaySound("/sounds/success.wav");
+  const playGameWinSound = usePlaySound("/sounds/gameWin.mp3", { volume: 0.3 });
 
   const { mg: stateOfUnlock, unlockMg: unlock } = useUnlockStore();
 
@@ -296,10 +293,6 @@ const MemoryGame = () => {
           setTotalMoveCounter={setTotalMoveCounter}
         />
       )}
-      <GameAudio
-        matchSound={matchSound}
-        gameWinSound={gameWinSound}
-      />
     </div>
   );
 };

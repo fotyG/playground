@@ -109,8 +109,6 @@ const Card: React.FC<CardProps> = ({
         "base64"
       );
       const imageDataUrl = `data:image/png;base64,${base64Image}`;
-      console.log(imageDataUrl);
-
       setCardImage(imageDataUrl);
 
       setMoveCounter((prev) => prev + 1);

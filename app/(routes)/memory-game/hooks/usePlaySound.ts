@@ -1,33 +1,67 @@
 "use client";
 
-import { RefObject, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useMute } from "@/hooks/useMute";
 
-const usePlaySound = (soundRef: RefObject<HTMLAudioElement>) => {
-  const sound = soundRef.current;
+const usePlaySound = (
+  source: string,
+  { volume = 1, interrupt = true } = {}
+) => {
+  const [playFn, setPlayFn] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
   const muted = useMute((state) => state.soundMuted);
 
-  const playSound = () => {
-    if (sound) {
-      try {
-        sound.load();
-        sound.play();
-      } catch (error) {
-        return;
-      }
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const sound = useMemo(() => {
+    if (isMounted) {
+      return new Audio(source);
     }
-  };
+  }, [source, isMounted]);
 
   useEffect(() => {
     if (sound && muted) {
       sound.muted = true;
-    } else {
-      if (sound) sound.muted = false;
+      sound.pause();
+      sound.currentTime = 0;
+    } else if (sound && !muted) {
+      sound.muted = false;
     }
-  }, [muted, sound]);
+  }, [sound, muted]);
 
-  return { playSound };
+  useEffect(() => {
+    if (playFn && !muted) {
+      playSound();
+    }
+    setPlayFn(false);
+  }, [playFn, muted]);
+
+  function playSound() {
+    if (sound && interrupt) {
+      if (volume) {
+        sound.volume = volume;
+      }
+      sound.load();
+      sound.play();
+    } else if (sound && !interrupt) {
+      const tempAudio = new Audio(source);
+      if (volume) {
+        tempAudio.volume = volume;
+      }
+      tempAudio.load();
+      tempAudio.play();
+    }
+  }
+
+  function play() {
+    setPlayFn(true);
+  }
+
+  return play;
 };
 
 export default usePlaySound;
