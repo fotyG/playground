@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import { Separator } from "@/components/ui/separator";
+import purpleHair from "@/public/images/pngs/purplehair.png";
 
 const ProjectHeader = () => {
   return (
@@ -42,7 +43,7 @@ const ProjectHeader = () => {
             fill
             className="object-contain"
             alt="bleach"
-            src={"/images/pngs/purplehair.png"}
+            src={purpleHair}
           />
         </div>
       </div>

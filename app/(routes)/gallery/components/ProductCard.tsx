@@ -11,7 +11,6 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
   const [unlockState, setUnlockState] = useState(false);
 
-  const unlockStore = useUnlockStore();
   const {
     aiSaas,
     musicApp,
@@ -25,7 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
     unlockEcommerceCMS,
     unlockUtilityMeters,
     unlockEcommerceStore,
-  } = unlockStore;
+  } = useUnlockStore();
 
   useEffect(() => {
     if (name === "Utility Meter Reading App") {
@@ -67,21 +66,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
     }
   }, [
     name,
+    unlockAISaas,
+    unlockMusicApp,
+    unlockRentingApp,
+    unlockEcommerceCMS,
     unlockUtilityMeters,
     unlockEcommerceStore,
-    unlockEcommerceCMS,
-    unlockRentingApp,
-    unlockMusicApp,
-    unlockAISaas,
   ]);
 
   return (
     <div className="md:min-w-[320px] lg:min-w-[400px] xl:min-w-[340px] 2xl:min-w-[310px] snap-start md:mb-10 bg-base-200/50 border border-secondary/30 group rounded-xl p-5 space-y-5 shadow-md">
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <Image
-          alt="Image"
-          src={`${images[0].url}`}
           fill
+          priority
+          alt={name}
+          src={`${images[0].url}`}
           className="object-cover object-center rounded-md shadow shadow-secondary"
         />
       </div>

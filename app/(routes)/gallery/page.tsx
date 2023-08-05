@@ -8,8 +8,8 @@ import ProductCardContainer from "./components/ProductCardContainer";
 export const revalidate = 0;
 
 const GalleryPage = async () => {
-  const billboard = await getBillboard("1078e919-9fd0-4d20-bcae-507692eeb155");
   const products = await getProducts();
+  const billboard = await getBillboard("1078e919-9fd0-4d20-bcae-507692eeb155");
 
   return (
     <div className="min-h-screen">

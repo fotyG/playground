@@ -13,7 +13,7 @@ const BlogCardContainer = () => {
     <div className="grid grid-cols-1 gap-x-5 xl:gap-x-0 gap-y-5 lg:gap-y-10 justify-items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {sortedBlogCardContent.map((item, index) => (
         <BlogCard
-          custom={index}
+          index={index}
           content={item}
           key={item.cardTitle}
         />

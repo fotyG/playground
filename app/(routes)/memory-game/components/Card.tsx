@@ -1,13 +1,15 @@
 "use client";
 
-import { CardState } from "@/types";
-
 import axios from "axios";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
+import Image, { StaticImageData } from "next/image";
 import { useState, useEffect, SetStateAction, Dispatch } from "react";
+
+import { CardState } from "@/types";
+import pikaLoading from "@/public/images/1.webp";
+import pokeball from "@/public/images/pokemon/pokeball.png";
 
 interface CardProps {
   index: number;
@@ -32,7 +34,7 @@ const fadeInAnimationVariants = {
     x: 0,
     opacity: 1,
     transition: {
-      duration: 0.7,
+      duration: 0.6,
       delay: index * 0.04,
     },
   }),
@@ -52,7 +54,9 @@ const Card: React.FC<CardProps> = ({
   recentlyFlippedCardIndexes,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [cardImage, setCardImage] = useState("/images/1.webp");
+  const [cardImage, setCardImage] = useState<StaticImageData | string>(
+    pikaLoading
+  );
 
   useEffect(() => {
     if (isCheating) return;
@@ -75,7 +79,7 @@ const Card: React.FC<CardProps> = ({
     };
 
     if (cardState[index]?.matched || !cardState[index]?.hidden) {
-      if (cardImage === "/images/1.webp") {
+      if (cardImage === pikaLoading) {
         fetchData();
       }
     }
@@ -105,6 +109,8 @@ const Card: React.FC<CardProps> = ({
         "base64"
       );
       const imageDataUrl = `data:image/png;base64,${base64Image}`;
+      console.log(imageDataUrl);
+
       setCardImage(imageDataUrl);
 
       setMoveCounter((prev) => prev + 1);
@@ -140,7 +146,7 @@ const Card: React.FC<CardProps> = ({
         animate={{ rotateY: cardState[index]?.hidden ? 0 : 180 }}
         transition={{ duration: 0.3 }}
         whileTap={
-          cardState[index]?.hidden
+          cardState[index]?.hidden && recentlyFlippedCardIndexes.length < 2
             ? { y: 5, scale: 0.95, transition: { duration: 0.1 } }
             : {}
         }
@@ -152,18 +158,14 @@ const Card: React.FC<CardProps> = ({
         onClick={() => flipCard(index)}
       >
         <Image
-          src={
-            cardState[index]?.hidden
-              ? "/images/pokemon/pokeball.png"
-              : cardImage
-          }
           fill
-          priority={true}
           sizes="100%"
           quality={100}
-          draggable={false}
           alt="pokeball"
+          priority={true}
+          draggable={false}
           className={"object-contain p-1 md:p-2"}
+          src={cardState[index]?.hidden ? pokeball : cardImage}
         />
       </motion.div>
     </motion.div>

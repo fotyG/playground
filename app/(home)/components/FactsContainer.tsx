@@ -8,8 +8,8 @@ const FactsContainer = () => {
         <Fact
           key={idx}
           title={fact.title}
-          description={fact.description}
           image={fact.image}
+          description={fact.description}
         />
       ))}
     </div>

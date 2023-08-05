@@ -17,12 +17,9 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
   products,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const isLg = useMediaQuery({ minWidth: 1024 });
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isLg = useMediaQuery({ minWidth: 1024 });
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const onScroll = (direction: string) => {
     const carousel = carouselRef.current;
@@ -31,6 +28,10 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
       carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   if (!isMounted) return null;
 

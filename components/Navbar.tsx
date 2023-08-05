@@ -9,19 +9,21 @@ import { usePathname } from "next/navigation";
 import { MdCatchingPokemon } from "react-icons/md";
 import { BsPostageHeart, BsPen } from "react-icons/bs";
 
+import { cn } from "@/lib/utils";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 import { useBlogUnlocked } from "@/hooks/useBlogUnlocked";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
   const [isMounted, setIsMounted] = useState(false);
-  const [clickedNavItem, setClickedNavItem] = useState("");
 
   const pathname = usePathname();
   const formattedPathname = pathname.split("/")[1];
 
   const blogUnlocked = useBlogUnlocked();
   const { newUnlock, resetNewUnlock } = useUnlockStore();
+
+  const MotionLink = motion(Link);
 
   useEffect(() => {
     setIsMounted(true);
@@ -33,8 +35,9 @@ const Navbar = () => {
   }, [isMounted]);
 
   useEffect(() => {
+    if (!isMounted) return;
     setActive(formattedPathname);
-  }, [formattedPathname]);
+  }, [formattedPathname, isMounted]);
 
   if (!isMounted) return null;
 
@@ -78,9 +81,8 @@ const Navbar = () => {
               </svg>
             </label>
           </div>
-          <div className="lg:mx-2 lg:flex-1 px-5">
+          <div className="mx-2 lg:mx-5 lg:flex-1 px-5">
             <Link
-              onClick={() => setClickedNavItem("home")}
               href={"/"}
               className="relative"
               title="Home"
@@ -94,43 +96,58 @@ const Navbar = () => {
           <div className="flex-none hidden lg:flex lg:text-sm lg:items-center">
             <ul className="inline-flex items-center p-2 [&>li>*]:grid [&>li>*]:grid-flow-col [&>li>*]:gap-2 [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:transition-[border-radius] [&>li>*]:duration-500 [&>li>*]:mx-1 [&>li>*]:rounded-btn">
               {/* Navbar menu content here */}
+              <motion.span
+                layoutId="activeSection"
+                className="absolute"
+              />
               <li>
-                <Link
-                  onClick={() => setClickedNavItem("memory-game")}
-                  className={
-                    active === "memory-game"
-                      ? "bg-neutral text-neutral-content"
-                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
-                        (clickedNavItem === "memory-game"
-                          ? "bg-base-content/10"
-                          : "")
-                  }
+                <MotionLink
+                  className={cn(
+                    "hover:cursor-pointer relative",
+                    active === "memory-game" && "text-neutral-content"
+                  )}
                   href={"/memory-game"}
                 >
                   Memory Game
-                </Link>
+                  {active === "memory-game" && (
+                    <motion.span
+                      layoutId="activeSection"
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                      className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
+                    />
+                  )}
+                </MotionLink>
               </li>
               <li>
-                <Link
-                  onClick={() => setClickedNavItem("gallery")}
-                  className={
-                    active === "gallery"
-                      ? "bg-neutral text-neutral-content"
-                      : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
-                        (clickedNavItem === "gallery"
-                          ? "bg-base-content/10"
-                          : "")
-                  }
+                <MotionLink
+                  className={cn(
+                    "hover:cursor-pointer relative",
+                    active === "gallery" && "text-neutral-content"
+                  )}
                   href={"/gallery"}
                 >
                   Project Gallery
-                </Link>
+                  {active === "gallery" && (
+                    <motion.span
+                      layoutId="activeSection"
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                      className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
+                    />
+                  )}
+                </MotionLink>
               </li>
               <li>
-                <Link
+                <MotionLink
                   onClick={() => {
                     if (!blogUnlocked) return;
-                    setClickedNavItem("blog");
                     resetNewUnlock();
                   }}
                   onAuxClick={() => {
@@ -138,15 +155,13 @@ const Navbar = () => {
                     resetNewUnlock();
                   }}
                   href={blogUnlocked ? "/blog" : "#"}
-                  className={
-                    active === "blog"
-                      ? "bg-neutral text-neutral-content"
-                      : "relative hover:bg-base-content/10 active:opacity-75 " +
-                        (blogUnlocked
-                          ? "hover:cursor-pointer "
-                          : "hover:cursor-not-allowed ") +
-                        (clickedNavItem === "blog" ? "bg-base-content/10" : "")
-                  }
+                  className={cn(
+                    "hover:cursor-pointer relative",
+                    active === "blog" && "text-neutral-content",
+                    blogUnlocked
+                      ? "hover:cursor-pointer "
+                      : "hover:cursor-not-allowed "
+                  )}
                 >
                   {newUnlock && (
                     <span className="absolute flex h-3 w-3 -right-1 -top-1">
@@ -155,7 +170,18 @@ const Navbar = () => {
                     </span>
                   )}
                   {!blogUnlocked && <span>🔒</span>}Blog
-                </Link>
+                  {active === "blog" && (
+                    <motion.span
+                      layoutId="activeSection"
+                      transition={{
+                        type: "spring",
+                        damping: 30,
+                        stiffness: 380,
+                      }}
+                      className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
+                    />
+                  )}
+                </MotionLink>
               </li>
             </ul>
             <select
@@ -179,7 +205,7 @@ const Navbar = () => {
           className="drawer-overlay "
         ></label>
 
-        <ul className="flex flex-col text-sm [&>li>*]:flex [&>li]:flex [&>li]:flex-col [&>li>*]:grid-flow-col [&>li>*]:auto-cols-[max-content_auto_max-content] [&>li>*]:justify-start [&>li>*]:items-center [&>li>*]:gap-2 [&>li>*]:px-4 [&>li>*]:py-2 [&>li>*]:rounded-btn [&>li>*]:transition-[border-radius] [&>li>*]:duration-500 p-4 w-[55%] sm:w-80 h-full bg-base-200">
+        <ul className="flex flex-col gap-y-2 text-sm [&>li>*]:flex [&>li]:flex [&>li]:flex-col [&>li>*]:grid-flow-col [&>li>*]:auto-cols-[max-content_auto_max-content] [&>li>*]:justify-start [&>li>*]:items-center [&>li>*]:gap-2 [&>li>*]:px-4 [&>li>*]:py-2 [&>li>*]:rounded-btn [&>li>*]:transition-[border-radius] [&>li>*]:duration-500 p-4 w-[55%] sm:w-80 h-full bg-base-200">
           {/* Sidebar content here */}
           <select
             data-choose-theme
@@ -193,57 +219,82 @@ const Navbar = () => {
             <option value="luxury">💰 Luxury</option>
             <option value="pastel">🎨 Pastel</option>
           </select>
-          <li className="mt-2 mb-1">
-            <Link
-              onClick={() => setClickedNavItem("home")}
-              className={
-                active === ""
-                  ? "bg-neutral text-neutral-content"
-                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
-                    (clickedNavItem === "home" ? "bg-base-content/10" : "")
-              }
+          <motion.span
+            layoutId="activeSectionSideBar"
+            className="absolute"
+          />
+          <li className="mt-2 ">
+            <MotionLink
+              className={cn(
+                "hover:cursor-pointer relative",
+                active === "" && "text-neutral-content"
+              )}
               href={"/"}
             >
               <FaHome size={20} /> Home
-            </Link>
+              {active === "" && (
+                <motion.span
+                  layoutId="activeSectionSideBar"
+                  transition={{
+                    type: "spring",
+                    stiffness: 380,
+                    damping: 30,
+                  }}
+                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
+                />
+              )}
+            </MotionLink>
           </li>
-          <li className="mb-1">
-            <Link
-              onClick={() => setClickedNavItem("memory-game")}
-              className={
-                active === "memory-game"
-                  ? "bg-neutral text-neutral-content"
-                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
-                    (clickedNavItem === "memory-game"
-                      ? "bg-base-content/10"
-                      : "")
-              }
+          <li className="">
+            <MotionLink
+              className={cn(
+                "hover:cursor-pointer relative",
+                active === "memory-game" && "text-neutral-content"
+              )}
               href={"/memory-game"}
             >
               <MdCatchingPokemon size={20} />
               Memory Game
-            </Link>
+              {active === "memory-game" && (
+                <motion.span
+                  layoutId="activeSectionSideBar"
+                  transition={{
+                    type: "spring",
+                    stiffness: 380,
+                    damping: 30,
+                  }}
+                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
+                />
+              )}
+            </MotionLink>
           </li>
-          <li className="my-1">
-            <Link
-              onClick={() => setClickedNavItem("gallery")}
-              className={
-                active === "gallery"
-                  ? "bg-neutral text-neutral-content"
-                  : "hover:bg-base-content/10 hover:cursor-pointer active:opacity-75 " +
-                    (clickedNavItem === "gallery" ? "bg-base-content/10" : "")
-              }
+          <li className="">
+            <MotionLink
+              className={cn(
+                "hover:cursor-pointer relative",
+                active === "gallery" && "text-neutral-content"
+              )}
               href={"/gallery"}
             >
               <BsPostageHeart size={20} />
               Project Gallery
-            </Link>
+              {active === "gallery" && (
+                <motion.span
+                  layoutId="activeSectionSideBar"
+                  transition={{
+                    type: "spring",
+                    stiffness: 380,
+                    damping: 30,
+                  }}
+                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
+                />
+              )}
+            </MotionLink>
           </li>
-          <li className="my-1">
-            <Link
+          <li className="">
+            <MotionLink
               onClick={() => {
                 if (!blogUnlocked) return;
-                setClickedNavItem("blog");
                 resetNewUnlock();
               }}
               onAuxClick={() => {
@@ -251,15 +302,13 @@ const Navbar = () => {
                 resetNewUnlock();
               }}
               href={blogUnlocked ? "/blog" : "#"}
-              className={
-                active === "blog"
-                  ? "bg-neutral text-neutral-content"
-                  : "relative hover:bg-base-content/10 active:opacity-75 " +
-                    (blogUnlocked
-                      ? "hover:cursor-pointer "
-                      : "hover:cursor-not-allowed ") +
-                    (clickedNavItem === "blog" ? "bg-base-content/10" : "")
-              }
+              className={cn(
+                "hover:cursor-pointer relative",
+                active === "blog" && "text-neutral-content",
+                blogUnlocked
+                  ? "hover:cursor-pointer "
+                  : "hover:cursor-not-allowed "
+              )}
             >
               {newUnlock && (
                 <span className="absolute flex h-3 w-3 left-0 top-1/2 -translate-y-1/2">
@@ -269,7 +318,18 @@ const Navbar = () => {
               )}
               <BsPen size={20} />
               Blog{!blogUnlocked && <span>🔒</span>}
-            </Link>
+              {active === "blog" && (
+                <motion.span
+                  layoutId="activeSectionSideBar"
+                  transition={{
+                    type: "spring",
+                    damping: 30,
+                    stiffness: 380,
+                  }}
+                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
+                />
+              )}
+            </MotionLink>
           </li>
         </ul>
       </div>

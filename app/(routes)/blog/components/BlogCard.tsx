@@ -1,23 +1,23 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useMediaQuery } from "react-responsive";
+import Image, { StaticImageData } from "next/image";
 
 import Modal from "./Modal";
 
 interface BlogCardProps {
-  custom: number;
+  index: number;
   content: {
     slug: string;
     state: boolean;
-    cardImg: string;
     cardTitle: string;
     cardBadge: string;
     cardFeatures: string;
     blogContent?: string;
+    cardImg: StaticImageData;
     cardDescription: JSX.Element[] | string[];
   };
 }
@@ -37,7 +37,7 @@ const fadeInAnimationVariants = {
   }),
 };
 
-const BlogCard: React.FC<BlogCardProps> = ({ custom, content }) => {
+const BlogCard: React.FC<BlogCardProps> = ({ index, content }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -53,7 +53,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ custom, content }) => {
   return (
     <>
       <motion.div
-        custom={custom}
+        custom={index}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -79,8 +79,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ custom, content }) => {
       >
         <figure className="bg-primary/50 p-5">
           <Image
-            width={300}
-            height={300}
+            priority
             src={content.cardImg}
             alt={content.cardTitle}
             className={content.state ? "" : "grayscale"}

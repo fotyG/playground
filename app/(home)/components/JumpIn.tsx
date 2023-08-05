@@ -1,11 +1,13 @@
 import Link from "next/link";
 
+import ninja from "@/public/images/ninja.jpg";
+
 const JumpIn = () => {
   return (
     <div
       className="hero h-[90vh] md:bg-fixed"
       style={{
-        backgroundImage: `url(/images/ninja.jpg)`,
+        backgroundImage: `url(${ninja.src})`,
       }}
     >
       <div className="hero-overlay bg-opacity-60 shadow-sm shadow-neutral transition-colors duration-500"></div>

@@ -15,6 +15,15 @@ import { FaReact } from "react-icons/fa";
 import { SiExpress } from "react-icons/si";
 import { BiLogoPostgresql } from "react-icons/bi";
 
+import aiImage from "@/public/images/ai.png";
+import CMSImage from "@/public/images/cms.png";
+import musicImage from "@/public/images/guitar.png";
+import rentingImage from "@/public/images/rent.png";
+import hatchEggImage from "@/public/images/hatch.png";
+import utilityImage from "@/public/images/utilities.png";
+import pokeBallImage from "@/public/images/pokeball.png";
+import ecomStoreImage from "@/public/images/online-shop.png";
+
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 
 export const useBlogCardContent = () => {
@@ -34,8 +43,8 @@ export const useBlogCardContent = () => {
       state: aiSaas,
       slug: "ai-saas",
       cardBadge: "AI",
+      cardImg: aiImage,
       cardTitle: "AI SaaS",
-      cardImg: "/images/ai.png",
       cardFeatures: "openAI, Replicate",
       cardDescription: [
         <TbBrandNextjs
@@ -79,10 +88,10 @@ export const useBlogCardContent = () => {
     {
       position: 3,
       cardBadge: "CMS",
+      cardImg: CMSImage,
       state: ecommerceCMS,
       slug: "ecommerce-cms",
       cardTitle: "Ecommerce CMS",
-      cardImg: "/images/cms.png",
       cardFeatures: "Multiple Store CMS, Dynamic API, Clerk Auth",
       cardDescription: [
         <TbBrandNextjs
@@ -128,9 +137,9 @@ export const useBlogCardContent = () => {
       cardBadge: "App",
       state: ecommerceStore,
       slug: "ecommerce-store",
+      cardImg: ecomStoreImage,
       cardTitle: "Ecommerce Store",
       cardFeatures: "Managed by CMS",
-      cardImg: "/images/online-shop.png",
       cardDescription: [
         <TbBrandNextjs
           key={"nextjs"}
@@ -165,14 +174,14 @@ export const useBlogCardContent = () => {
       ],
     },
     {
-      state: false,
       position: 8,
+      state: false,
       cardBadge: "???",
       cardFeatures: "???",
+      cardImg: hatchEggImage,
       slug: "future-projects",
       cardDescription: ["???"],
       cardTitle: "Coming Soon...",
-      cardImg: "/images/hatch.png",
       blogContent:
         "I will be adding more projects soon - be sure to unlock them all!",
     },
@@ -181,9 +190,9 @@ export const useBlogCardContent = () => {
       position: 1,
       cardBadge: "Game",
       slug: "memory-game",
+      cardImg: pokeBallImage,
       cardTitle: "Memory Game",
       cardFeatures: "Anti-cheat, SSR",
-      cardImg: "/images/pokeball.png",
       cardDescription: [
         <TbBrandNextjs
           key={"nextjs"}
@@ -228,8 +237,8 @@ export const useBlogCardContent = () => {
       state: musicApp,
       cardBadge: "App",
       slug: "music-app",
+      cardImg: musicImage,
       cardTitle: "Music App",
-      cardImg: "/images/guitar.png",
       cardFeatures: "Music-upload, Stripe-Subscription",
       cardDescription: [
         <TbBrandNextjs
@@ -275,8 +284,8 @@ export const useBlogCardContent = () => {
       cardBadge: "App",
       state: rentingApp,
       slug: "renting-app",
+      cardImg: rentingImage,
       cardTitle: "Renting App",
-      cardImg: "/images/rent.png",
       cardFeatures: "Advanced Reservation, NextAuth",
       cardDescription: [
         <TbBrandNextjs
@@ -315,8 +324,8 @@ export const useBlogCardContent = () => {
       position: 7,
       cardBadge: "App",
       state: utilityMeters,
+      cardImg: utilityImage,
       cardFeatures: "Express BE, JWT",
-      cardImg: "/images/utilities.png",
       slug: "utility-meter-reading-app",
       cardTitle: "Utility Meter Reading App",
       cardDescription: [

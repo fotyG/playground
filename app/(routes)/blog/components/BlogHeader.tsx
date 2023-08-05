@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+import naruto from "@/public/images/naruto.png";
 import { Separator } from "@/components/ui/separator";
 
 const BlogHeader = () => {
@@ -14,12 +15,12 @@ const BlogHeader = () => {
         animate={{ scale: 1, transition: { duration: 0.5 } }}
       >
         <Separator
-          className="mb-10 sm:mb-20 bg-primary/50"
+          className="mb-5 sm:mb-20 bg-primary/50"
           decorative
         />
       </motion.div>
 
-      <div className="flex flex-col-reverse items-center justify-center sm:flex-row h-80  rounded-md">
+      <div className="flex flex-col-reverse items-center justify-center sm:flex-row h-96">
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0, transition: { duration: 0.7 } }}
@@ -46,13 +47,13 @@ const BlogHeader = () => {
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0, transition: { duration: 0.7 } }}
-          className="relative w-1/3 h-full"
+          className="relative w-1/3 h-full min-h-16"
         >
           <Image
             fill
-            className="object-contain overflow-visible"
+            className="object-contain"
             alt="naruto"
-            src={"/images/naruto.png"}
+            src={naruto}
           />
         </motion.div>
       </div>
@@ -61,7 +62,7 @@ const BlogHeader = () => {
         animate={{ scale: 1, transition: { duration: 0.5 } }}
       >
         <Separator
-          className="my-10 sm:my-20 bg-primary/50"
+          className="mt-5 mb-10 sm:my-20 bg-primary/50"
           decorative
         />
       </motion.div>
