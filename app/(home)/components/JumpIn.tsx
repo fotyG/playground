@@ -16,7 +16,7 @@ const JumpIn = () => {
           <h1 className="mb-5 text-5xl font-bold animate-pulse transition-colors">
             ⚠ Warning ⚠
           </h1>
-          <p className="mb-5 transition-colors duration-500">
+          <p className="mb-5 transition-colors duration-500 text-xl">
             Place your cursor below this point at your own risk.. The treasury
             of local secrets is guarded by the most dangerous monsters known to
             mankind. Proceed at your own risk..

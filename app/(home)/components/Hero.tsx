@@ -12,7 +12,7 @@ const Hero = () => {
       {
         position: "bottom-center",
         style: {
-          border: "hsl(var(--s))",
+          border: "2px solid hsl(var(--s))",
           padding: "24px",
           color: "hsl(var(--b))",
           backgroundColor: "hsl(var(--b1))",
