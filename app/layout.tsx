@@ -22,7 +22,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme=""
-      className="transition-[background-color] duration-500"
+      className="transition-[background-color] duration-500 scroll-smooth"
     >
       <body
         className={"max-lg:mt-16 max-lg:pt-0 flex flex-col " + glory.className}

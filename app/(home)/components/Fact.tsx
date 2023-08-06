@@ -6,33 +6,36 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 interface FactProps {
   title: string;
+  index: number;
   description: string;
   image: StaticImageData;
 }
 
-const Fact: React.FC<FactProps> = ({ title, description, image }) => {
+const Fact: React.FC<FactProps> = ({ title, description, image, index }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["0 1", "1.1 1"],
+    offset: ["0 0.95", "0.65 1"], // Animation starts: [first value: 0 or start of target:ref, second value: bottom of screen] Animation end: [0.65 ends when 65% of ref is visible judging by the 1(end) of bottom of the screen]
   });
-  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
-  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const translateXProgress = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [index % 2 ? -500 : 500, 0]
+  );
+  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
 
   return (
     <motion.section
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.5 } }}
       style={{
-        scale: scaleProgress,
+        x: translateXProgress,
         opacity: opacityProgress,
       }}
       className="flex flex-col gap-5 my-5 sm:flex-row sm:odd:flex-row-reverse"
+      ref={ref}
     >
-      <div
-        ref={ref}
-        className="my-2 flex-1"
-      >
+      <div className="my-2 flex-1 overflow-hidden">
         <h2 className="font-bold">{title}</h2>
         <p className="text-justify leading-snug">{description}</p>
       </div>
