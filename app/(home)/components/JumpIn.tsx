@@ -17,9 +17,8 @@ const JumpIn = () => {
             ⚠ Warning ⚠
           </h1>
           <p className="mb-5 transition-colors duration-500 text-xl">
-            Place your cursor below this point at your own risk.. The treasury
-            of local secrets is guarded by the most dangerous monsters known to
-            mankind. Proceed at your own risk..
+            The treasury of local secrets is guarded by the most dangerous
+            monsters known to mankind. Proceed at your own risk..
           </p>
           <Link
             href={"/memory-game"}

@@ -9,9 +9,14 @@ import { usePathname } from "next/navigation";
 import { MdCatchingPokemon } from "react-icons/md";
 import { BsPostageHeart, BsPen } from "react-icons/bs";
 
-import { cn } from "@/lib/utils";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
-import { useBlogUnlocked } from "@/hooks/useBlogUnlocked";
+import ThemeSelect from "@/components/ui/nav-links/theme-select";
+import NavLinkMobile from "@/components/ui/nav-links/nav-link-mobile";
+import NavLinkDesktop from "@/components/ui/nav-links/nav-link-desktop";
+import DrawerToggleButton from "@/components/ui/nav-links/drawer-toggle-button";
+import PingDrawerButton from "@/components/ui/ping-indicators/ping-drawer-button";
+import NavLinkMobileUnlockable from "@/components/ui/nav-links/nav-link-mobile-unlockable";
+import NavLinkDesktopUnlockable from "@/components/ui/nav-links/nav-link-desktop-unlockable";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
@@ -20,10 +25,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const formattedPathname = pathname.split("/")[1];
 
-  const blogUnlocked = useBlogUnlocked();
-  const { newUnlock, resetNewUnlock } = useUnlockStore();
-
-  const MotionLink = motion(Link);
+  const { newUnlock } = useUnlockStore();
 
   useEffect(() => {
     setIsMounted(true);
@@ -56,36 +58,14 @@ const Navbar = () => {
         {/* Navbar */}
         <div className="navbar">
           <div className="flex-none lg:hidden relative">
-            {newUnlock && (
-              <span className="absolute flex h-3 w-3 top-1 right-1">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-              </span>
-            )}
-            <label
-              htmlFor="my-drawer-3"
-              className="btn btn-square btn-ghost"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block w-6 h-6 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
-            </label>
+            {newUnlock && <PingDrawerButton />}
+            <DrawerToggleButton />
           </div>
           <div className="mx-2 lg:mx-5 lg:flex-1 px-5">
             <Link
               href={"/"}
-              className="relative"
               title="Home"
+              className="relative"
             >
               <span className="absolute -left-6 bottom-0 animate-[bounce_1s_ease-in-out_infinite]">
                 ⚽
@@ -94,108 +74,38 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex-none hidden lg:flex lg:text-sm lg:items-center">
-            <ul className="inline-flex items-center p-2 [&>li>*]:grid [&>li>*]:grid-flow-col [&>li>*]:gap-2 [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:transition-[border-radius] [&>li>*]:duration-500 [&>li>*]:mx-1 [&>li>*]:rounded-btn">
+            <ul className="inline-flex items-center p-2 [&>li>*]:grid [&>li>*]:grid-flow-col [&>li>*]:gap-2 [&>li>*]:py-2 [&>li>*]:px-4 [&>li>*]:transition-[border-radius] [&>li>*]:duration-300 [&>li>*]:mx-1 [&>li>*]:rounded-btn">
               {/* Navbar menu content here */}
               <motion.span
                 layoutId="activeSection"
                 className="absolute"
               />
               <li>
-                <MotionLink
-                  className={cn(
-                    "hover:cursor-pointer relative",
-                    active === "memory-game" && "text-neutral-content"
-                  )}
-                  href={"/memory-game"}
-                >
-                  Memory Game
-                  {active === "memory-game" && (
-                    <motion.span
-                      layoutId="activeSection"
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                      className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
-                    />
-                  )}
-                </MotionLink>
+                <NavLinkDesktop
+                  active={active}
+                  href="/memory-game"
+                  label="Memory Game"
+                  activeHref={"memory-game"}
+                />
               </li>
               <li>
-                <MotionLink
-                  className={cn(
-                    "hover:cursor-pointer relative",
-                    active === "gallery" && "text-neutral-content"
-                  )}
-                  href={"/gallery"}
-                >
-                  Project Gallery
-                  {active === "gallery" && (
-                    <motion.span
-                      layoutId="activeSection"
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                      className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
-                    />
-                  )}
-                </MotionLink>
+                <NavLinkDesktop
+                  href="gallery"
+                  active={active}
+                  activeHref={"gallery"}
+                  label="Project Gallery"
+                />
               </li>
               <li>
-                <MotionLink
-                  onClick={() => {
-                    if (!blogUnlocked) return;
-                    resetNewUnlock();
-                  }}
-                  onAuxClick={() => {
-                    if (!blogUnlocked) return;
-                    resetNewUnlock();
-                  }}
-                  href={blogUnlocked ? "/blog" : "#"}
-                  className={cn(
-                    "hover:cursor-pointer relative",
-                    active === "blog" && "text-neutral-content",
-                    blogUnlocked
-                      ? "hover:cursor-pointer "
-                      : "hover:cursor-not-allowed "
-                  )}
-                >
-                  {newUnlock && (
-                    <span className="absolute flex h-3 w-3 -right-1 -top-1">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-                    </span>
-                  )}
-                  {!blogUnlocked && <span>🔒</span>}Blog
-                  {active === "blog" && (
-                    <motion.span
-                      layoutId="activeSection"
-                      transition={{
-                        type: "spring",
-                        damping: 30,
-                        stiffness: 380,
-                      }}
-                      className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
-                    />
-                  )}
-                </MotionLink>
+                <NavLinkDesktopUnlockable
+                  href="/blog"
+                  label="Blog"
+                  active={active}
+                  activeHref={"blog"}
+                />
               </li>
             </ul>
-            <select
-              data-choose-theme
-              className="select select-bordered select-xs w-fit"
-            >
-              <option value="night">🌑 Dark</option>
-              <option value="emerald">💡 Light</option>
-              <option value="cupcake">🧁 Cupcake</option>
-              <option value="retro">📽 Retro</option>
-              <option value="lofi">🎹 Lofi</option>
-              <option value="luxury">💰 Luxury</option>
-              <option value="pastel">🎨 Pastel</option>
-            </select>
+            <ThemeSelect />
           </div>
         </div>
       </div>
@@ -205,131 +115,48 @@ const Navbar = () => {
           className="drawer-overlay "
         ></label>
 
-        <ul className="flex flex-col gap-y-2 text-sm [&>li>*]:flex [&>li]:flex [&>li]:flex-col [&>li>*]:grid-flow-col [&>li>*]:auto-cols-[max-content_auto_max-content] [&>li>*]:justify-start [&>li>*]:items-center [&>li>*]:gap-2 [&>li>*]:px-4 [&>li>*]:py-2 [&>li>*]:rounded-btn [&>li>*]:transition-[border-radius] [&>li>*]:duration-500 p-4 w-[55%] sm:w-80 h-full bg-base-200">
+        <ul className="flex flex-col gap-y-2 text-sm [&>li>*]:flex [&>li]:flex [&>li]:flex-col [&>li>*]:grid-flow-col [&>li>*]:auto-cols-[max-content_auto_max-content] [&>li>*]:justify-start [&>li>*]:items-center [&>li>*]:gap-2 [&>li>*]:px-4 [&>li>*]:py-2 [&>li>*]:rounded-btn [&>li>*]:transition-[border-radius] [&>li>*]:duration-300 p-4 w-[55%] sm:w-80 h-full bg-base-200">
           {/* Sidebar content here */}
-          <select
-            data-choose-theme
-            className="select select-bordered select-xs w-fit mx-4"
-          >
-            <option value="night">🌑 Dark</option>
-            <option value="emerald">💡 Light</option>
-            <option value="cupcake">🧁 Cupcake</option>
-            <option value="retro">📽 Retro</option>
-            <option value="lofi">🎹 Lofi</option>
-            <option value="luxury">💰 Luxury</option>
-            <option value="pastel">🎨 Pastel</option>
-          </select>
+          <ThemeSelect className="mx-4" />
           <motion.span
             layoutId="activeSectionSideBar"
             className="absolute"
           />
           <li className="mt-2 ">
-            <MotionLink
-              className={cn(
-                "hover:cursor-pointer relative",
-                active === "" && "text-neutral-content"
-              )}
-              href={"/"}
-            >
-              <FaHome size={20} /> Home
-              {active === "" && (
-                <motion.span
-                  layoutId="activeSectionSideBar"
-                  transition={{
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 30,
-                  }}
-                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
-                />
-              )}
-            </MotionLink>
+            <NavLinkMobile
+              href="/"
+              label="Home"
+              active={active}
+              activeHref={""}
+              Icon={<FaHome size={20} />}
+            />
           </li>
           <li className="">
-            <MotionLink
-              className={cn(
-                "hover:cursor-pointer relative",
-                active === "memory-game" && "text-neutral-content"
-              )}
-              href={"/memory-game"}
-            >
-              <MdCatchingPokemon size={20} />
-              Memory Game
-              {active === "memory-game" && (
-                <motion.span
-                  layoutId="activeSectionSideBar"
-                  transition={{
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 30,
-                  }}
-                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
-                />
-              )}
-            </MotionLink>
+            <NavLinkMobile
+              active={active}
+              href="/memory-game"
+              label="Memory Game"
+              activeHref={"memory-game"}
+              Icon={<MdCatchingPokemon size={20} />}
+            />
           </li>
           <li className="">
-            <MotionLink
-              className={cn(
-                "hover:cursor-pointer relative",
-                active === "gallery" && "text-neutral-content"
-              )}
-              href={"/gallery"}
-            >
-              <BsPostageHeart size={20} />
-              Project Gallery
-              {active === "gallery" && (
-                <motion.span
-                  layoutId="activeSectionSideBar"
-                  transition={{
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 30,
-                  }}
-                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
-                />
-              )}
-            </MotionLink>
+            <NavLinkMobile
+              href="/gallery"
+              active={active}
+              activeHref={"gallery"}
+              label="Project Gallery"
+              Icon={<BsPostageHeart size={20} />}
+            />
           </li>
           <li className="">
-            <MotionLink
-              onClick={() => {
-                if (!blogUnlocked) return;
-                resetNewUnlock();
-              }}
-              onAuxClick={() => {
-                if (!blogUnlocked) return;
-                resetNewUnlock();
-              }}
-              href={blogUnlocked ? "/blog" : "#"}
-              className={cn(
-                "hover:cursor-pointer relative",
-                active === "blog" && "text-neutral-content",
-                blogUnlocked
-                  ? "hover:cursor-pointer "
-                  : "hover:cursor-not-allowed "
-              )}
-            >
-              {newUnlock && (
-                <span className="absolute flex h-3 w-3 left-0 top-1/2 -translate-y-1/2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-                </span>
-              )}
-              <BsPen size={20} />
-              Blog{!blogUnlocked && <span>🔒</span>}
-              {active === "blog" && (
-                <motion.span
-                  layoutId="activeSectionSideBar"
-                  transition={{
-                    type: "spring",
-                    damping: 30,
-                    stiffness: 380,
-                  }}
-                  className="bg-neutral absolute inset-0 -z-10 rounded-[inherit]"
-                />
-              )}
-            </MotionLink>
+            <NavLinkMobileUnlockable
+              href="/blog"
+              label="Blog"
+              active={active}
+              activeHref={"blog"}
+              Icon={<BsPen size={20} />}
+            />
           </li>
         </ul>
       </div>

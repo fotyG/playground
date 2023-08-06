@@ -12,9 +12,9 @@ const Hero = () => {
       {
         position: "bottom-center",
         style: {
-          border: "2px solid hsl(var(--s))",
           padding: "24px",
           color: "hsl(var(--b))",
+          border: "1px solid hsl(var(--s))",
           backgroundColor: "hsl(var(--b1))",
         },
         iconTheme: {
@@ -54,7 +54,7 @@ const Hero = () => {
                 transition: {
                   duration: 8,
                   repeat: Infinity,
-                  type: "tween",
+                  repeatType: "reverse",
                 },
               }}
               className="transition-none"
