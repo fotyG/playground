@@ -2,25 +2,27 @@
 
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import Restricted from "./components/Restricted";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
+import BlurDots from "@/components/ui/blur-dots";
 
 const BlogArticlePage = ({ params }: { params: { slug: string } }) => {
   const [isMounted, setIsMounted] = useState(false);
+
   const { slug } = params;
   const router = useRouter();
   const DynamicMdx = dynamic(() => import(`./mdx-content/${slug}.mdx`));
 
   const {
     mg,
-    ecommerceStore,
+    musicApp,
+    rentingApp,
     ecommerceCMS,
     utilityMeters,
-    rentingApp,
-    musicApp,
+    ecommerceStore,
   } = useUnlockStore();
 
   useEffect(() => {
@@ -31,19 +33,19 @@ const BlogArticlePage = ({ params }: { params: { slug: string } }) => {
 
   if (
     (slug === "memory-game" && !mg) ||
+    (slug === "music-app" && !musicApp) ||
+    (slug === "renting-app" && !rentingApp) ||
     (slug === "ecommerce-cms" && !ecommerceCMS) ||
     (slug === "ecommerce-store" && !ecommerceStore) ||
-    (slug === "utility-meter-reading-app" && !utilityMeters) ||
-    (slug === "renting-app" && !rentingApp) ||
-    (slug === "music-app" && !musicApp)
+    (slug === "utility-meter-reading-app" && !utilityMeters)
   )
     return <Restricted />;
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.3 } }}
-      className="container my-5 md:my-14 prose md:prose-lg xl:prose-xl 2xl:prose-2xl prose-img:max-w-full prose-img:h-auto prose-img:mx-auto prose-img:rounded-md hover:prose-a:text-secondary"
+      animate={{ opacity: 1, transition: { duration: 1, delay: 0.3 } }}
+      className="container my-5 md:my-14 prose md:prose-lg xl:prose-xl 2xl:prose-2xl prose-img:max-w-full prose-img:h-auto prose-img:mx-auto prose-img:rounded-md hover:prose-a:text-secondary relative"
     >
       <button
         className="mb-5"
@@ -51,6 +53,8 @@ const BlogArticlePage = ({ params }: { params: { slug: string } }) => {
       >
         ⬅ Go Back
       </button>
+      <BlurDots className="top-[10%] bg-opacity-20" />
+      <BlurDots className="top-[70%] bg-opacity-20" />
       <DynamicMdx />
     </motion.div>
   );

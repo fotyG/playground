@@ -46,8 +46,8 @@ const Navbar = () => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100 bg-opacity-80 backdrop-blur-sm transition-colors duration-500"
+      animate={{ opacity: 1, transition: { delay: 0.3, duration: 1 } }}
+      className="max-lg:fixed max-lg:top-0 z-[49] drawer bg-base-100 bg-opacity-60 backdrop-blur-[0.2rem] transition-colors duration-500"
     >
       <input
         id="my-drawer-3"

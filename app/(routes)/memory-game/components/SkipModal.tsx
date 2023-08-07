@@ -20,7 +20,7 @@ const SkipModal: React.FC<SkipModalProps> = ({ unlock }) => {
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger className="btn border-primary hover:btn-secondary transition-all duration-500">
+      <DialogTrigger className="btn border-primary mb-5 w-52 hover:btn-secondary transition-all duration-500">
         Skip
       </DialogTrigger>
       <DialogContent className="modal-box">

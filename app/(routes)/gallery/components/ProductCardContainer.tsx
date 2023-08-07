@@ -38,7 +38,7 @@ const ProductCardContainer: React.FC<ProductCardContainerProps> = ({
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
-      animate={{ opacity: 1, x: 0, transition: { duration: 0.7, delay: 0.3 } }}
+      animate={{ opacity: 1, x: 0, transition: { duration: 1, delay: 0.3 } }}
       className="flex items-center justify-center gap-1 container my-10"
     >
       {isLg && (

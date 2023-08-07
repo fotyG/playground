@@ -8,7 +8,7 @@ const Billboard: React.FC<BillboardProps> = ({ billboard }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5 } }}
+      animate={{ opacity: 1, transition: { duration: 1 } }}
       className="overflow-hidden"
     >
       <div

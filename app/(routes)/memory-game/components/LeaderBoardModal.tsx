@@ -26,7 +26,7 @@ const LeaderBoardModal: React.FC<LeaderBoardModalProps> = ({
 
   return (
     <Dialog>
-      <DialogTrigger className="btn border-primary hover:btn-secondary transition-all duration-500">
+      <DialogTrigger className="btn btn-ghost transition-all duration-500">
         Show Leaderboard
       </DialogTrigger>
       <DialogContent className="modal-box">

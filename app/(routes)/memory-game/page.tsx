@@ -18,6 +18,7 @@ import getState from "./helpers/getState";
 import SoundMute from "./components/SoundMute";
 import SkipModal from "./components/SkipModal";
 import usePlaySound from "./hooks/usePlaySound";
+import BlurDots from "@/components/ui/blur-dots";
 import useIsCheating from "./hooks/useIsCheating";
 import ProgressBar from "./components/ProgressBar";
 import CheaterModal from "./components/CheaterModal";
@@ -217,7 +218,8 @@ const MemoryGame = () => {
   ]);
 
   return (
-    <div className="container mb-5 px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4">
+    <div className="container mt-3 sm:mt-10 px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4 relative">
+      <BlurDots className="top-1/2 -translate-y-1/3 bg-opacity-20" />
       <motion.h1
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
@@ -236,8 +238,8 @@ const MemoryGame = () => {
         Total Moves: {totalMoveCounter}
       </motion.p>
       <ProgressBar
-        matchCounter={matchCounter}
         max={14}
+        matchCounter={matchCounter}
       />
       {victoryConfetti && (
         <Confetti
@@ -248,7 +250,11 @@ const MemoryGame = () => {
           onConfettiComplete={() => setVictoryConfetti(false)}
         />
       )}
-      <div className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5 "
+      >
         {cardArray?.map((pokemon: { id: number }, idx: number) => {
           const encodedId = encodeNumber(pokemon.id);
           return (
@@ -268,14 +274,14 @@ const MemoryGame = () => {
             />
           );
         })}
-      </div>
+      </motion.div>
       {!cardArray ? (
         ""
       ) : (
-        <div className="mt-3 flex justify-center gap-2">
+        <div className="mt-3 mb-5 flex justify-center gap-2">
           <button
             onClick={restartGame}
-            className="btn-primary btn transition-[border-radius] duration-500"
+            className="btn btn-ghost transition-[border-radius] duration-500"
           >
             Restart
           </button>

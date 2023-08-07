@@ -6,20 +6,22 @@ import { motion } from "framer-motion";
 
 import { Separator } from "@/components/ui/separator";
 import purpleHair from "@/public/images/pngs/purplehair.png";
+import BlurDots from "@/components/ui/blur-dots";
 
 const ProjectHeader = () => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.7 } }}
+      animate={{ opacity: 1, transition: { duration: 1 } }}
       className="container"
     >
-      <div className="flex flex-col sm:flex-row items-center justify-center">
+      <div className="flex flex-col sm:flex-row items-center justify-center relative">
+        <BlurDots />
         <div className="sm:p-8 sm:w-2/3 xl:w-1/2">
-          <h1 className="text-lg font-bold sm:text-4xl mt-10 sm:mt-0 mb-2">
+          <h1 className="text-lg font-bold sm:text-5xl mt-10 sm:mt-0 mb-2">
             Training projects
           </h1>
-          <p className="leading-tight sm:text-xl text-justify">
+          <p className="leading-tight sm:text-2xl text-justify">
             This gallery will present you with an opportunity to view the
             projects that were the most crucial ones for my progress as a
             developer.
