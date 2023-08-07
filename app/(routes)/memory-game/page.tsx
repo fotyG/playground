@@ -85,10 +85,13 @@ const MemoryGame = () => {
     setCardState(createState(pokemonCardArray));
   }, [resetGameCompleteState]);
 
-  // Initiation UseEffect
   useEffect(() => {
     setIsMounted(true);
-    if (isCheating) return;
+  }, []);
+
+  // Initiation UseEffect
+  useEffect(() => {
+    if (!isMounted || isCheating) return;
     try {
       const {
         localCardState,
@@ -138,7 +141,7 @@ const MemoryGame = () => {
       toast.error("Something went wrong, restarting the game!");
       restartGame();
     }
-  }, []);
+  }, [isMounted]);
 
   // Game progress UseEffect
   useEffect(() => {

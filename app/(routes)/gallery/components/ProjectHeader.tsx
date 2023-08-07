@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+import BlurDot from "@/components/ui/blur-dot";
 import { Separator } from "@/components/ui/separator";
 import purpleHair from "@/public/images/pngs/purplehair.png";
-import BlurDots from "@/components/ui/blur-dots";
 
 const ProjectHeader = () => {
   return (
@@ -16,7 +16,8 @@ const ProjectHeader = () => {
       className="container"
     >
       <div className="flex flex-col sm:flex-row items-center justify-center relative">
-        <BlurDots />
+        <BlurDot className="bg-secondary sm:w-1/2 right-0" />
+        <BlurDot className="bg-primary sm:w-1/2 top-1/2 right-0" />
         <div className="sm:p-8 sm:w-2/3 xl:w-1/2">
           <h1 className="text-lg font-bold sm:text-5xl mt-10 sm:mt-0 mb-2">
             Training projects
