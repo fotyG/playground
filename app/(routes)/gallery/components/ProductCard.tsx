@@ -11,20 +11,25 @@ import { useUnlockStore } from "@/hooks/useUnlockStore";
 const ProductCard: React.FC<ProductCardProps> = ({ name, url, images }) => {
   const [unlockState, setUnlockState] = useState(false);
 
-  const {
-    aiSaas,
-    musicApp,
-    rentingApp,
-    ecommerceCMS,
-    utilityMeters,
-    ecommerceStore,
-    unlockAISaas,
-    unlockMusicApp,
-    unlockRentingApp,
-    unlockEcommerceCMS,
-    unlockUtilityMeters,
-    unlockEcommerceStore,
-  } = useUnlockStore();
+  const aiSaas = useUnlockStore((state) => state.aiSaas);
+  const musicApp = useUnlockStore((state) => state.musicApp);
+  const rentingApp = useUnlockStore((state) => state.rentingApp);
+  const ecommerceCMS = useUnlockStore((state) => state.ecommerceCMS);
+  const utilityMeters = useUnlockStore((state) => state.utilityMeters);
+  const ecommerceStore = useUnlockStore((state) => state.ecommerceStore);
+
+  const unlockAISaas = useUnlockStore((state) => state.unlockAISaas);
+  const unlockMusicApp = useUnlockStore((state) => state.unlockMusicApp);
+  const unlockRentingApp = useUnlockStore((state) => state.unlockRentingApp);
+  const unlockEcommerceCMS = useUnlockStore(
+    (state) => state.unlockEcommerceCMS
+  );
+  const unlockUtilityMeters = useUnlockStore(
+    (state) => state.unlockUtilityMeters
+  );
+  const unlockEcommerceStore = useUnlockStore(
+    (state) => state.unlockEcommerceStore
+  );
 
   useEffect(() => {
     if (name === "Utility Meter Reading App") {

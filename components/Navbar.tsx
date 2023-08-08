@@ -25,7 +25,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const formattedPathname = pathname.split("/")[1];
 
-  const { newUnlock } = useUnlockStore();
+  const newUnlock = useUnlockStore((s) => s.newUnlock);
 
   useEffect(() => {
     setIsMounted(true);

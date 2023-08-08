@@ -48,7 +48,9 @@ const MemoryGame = () => {
   const playMatchSound = usePlaySound("/sounds/success.wav");
   const playGameWinSound = usePlaySound("/sounds/gameWin.mp3", { volume: 0.3 });
 
-  const { mg: stateOfUnlock, unlockMg: unlock } = useUnlockStore();
+  // Unlock store
+  const unlock = useUnlockStore((s) => s.unlockMg);
+  const stateOfUnlock = useUnlockStore((s) => s.mg);
 
   // Check if cheating hook
   const isCheating = useIsCheating(totalMoveCounter, resetTrigger);
@@ -65,12 +67,13 @@ const MemoryGame = () => {
     recentlyFlippedCardIndexes,
   });
 
-  const {
-    completeGame,
-    scoreSubmitted,
-    gameComplete: gameCompleteState,
-    resetGameComplete: resetGameCompleteState,
-  } = useGameCompleteStore();
+  // Game Complete store
+  const completeGame = useGameCompleteStore((s) => s.completeGame);
+  const scoreSubmitted = useGameCompleteStore((s) => s.scoreSubmitted);
+  const gameCompleteState = useGameCompleteStore((s) => s.gameComplete);
+  const resetGameCompleteState = useGameCompleteStore(
+    (s) => s.resetGameComplete
+  );
 
   const restartGame = useCallback(() => {
     setMoveCounter(0);
@@ -222,6 +225,15 @@ const MemoryGame = () => {
 
   return (
     <div className="container mt-3 sm:mt-10 px-2 py-2 flex flex-col items-center justify-center gap-2 md:gap-4 relative">
+      {victoryConfetti && (
+        <Confetti
+          width={width}
+          recycle={false}
+          numberOfPieces={500}
+          style={{ zIndex: 1001 }}
+          onConfettiComplete={() => setVictoryConfetti(false)}
+        />
+      )}
       <BlurDots className="top-1/2 -translate-y-1/3 bg-opacity-20" />
       <motion.h1
         initial={{ opacity: 0, x: -100 }}
@@ -244,15 +256,7 @@ const MemoryGame = () => {
         max={14}
         matchCounter={matchCounter}
       />
-      {victoryConfetti && (
-        <Confetti
-          width={width}
-          recycle={false}
-          numberOfPieces={500}
-          style={{ zIndex: 1001 }}
-          onConfettiComplete={() => setVictoryConfetti(false)}
-        />
-      )}
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

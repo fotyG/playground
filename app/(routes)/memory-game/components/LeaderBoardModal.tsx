@@ -1,15 +1,14 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
 import { useEffect, useState } from "react";
 
-import { fetchScores } from "../lib/getHighScores";
+import {
+  Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Player } from "@/types";
+import { fetchScores } from "../lib/getHighScores";
 
 interface LeaderBoardModalProps {
   fetchDataOnOpen: boolean;

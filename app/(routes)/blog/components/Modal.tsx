@@ -1,24 +1,24 @@
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
+  DialogHeader,
+  DialogContent,
 } from "@/components/ui/dialog";
 
 interface ModalProps {
-  openModal: boolean;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  blogContent?: string;
-  cardTitle: string;
   state: boolean;
+  cardTitle: string;
+  openModal: boolean;
+  blogContent?: string;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Modal: React.FC<ModalProps> = ({
-  openModal,
-  setOpenModal,
-  blogContent,
-  cardTitle,
   state,
+  openModal,
+  cardTitle,
+  blogContent,
+  setOpenModal,
 }) => {
   return (
     <Dialog

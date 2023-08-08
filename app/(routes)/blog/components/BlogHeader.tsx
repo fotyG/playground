@@ -5,8 +5,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import naruto from "@/public/images/naruto.png";
-import { Separator } from "@/components/ui/separator";
 import BlurDots from "@/components/ui/blur-dots";
+import { Separator } from "@/components/ui/separator";
 
 const BlogHeader = () => {
   return (

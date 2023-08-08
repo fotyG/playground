@@ -1,11 +1,12 @@
+import Image from "next/image";
+
 import {
   Dialog,
+  DialogTitle,
+  DialogHeader,
   DialogContent,
   DialogDescription,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
-import Image from "next/image";
 
 interface CheaterModalProps {
   restartGame: () => void;

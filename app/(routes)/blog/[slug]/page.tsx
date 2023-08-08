@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import BlurDots from "@/components/ui/blur-dots";
 import Restricted from "./components/Restricted";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
-import BlurDots from "@/components/ui/blur-dots";
 
 const BlogArticlePage = ({ params }: { params: { slug: string } }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -16,14 +16,12 @@ const BlogArticlePage = ({ params }: { params: { slug: string } }) => {
   const router = useRouter();
   const DynamicMdx = dynamic(() => import(`./mdx-content/${slug}.mdx`));
 
-  const {
-    mg,
-    musicApp,
-    rentingApp,
-    ecommerceCMS,
-    utilityMeters,
-    ecommerceStore,
-  } = useUnlockStore();
+  const mg = useUnlockStore((state) => state.mg);
+  const musicApp = useUnlockStore((state) => state.musicApp);
+  const rentingApp = useUnlockStore((state) => state.rentingApp);
+  const ecommerceCMS = useUnlockStore((state) => state.ecommerceCMS);
+  const utilityMeters = useUnlockStore((state) => state.utilityMeters);
+  const ecommerceStore = useUnlockStore((state) => state.ecommerceStore);
 
   useEffect(() => {
     setIsMounted(true);

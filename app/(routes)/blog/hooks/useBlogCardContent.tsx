@@ -1,15 +1,15 @@
 import {
+  TbBrandVite,
   TbBrandMysql,
   TbBrandNextjs,
   TbBrandStripe,
   TbBrandPrisma,
+  TbBrandFramer,
+  TbBrandMongodb,
   TbBrandTailwind,
+  TbBrandSupabase,
   TbBrandTypescript,
   TbBrandHeadlessui,
-  TbBrandFramer,
-  TbBrandSupabase,
-  TbBrandMongodb,
-  TbBrandVite,
 } from "react-icons/tb";
 import { FaReact } from "react-icons/fa";
 import { SiExpress } from "react-icons/si";
@@ -20,22 +20,19 @@ import CMSImage from "@/public/images/cms.png";
 import musicImage from "@/public/images/guitar.png";
 import rentingImage from "@/public/images/rent.png";
 import hatchEggImage from "@/public/images/hatch.png";
+import { useUnlockStore } from "@/hooks/useUnlockStore";
 import utilityImage from "@/public/images/utilities.png";
 import pokeBallImage from "@/public/images/pokeball.png";
 import ecomStoreImage from "@/public/images/online-shop.png";
 
-import { useUnlockStore } from "@/hooks/useUnlockStore";
-
 export const useBlogCardContent = () => {
-  const {
-    mg,
-    aiSaas,
-    musicApp,
-    rentingApp,
-    ecommerceCMS,
-    utilityMeters,
-    ecommerceStore,
-  } = useUnlockStore();
+  const mg = useUnlockStore((state) => state.mg);
+  const aiSaas = useUnlockStore((state) => state.aiSaas);
+  const musicApp = useUnlockStore((state) => state.musicApp);
+  const rentingApp = useUnlockStore((state) => state.rentingApp);
+  const ecommerceCMS = useUnlockStore((state) => state.ecommerceCMS);
+  const utilityMeters = useUnlockStore((state) => state.utilityMeters);
+  const ecommerceStore = useUnlockStore((state) => state.ecommerceStore);
 
   return [
     {

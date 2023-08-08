@@ -87,13 +87,13 @@ const Card: React.FC<CardProps> = ({
 
   const flipCard = async (index: number) => {
     if (
-      !cardState[index]?.hidden ||
-      cardState[index]?.matched ||
-      moveCounter === 2 ||
-      recentlyFlippedCardIndexes.length === 2 ||
+      isLoading ||
       isCheating ||
       gameComplete ||
-      isLoading ||
+      moveCounter === 2 ||
+      !cardState[index]?.hidden ||
+      cardState[index]?.matched ||
+      recentlyFlippedCardIndexes.length === 2 ||
       recentlyFlippedCardIndexes.includes(index)
     )
       return;

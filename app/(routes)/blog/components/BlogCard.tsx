@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import Image, { StaticImageData } from "next/image";
 

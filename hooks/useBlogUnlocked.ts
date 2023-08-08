@@ -5,17 +5,16 @@ import { useUnlockStore } from "./useUnlockStore";
 export const useBlogUnlocked = () => {
   const [blogUnlocked, setBlogUnlocked] = useState(false);
 
-  const {
-    mg,
-    aiSaas,
-    musicApp,
-    rentingApp,
-    ecommerceCMS,
-    utilityMeters,
-    ecommerceStore,
-  } = useUnlockStore();
+  const mg = useUnlockStore((state) => state.mg);
+  const aiSaas = useUnlockStore((state) => state.aiSaas);
+  const musicApp = useUnlockStore((state) => state.musicApp);
+  const rentingApp = useUnlockStore((state) => state.rentingApp);
+  const ecommerceCMS = useUnlockStore((state) => state.ecommerceCMS);
+  const utilityMeters = useUnlockStore((state) => state.utilityMeters);
+  const ecommerceStore = useUnlockStore((state) => state.ecommerceStore);
 
   useEffect(() => {
+    if (blogUnlocked) return;
     let localArray = [
       mg,
       aiSaas,
