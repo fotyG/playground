@@ -14,18 +14,18 @@ import {
 } from "../helpers/helperFunctions";
 import Card from "./Card";
 import Modal from "./Modal";
-import getState from "../helpers/getState";
 import SoundMute from "./SoundMute";
 import SkipModal from "./SkipModal";
-import usePlaySound from "../hooks/usePlaySound";
-import BlurDots from "@/components/ui/blur-dots";
-import useIsCheating from "../hooks/useIsCheating";
 import ProgressBar from "./ProgressBar";
 import CheaterModal from "./CheaterModal";
+import getState from "../helpers/getState";
+import BlurDot from "@/components/ui/blur-dot";
+import usePlaySound from "../hooks/usePlaySound";
+import LeaderBoardModal from "./LeaderBoardModal";
+import useIsCheating from "../hooks/useIsCheating";
 import pokemonCardArray from "../lib/pokemonCardData";
 import { useUnlockStore } from "@/hooks/useUnlockStore";
 import { useUpdateLocal } from "../hooks/useUpdateLocal";
-import LeaderBoardModal from "./LeaderBoardModal";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
 
 let cardArray: { id: number }[];
@@ -234,6 +234,7 @@ const MemoryGame = () => {
           onConfettiComplete={() => setVictoryConfetti(false)}
         />
       )}
+      <BlurDot className="left-1/2 -translate-x-1/2 top-1/4 h-2/3 w-2/3 sm:w-2/3" />
       <motion.h1
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
@@ -261,7 +262,6 @@ const MemoryGame = () => {
         animate={{ opacity: 1 }}
         className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5 relative"
       >
-        <BlurDots className="bg-opacity-20" />
         {cardArray?.map((pokemon: { id: number }, idx: number) => {
           const encodedId = encodeNumber(pokemon.id);
           return (
