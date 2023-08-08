@@ -261,7 +261,7 @@ const MemoryGame = () => {
         animate={{ opacity: 1 }}
         className="game-container m-1 grid grid-cols-7 justify-center gap-2 lg:gap-5 relative"
       >
-        <BlurDots className="top-1/2 -translate-y-1/3 bg-opacity-20" />
+        <BlurDots className="bg-opacity-20" />
         {cardArray?.map((pokemon: { id: number }, idx: number) => {
           const encodedId = encodeNumber(pokemon.id);
           return (
