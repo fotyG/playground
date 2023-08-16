@@ -22,7 +22,7 @@ const Fact: React.FC<FactProps> = ({ title, description, image, index }) => {
     [0, 1],
     [index % 2 ? -500 : 500, 0]
   );
-  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
+  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
 
   return (
     <motion.section
