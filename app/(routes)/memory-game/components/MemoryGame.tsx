@@ -1,11 +1,15 @@
 "use client";
 
-import Confetti from "react-confetti";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
-import { useWindowSize } from "usehooks-ts";
 import secureLocalStorage from "react-secure-storage";
-import { useCallback, useEffect, useState } from "react";
+import {
+  useState,
+  Dispatch,
+  useEffect,
+  useCallback,
+  SetStateAction,
+} from "react";
 
 import {
   createState,
@@ -31,7 +35,11 @@ import { useGameCompleteStore } from "@/hooks/useGameComplete";
 let cardArray: { id: number }[];
 let recentlyFlippedCardIndexes: number[] = [];
 
-const MemoryGame = () => {
+type MemoryGameProps = {
+  setVictoryConfetti: Dispatch<SetStateAction<boolean>>;
+};
+
+const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [moveCounter, setMoveCounter] = useState(0);
   const [matchCounter, setMatchCounter] = useState(0);
@@ -39,11 +47,8 @@ const MemoryGame = () => {
   const [resetTrigger, setResetTrigger] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
   const [totalMoveCounter, setTotalMoveCounter] = useState(0);
-  const [victoryConfetti, setVictoryConfetti] = useState(false);
   const [fetchDataOnOpen, setFetchDataOnOpen] = useState(false);
   const [cardState, setCardState] = useState(createState(pokemonCardArray));
-
-  const { width } = useWindowSize();
 
   const playMatchSound = usePlaySound("/sounds/success.wav");
   const playGameWinSound = usePlaySound("/sounds/gameWin.mp3", { volume: 0.3 });
@@ -225,15 +230,6 @@ const MemoryGame = () => {
 
   return (
     <>
-      {victoryConfetti && (
-        <Confetti
-          width={width}
-          recycle={false}
-          numberOfPieces={500}
-          style={{ zIndex: 1001 }}
-          onConfettiComplete={() => setVictoryConfetti(false)}
-        />
-      )}
       <BlurDot className="left-1/2 -translate-x-1/2 top-1/4 h-2/3 w-2/3 sm:w-2/3" />
       <motion.h1
         initial={{ opacity: 0, x: -100 }}
