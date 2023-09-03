@@ -34,7 +34,7 @@ const Footer = () => {
         </svg>
         <p>
           Developed by foty <br />
-          Fastest growing developer since October 2022
+          Fastest growing developer since July 1989
         </p>
       </div>
 
