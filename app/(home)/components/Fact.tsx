@@ -15,14 +15,14 @@ const Fact: React.FC<FactProps> = ({ title, description, image, index }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["0 0.95", "0.65 1"], // Animation starts: [first value: 0 or start of target:ref, second value: bottom of screen] Animation end: [0.65 ends when 65% of ref is visible judging by the 1(end) of bottom of the screen]
+    offset: ["0 1", "0.65 1"], // Animation starts: [first value: 0 or start of target:ref, second value: bottom of screen] Animation end: [0.65 ends when 65% of ref is visible judging by the 1(end) of bottom of the screen]
   });
   const translateXProgress = useTransform(
     scrollYProgress,
     [0, 1],
-    [index % 2 ? -500 : 500, 0]
+    [index % 2 ? -120 : 120, 0]
   );
-  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
+  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
 
   return (
     <motion.section

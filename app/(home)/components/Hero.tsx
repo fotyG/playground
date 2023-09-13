@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 
 import animeCar from "@/public/images/anime-car.jpg";
 import AnimatedText from "@/components/ui/animated-text";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Hero = () => {
   const agree = () => {
@@ -18,10 +19,16 @@ const Hero = () => {
           border: "1px solid hsl(var(--s))",
           backgroundColor: "hsl(var(--b1))",
         },
-        iconTheme: {
-          primary: "hsl(var(--s))",
-          secondary: "hsl(var(--b1))",
-        },
+        icon: (
+          <Avatar>
+            <AvatarImage src="/images/portrait.jpg" />
+            <AvatarFallback>"😎"</AvatarFallback>
+          </Avatar>
+        ),
+        // iconTheme: {
+        //   primary: "hsl(var(--s))",
+        //   secondary: "hsl(var(--b1))",
+        // },
         duration: 4000,
       }
     );

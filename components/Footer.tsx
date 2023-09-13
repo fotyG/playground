@@ -66,7 +66,7 @@ const Footer = () => {
           </Link>
           <Link
             target="_blank"
-            href={"https://www.linkedin.com/in/%C5%A1ota-giorgadze-188100258/"}
+            href={"https://www.linkedin.com/in/sota-giorgadze/"}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

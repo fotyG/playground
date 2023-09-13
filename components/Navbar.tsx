@@ -90,7 +90,7 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLinkDesktop
-                  href="gallery"
+                  href="/gallery"
                   active={active}
                   activeHref={"gallery"}
                   label="Project Gallery"
