@@ -9,13 +9,14 @@ import MemoryGame from "./components/MemoryGame";
 const MemoryGamePage = () => {
   const [victoryConfetti, setVictoryConfetti] = useState(false);
 
-  const { width } = useWindowSize();
+  const { width, height } = useWindowSize();
 
   return (
     <>
       {victoryConfetti && (
         <Confetti
           width={width}
+          height={height}
           recycle={false}
           numberOfPieces={500}
           style={{ zIndex: 1001 }}

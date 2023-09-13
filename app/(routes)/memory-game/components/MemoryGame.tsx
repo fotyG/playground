@@ -230,7 +230,14 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
 
   return (
     <>
-      <BlurDot className="left-1/2 -translate-x-1/2 top-1/4 h-2/3 w-2/3 sm:w-2/3" />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="absolute min-h-screen w-full -z-10"
+      >
+        <BlurDot className="left-1/2 -translate-x-1/2 top-1/4 h-2/3 w-2/3 sm:w-2/3" />
+      </motion.div>
       <motion.h1
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
