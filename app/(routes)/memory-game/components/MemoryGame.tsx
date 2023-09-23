@@ -3,19 +3,14 @@
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import secureLocalStorage from "react-secure-storage";
-import {
-  useState,
-  Dispatch,
-  useEffect,
-  useCallback,
-  SetStateAction,
-} from "react";
+import { useState, Dispatch, useEffect, SetStateAction } from "react";
 
 import {
   createState,
   shuffleCards,
   encodeNumber,
 } from "../helpers/helperFunctions";
+
 import Card from "./Card";
 import Modal from "./Modal";
 import SoundMute from "./SoundMute";
@@ -60,18 +55,6 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
   // Check if cheating hook
   const isCheating = useIsCheating(totalMoveCounter, resetTrigger);
 
-  // Every move update to LocalStorage hook
-  useUpdateLocal({
-    cardArray,
-    cardState,
-    isMounted,
-    moveCounter,
-    matchCounter,
-    resetTrigger,
-    totalMoveCounter,
-    recentlyFlippedCardIndexes,
-  });
-
   // Game Complete store
   const completeGame = useGameCompleteStore((s) => s.completeGame);
   const scoreSubmitted = useGameCompleteStore((s) => s.scoreSubmitted);
@@ -80,7 +63,7 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
     (s) => s.resetGameComplete
   );
 
-  const restartGame = useCallback(() => {
+  function restartGame() {
     setMoveCounter(0);
     setMatchCounter(0);
     setTotalMoveCounter(0);
@@ -91,7 +74,7 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
     setResetTrigger((prev) => !prev);
     cardArray = shuffleCards(pokemonCardArray);
     setCardState(createState(pokemonCardArray));
-  }, [resetGameCompleteState]);
+  }
 
   useEffect(() => {
     setIsMounted(true);
@@ -99,7 +82,7 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
 
   // Initiation UseEffect
   useEffect(() => {
-    if (!isMounted || isCheating) return;
+    if (isCheating) return;
     try {
       const {
         localCardState,
@@ -147,9 +130,9 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
       localStorage.removeItem("@secure.j.y7545");
     } catch (error) {
       toast.error("Something went wrong, restarting the game!");
-      restartGame();
+      return restartGame();
     }
-  }, [isMounted]);
+  }, []);
 
   // Game progress UseEffect
   useEffect(() => {
@@ -192,11 +175,11 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
           const newState = [...prev];
           newState[recentlyFlippedCardIndexes[0]] = {
             ...prev[recentlyFlippedCardIndexes[0]],
-            matched: !prev[recentlyFlippedCardIndexes[0]].matched,
+            matched: !prev[recentlyFlippedCardIndexes[0]]?.matched,
           };
           newState[recentlyFlippedCardIndexes[1]] = {
             ...prev[recentlyFlippedCardIndexes[1]],
-            matched: !prev[recentlyFlippedCardIndexes[1]].matched,
+            matched: !prev[recentlyFlippedCardIndexes[1]]?.matched,
           };
 
           recentlyFlippedCardIndexes = [];
@@ -227,6 +210,18 @@ const MemoryGame = ({ setVictoryConfetti }: MemoryGameProps) => {
     totalMoveCounter,
     gameCompleteState,
   ]);
+
+  // Every move update to LocalStorage hook
+  useUpdateLocal({
+    cardArray,
+    cardState,
+    isMounted,
+    moveCounter,
+    matchCounter,
+    resetTrigger,
+    totalMoveCounter,
+    recentlyFlippedCardIndexes,
+  });
 
   return (
     <>
