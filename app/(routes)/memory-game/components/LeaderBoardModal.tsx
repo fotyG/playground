@@ -1,3 +1,5 @@
+import axios from "axios";
+import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 
 import {
@@ -8,7 +10,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Player } from "@/types";
-import { fetchScores } from "../lib/getHighScores";
 
 interface LeaderBoardModalProps {
   fetchDataOnOpen: boolean;
@@ -20,7 +21,15 @@ const LeaderBoardModal: React.FC<LeaderBoardModalProps> = ({
   const [data, setData] = useState<Player[]>([]);
 
   useEffect(() => {
-    fetchScores().then((data) => setData(data as Player[]));
+    const fetchScores = async () => {
+      const response = await axios.get("/api/score");
+      setData(response.data as Player[]);
+    };
+    try {
+      fetchScores();
+    } catch (error) {
+      toast.error("Error fetching scores");
+    }
   }, [fetchDataOnOpen]);
 
   return (

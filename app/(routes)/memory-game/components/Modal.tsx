@@ -1,10 +1,10 @@
+import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
 
 import { Player } from "@/types";
 import { useGameCompleteStore } from "@/hooks/useGameComplete";
-import { fetchScores, registerScore } from "../lib/getHighScores";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 interface ModalProps {
@@ -35,7 +35,10 @@ const NewModal: React.FC<ModalProps> = ({
     if (totalMoveCounter < 28 || matchCounter < 14) return;
     try {
       setIsLoading(true);
-      await registerScore({ name, score: totalMoveCounter });
+      await axios.post("/api/score", {
+        name,
+        score: totalMoveCounter,
+      });
 
       toast.success("Your score has been registered!");
 
@@ -52,7 +55,16 @@ const NewModal: React.FC<ModalProps> = ({
   };
 
   useEffect(() => {
-    fetchScores().then((data) => setScores(data as Player[]));
+    const fetchScores = async () => {
+      const response = await axios.get("/api/score");
+      setScores(response.data as Player[]);
+    };
+
+    try {
+      fetchScores();
+    } catch (error) {
+      toast.error("Error fetching scores");
+    }
   }, [isLoading, fetchDataOnOpen, activeTab]);
 
   return (
