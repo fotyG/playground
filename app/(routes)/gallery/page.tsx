@@ -9,7 +9,7 @@ export const revalidate = 0;
 
 const GalleryPage = async () => {
   const products = await getProducts();
-  const billboard = await getBillboard("1078e919-9fd0-4d20-bcae-507692eeb155");
+  const billboard = await getBillboard("31406b87-cf6c-4e5c-9c12-3ed6d06ff284");
 
   return (
     <div className="min-h-screen">
