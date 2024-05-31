@@ -5,7 +5,13 @@ import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
 import Image, { StaticImageData } from "next/image";
-import { useState, useEffect, SetStateAction, Dispatch } from "react";
+import {
+  Dispatch,
+  useState,
+  useEffect,
+  useCallback,
+  SetStateAction,
+} from "react";
 
 import { CardState } from "@/types";
 import pikaLoading from "@/public/images/1.webp";
@@ -58,19 +64,21 @@ const Card: React.FC<CardProps> = ({
     pikaLoading
   );
 
+  const fetchAndSetImage = useCallback(async () => {
+    const response = await axios.get(`/api/cards/${randomId}`, {
+      responseType: "text",
+    });
+    const imageBase64 = response.data;
+    const imageDataUrl = `data:image/png;base64,${imageBase64}`;
+    setCardImage(imageDataUrl);
+  }, [randomId]);
+
   useEffect(() => {
     if (isCheating) return;
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const picture = await axios.get(`/api/cards/${randomId}`, {
-          responseType: "arraybuffer",
-        });
-        const base64Image = Buffer.from(picture.data, "binary").toString(
-          "base64"
-        );
-        const imageDataUrl = `data:image/png;base64,${base64Image}`;
-        setCardImage(imageDataUrl);
+        await fetchAndSetImage();
       } catch (error) {
         toast.error("Something went wrong!");
       } finally {
@@ -83,7 +91,7 @@ const Card: React.FC<CardProps> = ({
         fetchData();
       }
     }
-  }, [cardImage, randomId, index, cardState, isCheating]);
+  }, [cardImage, randomId, index, cardState, isCheating, fetchAndSetImage]);
 
   const flipCard = async (index: number) => {
     if (
@@ -102,14 +110,7 @@ const Card: React.FC<CardProps> = ({
       setIsLoading(true);
       recentlyFlippedCardIndexes.push(index);
 
-      const picture = await axios.get(`/api/cards/${randomId}`, {
-        responseType: "arraybuffer",
-      });
-      const base64Image = Buffer.from(picture.data, "binary").toString(
-        "base64"
-      );
-      const imageDataUrl = `data:image/png;base64,${base64Image}`;
-      setCardImage(imageDataUrl);
+      await fetchAndSetImage();
 
       setMoveCounter((prev) => prev + 1);
       setTotalMoveCounter((prev) => prev + 1);

@@ -27,10 +27,11 @@ export async function GET(request: NextRequest, { params }: { params: any }) {
     const id = decodeNumber(params.id);
     const imagePath = path.join(cardsDirectory, `${cardMap[id!]}.png`);
     const data = await fs.promises.readFile(imagePath);
+    const imageBase64 = Buffer.from(data).toString("base64");
 
-    return new NextResponse(data, {
+    return new NextResponse(imageBase64, {
       headers: {
-        "Content-Type": "image/png",
+        "Content-Type": "text/plain",
       },
     });
   } catch (err) {
